@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西湖大学理学院 - 管理后台与官网设计</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'PingFang SC','Noto Sans SC','Microsoft YaHei',sans-serif;background:#0f172a;color:#e2e8f0;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px}
+.hero{text-align:center;max-width:800px}
+.badge{display:inline-block;padding:6px 18px;background:rgba(196,154,61,.15);border:1px solid rgba(196,154,61,.4);border-radius:24px;font-size:13px;color:#ddb552;margin-bottom:24px}
+h1{font-family:'Noto Serif SC','Songti SC',serif;font-size:40px;font-weight:700;margin-bottom:12px;background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.subtitle{font-size:16px;color:#94a3b8;margin-bottom:48px;line-height:1.8}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;width:100%;max-width:800px}
+.card{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:32px;cursor:pointer;transition:all .3s;text-decoration:none;color:inherit;display:block}
+.card:hover{transform:translateY(-6px);border-color:#c49a3d;box-shadow:0 12px 40px rgba(196,154,61,.15)}
+.card-icon{font-size:40px;margin-bottom:16px}
+.card-title{font-size:20px;font-weight:600;margin-bottom:8px;color:#fff}
+.card-desc{font-size:14px;color:#94a3b8;line-height:1.6;margin-bottom:16px}
+.card-link{font-size:14px;color:#ddb552;display:flex;align-items:center;gap:4px}
+.card:hover .card-link{gap:8px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tag{font-size:12px;padding:2px 10px;border-radius:12px;background:rgba(255,255,255,.08);color:#94a3b8}
+.footer{margin-top:48px;text-align:center;color:#64748b;font-size:13px}
+.footer a{color:#94a3b8;text-decoration:none}
+@media(max-width:600px){h1{font-size:28px}.cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="badge">🏫 西湖大学理学院 · 多租户设计</div>
+  <h1>管理后台 & 官网客户端</h1>
+  <p class="subtitle">多租户 RBAC 权限体系 · 理学院 / 天文系 / 化学系<br>管理后台 + 官网首页完整交互原型</p>
+  <div class="cards">
+    <a class="card" href="website-homepage.html">
+      <div class="card-icon">🌐</div>
+      <div class="card-title">官网客户端首页</div>
+      <div class="card-desc">Banner轮播 + 教师队伍 + 新闻动态 + 活动信息，支持租户切换，新闻/活动可点击查看详情</div>
+      <div class="tags">
+        <span class="tag">Banner轮播</span>
+        <span class="tag">新闻卡片</span>
+        <span class="tag">活动1+3布局</span>
+      </div>
+      <div class="card-link" style="margin-top:16px">查看原型 →</div>
+    </a>
+    <a class="card" href="admin-prototype.html">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">管理后台原型</div>
+      <div class="card-desc">系统管理(用户/角色/菜单/租户) + 内容管理 + 学院概况 + 教师队伍 + 新闻活动，共16个功能页面</div>
+      <div class="tags">
+        <span class="tag">多租户切换</span>
+        <span class="tag">RBAC权限</span>
+        <span class="tag">16个页面</span>
+      </div>
+      <div class="card-link" style="margin-top:16px">查看原型 →</div>
+    </a>
+  </div>
+  <div class="footer">
+    <p>📚 <a href="https://github.com/zhangxiaoli1759-tech/westlake-science-portal" target="_blank">GitHub 仓库</a> · 📄 <a href="PRD_理学院管理后台.md" target="_blank">PRD 需求文档</a></p>
+    <p style="margin-top:8px">© 2026 西湖大学理学院</p>
+  </div>
+</div>
+</body>
+</html>
