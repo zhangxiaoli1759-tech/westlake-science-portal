@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西湖大学理学院 - 管理后台</title>
+<style>
+:root {
+  --primary: #1a3a5c;
+  --primary-light: #2a5a8c;
+  --sidebar-bg: #0f2440;
+  --sidebar-hover: #1a3a5c;
+  --sidebar-active: #2a5a8c;
+  --topbar-bg: #fff;
+  --content-bg: #f0f2f5;
+  --card-bg: #fff;
+  --text: #333;
+  --text-light: #666;
+  --text-muted: #999;
+  --border: #e8e8e8;
+  --success: #52c41a;
+  --warning: #faad14;
+  --danger: #ff4d4f;
+  --info: #1890ff;
+  --tenant-science: #1a3a5c;
+  --tenant-astro: #722ed1;
+  --tenant-chem: #13c2c2;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--content-bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; }
+
+/* Topbar */
+.topbar {
+  height: 60px; background: var(--topbar-bg); display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); z-index: 100; flex-shrink: 0;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 32px; height: 32px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 14px; }
+.logo-text { font-size: 16px; font-weight: 600; color: var(--primary); }
+.tenant-badge { display: flex; align-items: center; gap: 6px; background: #f5f5f5; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 13px; position: relative; user-select: none; }
+.tenant-badge:hover { background: #ebebeb; }
+.tenant-dot { width: 8px; height: 8px; border-radius: 50%; }
+.tenant-dot.science { background: var(--tenant-science); }
+.tenant-dot.astro { background: var(--tenant-astro); }
+.tenant-dot.chem { background: var(--tenant-chem); }
+.tenant-dropdown { position: absolute; top: 100%; left: 0; margin-top: 4px; background: #fff; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,.12); min-width: 200px; padding: 4px; display: none; z-index: 200; }
+.tenant-dropdown.show { display: block; }
+.tenant-dropdown .header { padding: 8px 12px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); margin-bottom: 4px; }
+.tenant-option { padding: 10px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px; transition: background .15s; }
+.tenant-option:hover { background: #f5f5f5; }
+.tenant-option.active { background: #e6f0fa; color: var(--primary); font-weight: 500; }
+
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.notify-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; font-size: 16px; }
+.notify-btn .badge { position: absolute; top: -2px; right: -2px; background: var(--danger); color: #fff; font-size: 10px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.user-info { display: flex; align-items: center; gap: 8px; cursor: pointer; }
+.user-avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--primary-light); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 500; }
+
+/* Layout */
+.main { display: flex; flex: 1; overflow: hidden; }
+
+/* Sidebar */
+.sidebar {
+  width: 240px; background: var(--sidebar-bg); color: #ccd6e0; flex-shrink: 0; overflow-y: auto;
+  display: flex; flex-direction: column; padding-top: 8px;
+}
+.sidebar-menu { padding: 0 8px; }
+.menu-group { margin-bottom: 4px; }
+.menu-item {
+  display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 8px;
+  cursor: pointer; font-size: 14px; transition: all .15s; position: relative; color: #ccd6e0;
+}
+.menu-item:hover { background: var(--sidebar-hover); color: #fff; }
+.menu-item.active { background: var(--sidebar-active); color: #fff; font-weight: 500; }
+.menu-item .icon { width: 18px; text-align: center; font-size: 15px; flex-shrink: 0; }
+.menu-item .arrow { margin-left: auto; font-size: 10px; transition: transform .2s; }
+.menu-item .arrow.open { transform: rotate(90deg); }
+.submenu { overflow: hidden; max-height: 0; transition: max-height .3s ease; }
+.submenu.open { max-height: 500px; }
+.submenu .menu-item { padding-left: 52px; font-size: 13px; }
+.submenu .menu-item.active { background: rgba(42,90,140,.5); border-left: 3px solid #5b9bd5; border-radius: 0 8px 8px 0; }
+
+/* Content */
+.content { flex: 1; overflow-y: auto; padding: 24px; }
+.breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; }
+.breadcrumb span { color: var(--text); }
+
+/* Cards */
+.page-header { margin-bottom: 20px; }
+.page-header h2 { font-size: 20px; font-weight: 600; }
+.page-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
+
+.card { background: var(--card-bg); border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.card-header h3 { font-size: 15px; font-weight: 600; }
+.card-body { padding: 20px; }
+
+/* Toolbar */
+.toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+.search-box { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; height: 36px; background: #fff; }
+.search-box input { border: none; outline: none; font-size: 13px; width: 200px; }
+.search-box .search-icon { color: var(--text-muted); margin-right: 6px; }
+.btn {
+  height: 36px; padding: 0 16px; border-radius: 6px; border: none; cursor: pointer; font-size: 13px;
+  display: inline-flex; align-items: center; gap: 6px; transition: all .15s; font-weight: 500;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { background: var(--primary-light); }
+.btn-outline { background: #fff; border: 1px solid var(--border); color: var(--text); }
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+.btn-danger { background: #fff; border: 1px solid var(--danger); color: var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+.btn-sm { height: 28px; padding: 0 10px; font-size: 12px; }
+.btn-xs { height: 24px; padding: 0 8px; font-size: 11px; }
+
+/* Table */
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 16px; text-align: left; font-size: 13px; border-bottom: 1px solid var(--border); }
+th { background: #fafafa; color: var(--text-light); font-weight: 500; white-space: nowrap; }
+tr:hover td { background: #fafafa; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 500; }
+.tag-success { background: #f6ffed; color: var(--success); border: 1px solid #b7eb8f; }
+.tag-warning { background: #fffbe6; color: #d48806; border: 1px solid #ffe58f; }
+.tag-danger { background: #fff2f0; color: var(--danger); border: 1px solid #ffccc7; }
+.tag-info { background: #e6f7ff; color: var(--info); border: 1px solid #91d5ff; }
+.actions { display: flex; gap: 6px; }
+.pagination { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 16px; font-size: 13px; color: var(--text-light); }
+.pagination button { width: 32px; height: 32px; border: 1px solid var(--border); background: #fff; border-radius: 6px; cursor: pointer; font-size: 12px; }
+.pagination button.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.pagination button:disabled { color: #ccc; cursor: not-allowed; }
+
+/* Tree */
+.tree { padding: 8px 0; }
+.tree-node { padding: 4px 0; }
+.tree-label { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.tree-label:hover { background: #f5f5f5; }
+.tree-label .expand { width: 20px; text-align: center; font-size: 10px; color: var(--text-muted); }
+.tree-label .node-icon { color: var(--text-muted); font-size: 14px; width: 18px; text-align: center; }
+.tree-children { padding-left: 32px; }
+
+/* Stats */
+.stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.stat-card { background: var(--card-bg); border-radius: 10px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+.stat-card .stat-value { font-size: 28px; font-weight: 700; }
+.stat-card .stat-label { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+.stat-card .stat-icon { font-size: 28px; float: right; opacity: .3; }
+
+/* Form in Dialog (simplified for proto) */
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; font-size: 13px; font-weight: 500; margin-bottom: 6px; color: var(--text); }
+.form-label .required { color: var(--danger); margin-left: 2px; }
+.form-input, .form-select { width: 100%; height: 36px; border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; font-size: 13px; outline: none; }
+.form-input:focus, .form-select:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(26,58,92,.1); }
+.form-textarea { width: 100%; min-height: 80px; border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 13px; outline: none; resize: vertical; font-family: inherit; }
+.form-textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(26,58,92,.1); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.45); z-index: 999; display: none; align-items: center; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: #fff; border-radius: 12px; width: 560px; max-height: 80vh; overflow-y: auto; box-shadow: 0 8px 32px rgba(0,0,0,.15); }
+.modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+.modal-header h3 { font-size: 16px; font-weight: 600; }
+.modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted); padding: 4px; }
+.modal-body { padding: 24px; }
+.modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+/* Toast */
+.toast { position: fixed; top: 24px; right: 24px; z-index: 2000; background: #fff; border-radius: 8px; padding: 12px 20px; box-shadow: 0 4px 16px rgba(0,0,0,.12); font-size: 13px; display: none; align-items: center; gap: 8px; }
+.toast.show { display: flex; animation: slideIn .3s ease; }
+.toast.success { border-left: 3px solid var(--success); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+/* Content pages visibility */
+.content-page { display: none; }
+.content-page.active { display: block; }
+</style>
+</head>
+<body>
+
+<!-- Topbar -->
+<header class="topbar">
+  <div class="topbar-left">
+    <div class="logo">
+      <div class="logo-icon">西</div>
+      <span class="logo-text">理学院管理后台</span>
+    </div>
+    <div class="tenant-badge" id="tenantSwitcher" onclick="toggleTenantDropdown()">
+      <span class="tenant-dot science" id="tenantDot"></span>
+      <span id="currentTenant">理学院</span>
+      <span style="font-size:10px">▼</span>
+      <div class="tenant-dropdown" id="tenantDropdown">
+        <div class="header">切换租户</div>
+        <div class="tenant-option active" data-tenant="science" onclick="switchTenant('science','理学院','science')">
+          <span class="tenant-dot science"></span>理学院<span style="margin-left:auto;font-size:11px;color:var(--text-muted)">主租户</span>
+        </div>
+        <div class="tenant-option" data-tenant="astro" onclick="switchTenant('astro','天文系','astro')">
+          <span class="tenant-dot astro"></span>天文系
+        </div>
+        <div class="tenant-option" data-tenant="chem" onclick="switchTenant('chem','化学系','chem')">
+          <span class="tenant-dot chem"></span>化学系
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="topbar-right">
+    <button class="notify-btn" title="通知">🔔<span class="badge">3</span></button>
+    <div class="user-info">
+      <div class="user-avatar">A</div>
+      <span style="font-size:13px;color:var(--text)">admin</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main -->
+<div class="main">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-menu">
+      <div class="menu-item active" onclick="navigate('dashboard')">
+        <span class="icon">📊</span>仪表盘
+      </div>
+
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleMenu('content-menu')">
+          <span class="icon">📝</span>内容管理
+          <span class="arrow open" id="content-arrow">▶</span>
+        </div>
+        <div class="submenu open" id="content-menu">
+          <div class="menu-item" data-page="banner" onclick="navigate('banner')">
+            <span class="icon">🖼</span>Banner管理
+          </div>
+          <div class="menu-item" data-page="subjects" onclick="navigate('subjects')">
+            <span class="icon">📖</span>学科介绍
+          </div>
+          <div class="menu-item" data-page="faculty" onclick="navigate('faculty')">
+            <span class="icon">👨‍🏫</span>教师队伍
+          </div>
+          <div class="menu-item" data-page="admissions" onclick="navigate('admissions')">
+            <span class="icon">🎓</span>招生信息
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleMenu('about-menu')">
+          <span class="icon">🏛</span>学院概况
+          <span class="arrow" id="about-arrow">▶</span>
+        </div>
+        <div class="submenu" id="about-menu">
+          <div class="menu-item" data-page="about-college" onclick="navigate('about-college')">
+            <span class="icon">📜</span>学院介绍
+          </div>
+          <div class="menu-item" data-page="about-depts" onclick="navigate('about-depts')">
+            <span class="icon">🔬</span>科系介绍
+          </div>
+          <div class="menu-item" data-page="about-life" onclick="navigate('about-life')">
+            <span class="icon">🌳</span>学院生活
+          </div>
+          <div class="menu-item" data-page="about-contact" onclick="navigate('about-contact')">
+            <span class="icon">📞</span>联系我们
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleMenu('teacher-menu')">
+          <span class="icon">👨‍🏫</span>教师队伍
+          <span class="arrow" id="teacher-arrow">▶</span>
+        </div>
+        <div class="submenu" id="teacher-menu">
+          <div class="menu-item" data-page="teacher-list" onclick="navigate('teacher-list')">
+            <span class="icon">👨‍🏫</span>教师队伍
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleMenu('news-menu')">
+          <span class="icon">📰</span>新闻活动
+          <span class="arrow" id="news-arrow">▶</span>
+        </div>
+        <div class="submenu" id="news-menu">
+          <div class="menu-item" data-page="news" onclick="navigate('news')">
+            <span class="icon">📢</span>新闻动态
+          </div>
+          <div class="menu-item" data-page="events" onclick="navigate('events')">
+            <span class="icon">🎉</span>活动信息
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <div class="menu-item" onclick="toggleMenu('system-menu')">
+          <span class="icon">⚙️</span>系统管理
+          <span class="arrow" id="system-arrow">▶</span>
+        </div>
+        <div class="submenu" id="system-menu">
+          <div class="menu-item" data-page="users" onclick="navigate('users')">
+            <span class="icon">👤</span>用户管理
+          </div>
+          <div class="menu-item" data-page="roles" onclick="navigate('roles')">
+            <span class="icon">🔑</span>角色管理
+          </div>
+          <div class="menu-item" data-page="menus" onclick="navigate('menus')">
+            <span class="icon">📋</span>菜单管理
+          </div>
+          <div class="menu-item" data-page="tenants" onclick="navigate('tenants')">
+            <span class="icon">🏢</span>租户管理
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Content -->
+  <main class="content" id="contentArea">
+    <!-- Page: Dashboard -->
+    <div class="content-page active" id="page-dashboard">
+      <div class="breadcrumb">首页 / <span>仪表盘</span></div>
+      <div class="page-header"><h2>仪表盘</h2><p>理学院管理后台数据概览</p></div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon">📰</div><div class="stat-value">32</div><div class="stat-label">新闻动态</div></div>
+        <div class="stat-card"><div class="stat-icon">🎉</div><div class="stat-value">12</div><div class="stat-label">活动信息</div></div>
+        <div class="stat-card"><div class="stat-icon">👨‍🏫</div><div class="stat-value">58</div><div class="stat-label">教师数量</div></div>
+        <div class="stat-card"><div class="stat-icon">🖼</div><div class="stat-value">8</div><div class="stat-label">Banner</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><h3>快捷入口</h3></div>
+        <div class="card-body" style="display:flex;gap:16px;flex-wrap:wrap">
+          <button class="btn btn-outline" onclick="navigate('banner')">🖼 Banner管理</button>
+          <button class="btn btn-outline" onclick="navigate('news')">📢 新闻动态</button>
+          <button class="btn btn-outline" onclick="navigate('faculty')">👨‍🏫 教师队伍</button>
+          <button class="btn btn-outline" onclick="navigate('admissions')">🎓 招生信息</button>
+          <button class="btn btn-outline" onclick="navigate('users')">👤 用户管理</button>
+          <button class="btn btn-outline" onclick="navigate('tenants')">🏢 租户管理</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Users -->
+    <div class="content-page" id="page-users">
+      <div class="breadcrumb">首页 / 系统管理 / <span>用户管理</span></div>
+      <div class="page-header"><h2>用户管理</h2><p>管理系统用户，分配角色与租户权限</p></div>
+      <div class="card">
+        <div class="card-header"><h3>用户列表</h3><button class="btn btn-primary" onclick="showModal('userModal')">+ 新增用户</button></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索用户名/姓名..."></div>
+            <button class="btn btn-outline">🔃 刷新</button>
+          </div>
+          <table>
+            <thead><tr><th>用户名</th><th>姓名</th><th>所属角色</th><th>所属租户</th><th>状态</th><th>创建时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>admin</td><td>系统管理员</td><td><span class="tag tag-danger">超管</span></td><td><span class="tag tag-info">全部</span></td><td><span class="tag tag-success">启用</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td>science_admin</td><td>张理学</td><td><span class="tag tag-info">理学院管理员</span></td><td><span class="tag tag-info">理学院</span></td><td><span class="tag tag-success">启用</span></td><td>2026-08-02</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td>astro_admin</td><td>李天文</td><td><span class="tag tag-info">天文系管理员</span></td><td><span class="tag tag-info">天文系</span></td><td><span class="tag tag-success">启用</span></td><td>2026-08-02</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td>chem_admin</td><td>王化学</td><td><span class="tag tag-info">化学系管理员</span></td><td><span class="tag tag-info">化学系</span></td><td><span class="tag tag-success">启用</span></td><td>2026-08-02</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td>editor_zhang</td><td>赵编辑</td><td><span class="tag tag-warning">内容编辑</span></td><td><span class="tag tag-info">理学院</span></td><td><span class="tag tag-success">启用</span></td><td>2026-08-03</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination">
+            <span>共 5 条</span>
+            <button disabled>‹</button><button class="active">1</button><button disabled>›</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Roles -->
+    <div class="content-page" id="page-roles">
+      <div class="breadcrumb">首页 / 系统管理 / <span>角色管理</span></div>
+      <div class="page-header"><h2>角色管理</h2><p>管理角色，分配菜单权限和租户范围</p></div>
+      <div class="card">
+        <div class="card-header"><h3>角色列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增角色</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>角色名称</th><th>角色标识</th><th>描述</th><th>租户范围</th><th>创建时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>超级管理员</td><td><code>SUPER_ADMIN</code></td><td>系统最高权限</td><td><span class="tag tag-info">全部</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">权限</button><button class="btn btn-outline btn-sm">编辑</button></td></tr>
+              <tr><td>理学院管理员</td><td><code>SCIENCE_ADMIN</code></td><td>管理学院全部内容</td><td><span class="tag tag-info">理学院</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">权限</button><button class="btn btn-outline btn-sm">编辑</button></td></tr>
+              <tr><td>天文系管理员</td><td><code>ASTRO_ADMIN</code></td><td>管理天文系内容</td><td><span class="tag tag-info">天文系</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">权限</button><button class="btn btn-outline btn-sm">编辑</button></td></tr>
+              <tr><td>化学系管理员</td><td><code>CHEM_ADMIN</code></td><td>管理化学系内容</td><td><span class="tag tag-info">化学系</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">权限</button><button class="btn btn-outline btn-sm">编辑</button></td></tr>
+              <tr><td>内容编辑</td><td><code>CONTENT_EDITOR</code></td><td>编辑新闻/活动内容</td><td><span class="tag tag-info">指定租户</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">权限</button><button class="btn btn-outline btn-sm">编辑</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Menus -->
+    <div class="content-page" id="page-menus">
+      <div class="breadcrumb">首页 / 系统管理 / <span>菜单管理</span></div>
+      <div class="page-header"><h2>菜单管理</h2><p>管理后台菜单结构，支持目录/菜单/按钮三级</p></div>
+      <div class="card">
+        <div class="card-header"><h3>菜单树</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增菜单</button></div>
+        <div class="card-body">
+          <div class="tree">
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">📊</span>仪表盘 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">📝</span>内容管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">目录</span></div>
+              <div class="tree-children">
+                <div class="tree-label"><span class="node-icon">🖼</span>Banner管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">📖</span>学科介绍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">👨‍🏫</span>教师队伍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🎓</span>招生信息 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">🏛</span>学院概况 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">目录</span></div>
+              <div class="tree-children">
+                <div class="tree-label"><span class="node-icon">📜</span>学院介绍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🔬</span>科系介绍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🌳</span>学院生活 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">📞</span>联系我们 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">👨‍🏫</span>教师队伍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">目录</span></div>
+              <div class="tree-children">
+                <div class="tree-label"><span class="node-icon">👨‍🏫</span>教师队伍 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">📰</span>新闻活动 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">目录</span></div>
+              <div class="tree-children">
+                <div class="tree-label"><span class="node-icon">📢</span>新闻动态 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🎉</span>活动信息 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+              </div>
+            </div>
+            <div class="tree-node">
+              <div class="tree-label"><span class="expand">▼</span><span class="node-icon">⚙️</span>系统管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">目录</span></div>
+              <div class="tree-children">
+                <div class="tree-label"><span class="node-icon">👤</span>用户管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🔑</span>角色管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">📋</span>菜单管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+                <div class="tree-label"><span class="node-icon">🏢</span>租户管理 <span style="margin-left:8px;font-size:11px;color:var(--text-muted);background:#f0f0f0;padding:1px 6px;border-radius:4px">菜单</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Tenants -->
+    <div class="content-page" id="page-tenants">
+      <div class="breadcrumb">首页 / 系统管理 / <span>租户管理</span></div>
+      <div class="page-header"><h2>租户管理</h2><p>管理多租户配置，包括域名、主题、下发策略</p></div>
+      <div class="card">
+        <div class="card-header"><h3>租户列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增租户</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>租户名称</th><th>标识</th><th>PC域名</th><th>H5域名</th><th>类型</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><span class="tenant-dot science" style="display:inline-block;vertical-align:middle;margin-right:6px"></span>理学院</td>
+                <td><code>science</code></td><td>science.westlake.edu.cn</td><td>m-science.westlake.edu.cn</td>
+                <td><span class="tag tag-danger">主租户</span></td><td><span class="tag tag-success">启用</span></td>
+                <td class="actions"><button class="btn btn-outline btn-sm">配置</button><button class="btn btn-outline btn-sm">编辑</button></td>
+              </tr>
+              <tr>
+                <td><span class="tenant-dot astro" style="display:inline-block;vertical-align:middle;margin-right:6px"></span>天文系</td>
+                <td><code>astro</code></td><td>astro.westlake.edu.cn</td><td>m-astro.westlake.edu.cn</td>
+                <td><span class="tag tag-info">子租户</span></td><td><span class="tag tag-success">启用</span></td>
+                <td class="actions"><button class="btn btn-outline btn-sm">配置</button><button class="btn btn-outline btn-sm">编辑</button></td>
+              </tr>
+              <tr>
+                <td><span class="tenant-dot chem" style="display:inline-block;vertical-align:middle;margin-right:6px"></span>化学系</td>
+                <td><code>chem</code></td><td>chem.westlake.edu.cn</td><td>m-chem.westlake.edu.cn</td>
+                <td><span class="tag tag-info">子租户</span></td><td><span class="tag tag-success">启用</span></td>
+                <td class="actions"><button class="btn btn-outline btn-sm">配置</button><button class="btn btn-outline btn-sm">编辑</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: Banner管理 -->
+    <div class="content-page" id="page-banner">
+      <div class="breadcrumb">首页 / 内容管理 / <span>Banner管理</span></div>
+      <div class="page-header"><h2>Banner管理</h2><p>管理官网首页轮播图，支持多设备尺寸</p></div>
+      <div class="card">
+        <div class="card-header"><h3>Banner列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增Banner</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th style="width:160px">预览</th><th>标题</th><th>跳转链接</th><th>适用设备</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td><div style="width:140px;height:60px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">2026招生宣传</div></td><td>2026年招生宣传</td><td>/admissions/2026</td><td><span class="tag tag-info">PC</span></td><td>1</td><td><span class="tag tag-success">启用</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">下移</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td><div style="width:140px;height:60px;background:linear-gradient(135deg,#722ed1,#9254de);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">科研成果展</div></td><td>近期科研成果展</td><td>/research/highlights</td><td><span class="tag tag-info">PC+H5</span></td><td>2</td><td><span class="tag tag-success">启用</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">上移</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+              <tr><td><div style="width:140px;height:60px;background:linear-gradient(135deg,#13c2c2,#36cfc9);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">校园开放日</div></td><td>校园开放日</td><td>/events/open-day</td><td><span class="tag tag-info">H5</span></td><td>3</td><td><span class="tag tag-success">启用</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">上移</button><button class="btn btn-danger btn-sm">禁用</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 学科介绍 -->
+    <div class="content-page" id="page-subjects">
+      <div class="breadcrumb">首页 / 内容管理 / <span>学科介绍</span></div>
+      <div class="page-header"><h2>学科介绍</h2><p>管理学院各学科方向介绍内容，支持富文本编辑</p></div>
+      <div class="card">
+        <div class="card-header"><h3>学科列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增学科</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>学科名称</th><th>所属院系</th><th>简介</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>物理学</td><td>理学院</td><td>凝聚态物理、量子信息、光学...</td><td><span class="tag tag-success">已发布</span></td><td>2026-08-05</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>化学</td><td>理学院</td><td>有机化学、材料化学、化学生物学...</td><td><span class="tag tag-success">已发布</span></td><td>2026-08-03</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>天文学</td><td>天文系</td><td>天体物理、宇宙学、行星科学...</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-28</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>数学</td><td>理学院</td><td>基础数学、应用数学、计算数学...</td><td><span class="tag tag-warning">草稿</span></td><td>2026-08-10</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">发布</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 教师队伍(内容管理下) -->
+    <div class="content-page" id="page-faculty">
+      <div class="breadcrumb">首页 / 内容管理 / <span>教师队伍</span></div>
+      <div class="page-header"><h2>教师队伍</h2><p>管理教师信息，支持分类展示（教授/副教授/讲师等）</p></div>
+      <div class="card">
+        <div class="card-header"><h3>教师列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增教师</button></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
+            <select class="form-select" style="width:140px"><option>全部职称</option><option>教授</option><option>副教授</option><option>助理教授</option><option>讲师</option></select>
+            <select class="form-select" style="width:140px"><option>全部院系</option><option>理学院</option><option>天文系</option><option>化学系</option></select>
+          </div>
+          <table>
+            <thead><tr><th>姓名</th><th>职称</th><th>研究方向</th><th>所属院系</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>理学院</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>化学系</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>天文系</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>陈博士</td><td><span class="tag tag-warning">助理教授</span></td><td>量子信息</td><td>理学院</td><td>3</td><td><span class="tag tag-warning">隐藏</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 58 条</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 招生信息 -->
+    <div class="content-page" id="page-admissions">
+      <div class="breadcrumb">首页 / 内容管理 / <span>招生信息</span></div>
+      <div class="page-header"><h2>招生信息</h2><p>管理招生简章、专业目录、常见问题等内容</p></div>
+      <div class="card">
+        <div class="card-header"><h3>招生内容列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增内容</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>标题</th><th>分类</th><th>适用年份</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>2026年博士研究生招生简章</td><td><span class="tag tag-info">招生简章</span></td><td>2026</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-15</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>2026年硕士研究生招生简章</td><td><span class="tag tag-info">招生简章</span></td><td>2026</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-15</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>物理学专业介绍</td><td><span class="tag tag-info">专业目录</span></td><td>2026</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-10</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>常见问题 FAQ</td><td><span class="tag tag-info">常见问题</span></td><td>2026</td><td><span class="tag tag-warning">草稿</span></td><td>2026-08-08</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">发布</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 学院介绍 -->
+    <div class="content-page" id="page-about-college">
+      <div class="breadcrumb">首页 / 学院概况 / <span>学院介绍</span></div>
+      <div class="page-header"><h2>学院介绍</h2><p>编辑学院介绍页面内容，支持图文混排</p></div>
+      <div class="card">
+        <div class="card-header"><h3>页面内容</h3><button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button></div>
+        <div class="card-body">
+          <div class="form-group"><label class="form-label">页面标题</label><input class="form-input" value="西湖大学理学院"></div>
+          <div class="form-group"><label class="form-label">副标题</label><input class="form-input" value="格物致知，求是创新"></div>
+          <div class="form-group"><label class="form-label">内容</label><textarea class="form-textarea" style="min-height:200px">西湖大学理学院致力于前沿基础科学研究，涵盖物理学、化学、数学等核心学科。学院汇聚了一批国际一流的科学家，以"高起点、小而精、研究型"为办学定位，培养具有全球视野的创新型人才。</textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 科系介绍 -->
+    <div class="content-page" id="page-about-depts">
+      <div class="breadcrumb">首页 / 学院概况 / <span>科系介绍</span></div>
+      <div class="page-header"><h2>科系介绍</h2><p>管理各科系/研究所介绍内容</p></div>
+      <div class="card">
+        <div class="card-header"><h3>科系列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增科系</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>科系名称</th><th>所属租户</th><th>负责人</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>物理系</td><td>理学院</td><td>张教授</td><td><span class="tag tag-success">已发布</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>化学系</td><td>化学系</td><td>李教授</td><td><span class="tag tag-success">已发布</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>数学与应用数学系</td><td>理学院</td><td>王教授</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-20</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>天文学研究所</td><td>天文系</td><td>陈教授</td><td><span class="tag tag-success">已发布</span></td><td>2026-07-18</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 学院生活 -->
+    <div class="content-page" id="page-about-life">
+      <div class="breadcrumb">首页 / 学院概况 / <span>学院生活</span></div>
+      <div class="page-header"><h2>学院生活</h2><p>管理校园生活相关内容，如图片集、学生活动风采等</p></div>
+      <div class="card">
+        <div class="card-header"><h3>内容列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增内容</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>标题</th><th>类型</th><th>封面</th><th>状态</th><th>更新时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>2026春季运动会</td><td><span class="tag tag-info">活动风采</span></td><td>📷 12张</td><td><span class="tag tag-success">已发布</span></td><td>2026-04-20</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>云谷校区图集</td><td><span class="tag tag-info">校园风光</span></td><td>📷 20张</td><td><span class="tag tag-success">已发布</span></td><td>2026-03-15</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">预览</button></td></tr>
+              <tr><td>学生社团招新</td><td><span class="tag tag-info">学生活动</span></td><td>📷 8张</td><td><span class="tag tag-warning">草稿</span></td><td>2026-08-10</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">发布</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 联系我们 -->
+    <div class="content-page" id="page-about-contact">
+      <div class="breadcrumb">首页 / 学院概况 / <span>联系我们</span></div>
+      <div class="page-header"><h2>联系我们</h2><p>编辑各院系的联系信息（地址、电话、邮箱、地图等）</p></div>
+      <div class="card">
+        <div class="card-header"><h3>联系信息</h3><button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button></div>
+        <div class="card-body">
+          <div class="form-group"><label class="form-label">地址</label><input class="form-input" value="浙江省杭州市西湖区云栖小镇石龙山街18号"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">联系电话</label><input class="form-input" value="0571-8811XXXX"></div>
+            <div class="form-group"><label class="form-label">电子邮箱</label><input class="form-input" value="science@westlake.edu.cn"></div>
+          </div>
+          <div class="form-group"><label class="form-label">办公时间</label><input class="form-input" value="周一至周五 9:00-17:00"></div>
+          <div class="form-group"><label class="form-label">地图嵌入代码</label><textarea class="form-textarea" placeholder="粘贴地图 iframe 代码"></textarea></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 教师队伍(独立菜单) -->
+    <div class="content-page" id="page-teacher-list">
+      <div class="breadcrumb">首页 / 教师队伍 / <span>教师队伍</span></div>
+      <div class="page-header"><h2>教师队伍</h2><p>官网前台教师展示管理，支持按类别筛选和排序</p></div>
+      <div class="card">
+        <div class="card-header"><h3>师资展示列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增展示</button></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
+            <select class="form-select" style="width:140px"><option>全部职称</option><option>教授</option><option>副教授</option><option>助理教授</option></select>
+          </div>
+          <table>
+            <thead><tr><th>姓名</th><th>职称</th><th>研究方向</th><th>头衔</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>国家杰青</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>长江学者</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>优青</td><td>3</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 新闻动态 -->
+    <div class="content-page" id="page-news">
+      <div class="breadcrumb">首页 / 新闻活动 / <span>新闻动态</span></div>
+      <div class="page-header"><h2>新闻动态</h2><p>管理新闻资讯，支持下发至天文系、化学系</p></div>
+      <div class="card">
+        <div class="card-header"><h3>新闻列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增新闻</button></div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索新闻标题..."></div>
+            <button class="btn btn-outline">🔃 刷新</button>
+          </div>
+          <table>
+            <thead><tr><th>标题</th><th>分类</th><th>下发目标</th><th>状态</th><th>发布时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>西湖大学理学院最新科研成果登上Nature封面</td><td><span class="tag tag-info">科研动态</span></td><td><span class="tag tag-danger">理学院+天文系+化学系</span></td><td><span class="tag tag-success">已发布</span></td><td>2026-08-10</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">撤回</button></td></tr>
+              <tr><td>2026年春季学期开学典礼隆重举行</td><td><span class="tag tag-info">学院新闻</span></td><td><span class="tag tag-danger">理学院+天文系+化学系</span></td><td><span class="tag tag-success">已发布</span></td><td>2026-08-05</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">撤回</button></td></tr>
+              <tr><td>理学院新增两个博士点</td><td><span class="tag tag-info">通知公告</span></td><td><span class="tag tag-info">仅理学院</span></td><td><span class="tag tag-success">已发布</span></td><td>2026-08-01</td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">撤回</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 32 条</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 活动信息 -->
+    <div class="content-page" id="page-events">
+      <div class="breadcrumb">首页 / 新闻活动 / <span>活动信息</span></div>
+      <div class="page-header"><h2>活动信息</h2><p>管理学术讲座、校园活动，支持下发至天文系、化学系</p></div>
+      <div class="card">
+        <div class="card-header"><h3>活动列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增活动</button></div>
+        <div class="card-body">
+          <table>
+            <thead><tr><th>活动名称</th><th>类型</th><th>活动时间</th><th>下发目标</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>量子计算前沿讲座</td><td><span class="tag tag-info">学术讲座</span></td><td>2026-08-20 14:00</td><td><span class="tag tag-danger">理学院+天文系+化学系</span></td><td><span class="tag tag-success">已发布</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">撤回</button></td></tr>
+              <tr><td>2026年学术年会</td><td><span class="tag tag-info">学术会议</span></td><td>2026-09-15 9:00</td><td><span class="tag tag-danger">理学院+天文系+化学系</span></td><td><span class="tag tag-info">预告中</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">撤回</button></td></tr>
+              <tr><td>新生欢迎会</td><td><span class="tag tag-info">校园活动</span></td><td>2026-09-01 18:00</td><td><span class="tag tag-info">仅理学院</span></td><td><span class="tag tag-warning">草稿</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">发布</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 12 条</span><button disabled>‹</button><button class="active">1</button><button>›</button></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- User Modal (demo) -->
+<div class="modal-overlay" id="userModal">
+  <div class="modal">
+    <div class="modal-header"><h3>新增用户</h3><button class="modal-close" onclick="closeModal('userModal')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">用户名<span class="required">*</span></label><input class="form-input" placeholder="请输入用户名"></div>
+        <div class="form-group"><label class="form-label">姓名<span class="required">*</span></label><input class="form-input" placeholder="请输入姓名"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">密码<span class="required">*</span></label><input class="form-input" type="password" placeholder="请输入密码"></div>
+        <div class="form-group"><label class="form-label">邮箱</label><input class="form-input" placeholder="请输入邮箱"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">手机号</label><input class="form-input" placeholder="请输入手机号"></div>
+        <div class="form-group"><label class="form-label">角色<span class="required">*</span></label><select class="form-select"><option>请选择角色</option><option>理学院管理员</option><option>天文系管理员</option><option>化学系管理员</option><option>内容编辑</option></select></div>
+      </div>
+      <div class="form-group"><label class="form-label">租户范围<span class="required">*</span></label><select class="form-select"><option>请选择租户</option><option>理学院</option><option>天文系</option><option>化学系</option></select></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('userModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('userModal');showToast('用户创建成功！','success')">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><span id="toastIcon">✓</span><span id="toastMsg"></span></div>
+
+<script>
+// Navigation
+function navigate(page) {
+  document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('page-' + page);
+  if (target) target.classList.add('active');
+
+  document.querySelectorAll('.sidebar .menu-item').forEach(m => m.classList.remove('active'));
+  const sidebarItem = document.querySelector(`[data-page="${page}"]`);
+  if (sidebarItem) sidebarItem.classList.add('active');
+}
+
+// Menu toggle
+function toggleMenu(id) {
+  const submenu = document.getElementById(id);
+  const arrow = document.getElementById(id.replace('menu','arrow'));
+  if (submenu && arrow) {
+    submenu.classList.toggle('open');
+    arrow.classList.toggle('open');
+  }
+}
+
+// Tenant
+function toggleTenantDropdown() {
+  document.getElementById('tenantDropdown').classList.toggle('show');
+  event.stopPropagation();
+}
+
+function switchTenant(code, name, dotClass) {
+  document.getElementById('currentTenant').textContent = name;
+  const dot = document.getElementById('tenantDot');
+  dot.className = 'tenant-dot ' + dotClass;
+
+  document.querySelectorAll('.tenant-option').forEach(o => o.classList.remove('active'));
+  document.querySelector(`[data-tenant="${code}"]`).classList.add('active');
+  document.getElementById('tenantDropdown').classList.remove('show');
+
+  showToast(`已切换到「${name}」`, 'success');
+}
+
+// Modal
+function showModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+// Toast
+function showToast(msg, type) {
+  const toast = document.getElementById('toast');
+  document.getElementById('toastMsg').textContent = msg;
+  toast.className = 'toast show ' + (type || '');
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+// Close dropdown on outside click
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.tenant-badge')) {
+    document.getElementById('tenantDropdown').classList.remove('show');
+  }
+});
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) overlay.classList.remove('show');
+  });
+});
+</script>
+
+</body>
+</html>

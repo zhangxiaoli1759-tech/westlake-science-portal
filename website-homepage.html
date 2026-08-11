@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西湖大学理学院 - 官方网站</title>
+<style>
+/* ===== Reset & Base ===== */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#0B2D5C;--primary-light:#1A4D8C;--primary-dark:#061A38;
+  --accent:#C49A3D;--accent-light:#DDB552;--accent-dark:#A37E2A;
+  --bg:#ffffff;--bg-gray:#F5F7FA;--bg-dark:#1A2332;
+  --text:#2D3748;--text-light:#718096;--text-muted:#A0AEC0;
+  --border:#E2E8F0;--white:#fff;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow:0 2px 12px rgba(0,0,0,.08);
+  --shadow-md:0 4px 20px rgba(0,0,0,.10);
+  --shadow-lg:0 8px 40px rgba(0,0,0,.14);
+  --radius:8px;--radius-lg:16px;
+  --transition:all .3s cubic-bezier(.4,0,.2,1);
+  --serif:'Noto Serif SC','Songti SC','SimSun',serif;
+  --sans:'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);color:var(--text);background:var(--bg);line-height:1.7;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
+ul{list-style:none}
+.container{max-width:1280px;margin:0 auto;padding:0 40px}
+
+/* ===== Top Utility Bar ===== */
+.top-bar{background:var(--primary-dark);color:rgba(255,255,255,.7);font-size:13px;padding:6px 0}
+.top-bar .container{display:flex;justify-content:space-between;align-items:center}
+.top-bar a{transition:color .2s}
+.top-bar a:hover{color:var(--accent-light)}
+.top-bar .left{display:flex;gap:20px}
+.top-bar .right{display:flex;gap:16px}
+.top-bar .right span{display:flex;align-items:center;gap:4px}
+
+/* ===== Header ===== */
+.header{position:sticky;top:0;z-index:100;background:var(--white);box-shadow:var(--shadow-sm);transition:var(--transition)}
+.header.scrolled{box-shadow:var(--shadow-md)}
+.header-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
+.logo{display:flex;align-items:center;gap:12px;cursor:pointer}
+.logo-icon{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-light));display:flex;align-items:center;justify-content:center;color:#fff;font-family:var(--serif);font-size:20px;font-weight:700;flex-shrink:0}
+.logo-text{display:flex;flex-direction:column;line-height:1.3}
+.logo-text .main{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--primary)}
+.logo-text .sub{font-size:12px;color:var(--text-muted);letter-spacing:1px}
+
+/* Nav */
+.nav{display:flex;align-items:center;gap:4px}
+.nav-item{position:relative;padding:8px 18px;font-size:15px;color:var(--text);cursor:pointer;border-radius:6px;transition:var(--transition);font-weight:500}
+.nav-item:hover{color:var(--primary);background:var(--bg-gray)}
+.nav-item.active{color:var(--primary);font-weight:600}
+.nav-item.active::after{content:'';position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);width:32px;height:3px;background:var(--accent);border-radius:2px}
+.nav-item .dropdown{position:absolute;top:100%;left:0;min-width:180px;background:#fff;border-radius:var(--radius);box-shadow:var(--shadow-md);padding:8px 0;opacity:0;visibility:hidden;transform:translateY(10px);transition:var(--transition);margin-top:16px}
+.nav-item:hover .dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.nav-item .dropdown a{display:block;padding:10px 20px;font-size:14px;color:var(--text);transition:var(--transition)}
+.nav-item .dropdown a:hover{background:var(--bg-gray);color:var(--primary);padding-left:26px}
+
+/* Header actions */
+.header-actions{display:flex;align-items:center;gap:16px}
+.tenant-switch{position:relative}
+.tenant-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--bg-gray);border:1px solid var(--border);border-radius:24px;font-size:13px;color:var(--text);cursor:pointer;transition:var(--transition)}
+.tenant-btn:hover{border-color:var(--primary-light);background:#fff}
+.tenant-btn .dot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.tenant-dropdown{position:absolute;top:calc(100% + 8px);right:0;min-width:160px;background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-md);padding:6px 0;opacity:0;visibility:hidden;transform:translateY(8px);transition:var(--transition);z-index:10}
+.tenant-switch:hover .tenant-dropdown{opacity:1;visibility:visible;transform:translateY(0)}
+.tenant-dropdown a{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:13px;color:var(--text);transition:var(--transition);cursor:pointer}
+.tenant-dropdown a:hover{background:var(--bg-gray)}
+.tenant-dropdown a .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.tenant-dropdown a.active{color:var(--primary);font-weight:600}
+.icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg-gray);cursor:pointer;transition:var(--transition);font-size:16px;border:none;color:var(--text-light)}
+.icon-btn:hover{background:var(--primary);color:#fff}
+.lang-toggle{font-size:13px;color:var(--text-light);cursor:pointer;display:flex;align-items:center;gap:2px}
+.lang-toggle .active-lang{color:var(--primary);font-weight:600}
+
+/* ===== Banner Carousel ===== */
+.banner{position:relative;width:100%;height:560px;overflow:hidden;background:var(--primary-dark)}
+.banner-slides{position:relative;width:100%;height:100%}
+.banner-slide{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;transition:opacity 1s ease-in-out;display:flex;align-items:center}
+.banner-slide.active{opacity:1}
+.banner-slide .slide-bg{position:absolute;top:0;left:0;width:100%;height:100%}
+/* Slide backgrounds */
+.slide-1 .slide-bg{background:linear-gradient(135deg,#061A38 0%,#0B2D5C 40%,#1A4D8C 100%)}
+.slide-2 .slide-bg{background:linear-gradient(135deg,#0D2818 0%,#1A4D2E 40%,#2A6B43 100%)}
+.slide-3 .slide-bg{background:linear-gradient(135deg,#1A1338 0%,#2D2151 40%,#4A3478 100%)}
+.slide-4 .slide-bg{background:linear-gradient(135deg,#381A0D 0%,#5C2E1A 40%,#8B4530 100%)}
+/* Decorative shapes */
+.banner-shape{position:absolute;border-radius:50%;opacity:.08;background:#fff}
+.banner-shape.s1{width:600px;height:600px;top:-200px;right:-100px}
+.banner-shape.s2{width:300px;height:300px;bottom:-80px;left:10%;opacity:.05}
+.banner-shape.s3{width:150px;height:150px;top:30%;right:30%;opacity:.06}
+/* Grid pattern overlay */
+.banner-grid{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:60px 60px}
+.banner-content{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 40px;width:100%}
+.banner-text{max-width:680px;color:#fff}
+.banner-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 18px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:24px;font-size:13px;margin-bottom:24px;backdrop-filter:blur(10px)}
+.banner-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--accent-light)}
+.banner-title{font-family:var(--serif);font-size:48px;font-weight:700;line-height:1.3;margin-bottom:16px;letter-spacing:2px}
+.banner-subtitle{font-size:18px;line-height:1.8;opacity:.85;margin-bottom:32px;max-width:520px}
+.banner-cta{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:var(--accent);color:#fff;border-radius:30px;font-size:15px;font-weight:500;cursor:pointer;transition:var(--transition);border:none}
+.banner-cta:hover{background:var(--accent-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(196,154,61,.4)}
+
+/* Banner controls */
+.banner-arrow{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;cursor:pointer;transition:var(--transition);z-index:3;backdrop-filter:blur(10px)}
+.banner-arrow:hover{background:rgba(255,255,255,.25)}
+.banner-arrow.prev{left:40px}
+.banner-arrow.next{right:40px}
+.banner-dots{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:3}
+.banner-dots .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.3);cursor:pointer;transition:var(--transition)}
+.banner-dots .dot.active{width:32px;border-radius:6px;background:var(--accent-light)}
+
+/* ===== Section Common ===== */
+.section{padding:80px 0}
+.section-gray{background:var(--bg-gray)}
+.section-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px}
+.section-title-group{display:flex;flex-direction:column;gap:8px}
+.section-title{font-family:var(--serif);font-size:32px;font-weight:700;color:var(--primary);position:relative;padding-left:20px}
+.section-title::before{content:'';position:absolute;left:0;top:8px;bottom:8px;width:4px;background:var(--accent);border-radius:2px}
+.section-subtitle{font-size:14px;color:var(--text-muted);letter-spacing:3px;text-transform:uppercase;padding-left:20px}
+.section-more{display:inline-flex;align-items:center;gap:6px;font-size:14px;color:var(--text-light);cursor:pointer;transition:var(--transition)}
+.section-more:hover{color:var(--primary);gap:10px}
+
+/* ===== Faculty Section ===== */
+.faculty-section{background:linear-gradient(135deg,var(--primary-dark) 0%,var(--primary) 50%,var(--primary-light) 100%);position:relative;overflow:hidden}
+.faculty-deco{position:absolute;border-radius:50%;background:rgba(255,255,255,.04)}
+.faculty-deco.d1{width:500px;height:500px;top:-150px;right:-100px}
+.faculty-deco.d2{width:300px;height:300px;bottom:-100px;left:-50px;background:rgba(196,154,61,.06)}
+.faculty-deco.d3{width:100px;height:100px;top:40%;left:55%;background:rgba(255,255,255,.05)}
+.faculty-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.faculty-text .section-title{color:#fff}
+.faculty-text .section-title::before{background:var(--accent-light)}
+.faculty-text .section-subtitle{color:rgba(255,255,255,.5)}
+.faculty-desc{color:rgba(255,255,255,.8);font-size:16px;line-height:2;margin:24px 0 32px}
+.faculty-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:36px}
+.faculty-stat{text-align:center;padding:20px 8px;background:rgba(255,255,255,.06);border-radius:var(--radius);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(10px);transition:var(--transition)}
+.faculty-stat:hover{background:rgba(255,255,255,.1);transform:translateY(-4px)}
+.faculty-stat .num{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--accent-light);line-height:1}
+.faculty-stat .label{font-size:13px;color:rgba(255,255,255,.6);margin-top:8px}
+.faculty-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 36px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:30px;font-size:15px;cursor:pointer;transition:var(--transition);backdrop-filter:blur(10px)}
+.faculty-btn:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-2px)}
+.faculty-visual{position:relative;height:420px;display:flex;align-items:center;justify-content:center}
+.faculty-circle{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.1)}
+.faculty-circle.c1{width:380px;height:380px;animation:spin 30s linear infinite}
+.faculty-circle.c2{width:280px;height:280px;border-color:rgba(196,154,61,.2);animation:spin 25s linear infinite reverse}
+.faculty-circle.c3{width:180px;height:180px;border-color:rgba(255,255,255,.15)}
+.faculty-emblem{width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.08);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:48px;color:var(--accent-light);backdrop-filter:blur(10px)}
+.faculty-orbit-dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--accent-light);box-shadow:0 0 12px var(--accent-light)}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+/* ===== News Section ===== */
+.news-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.news-card{background:#fff;border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:var(--transition);border:1px solid var(--border);display:flex;flex-direction:column}
+.news-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:transparent}
+.news-img{height:200px;position:relative;overflow:hidden}
+.news-img .gradient{position:absolute;top:0;left:0;width:100%;height:100%;transition:transform .5s}
+.news-card:hover .news-img .gradient{transform:scale(1.08)}
+.news-img .cat-tag{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:20px;font-size:12px;color:#fff;backdrop-filter:blur(10px);z-index:2}
+.news-date-badge{position:absolute;bottom:12px;right:12px;background:rgba(255,255,255,.9);border-radius:8px;padding:6px 12px;text-align:center;backdrop-filter:blur(10px);z-index:2}
+.news-date-badge .day{font-size:20px;font-weight:700;color:var(--primary);line-height:1}
+.news-date-badge .month{font-size:11px;color:var(--text-light)}
+.news-body{padding:20px;flex:1;display:flex;flex-direction:column}
+.news-title{font-size:16px;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;transition:var(--transition)}
+.news-card:hover .news-title{color:var(--primary)}
+.news-excerpt{font-size:13px;color:var(--text-light);line-height:1.6;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-bottom:12px;flex:1}
+.news-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:var(--text-muted);padding-top:12px;border-top:1px solid var(--border)}
+.news-meta span{display:flex;align-items:center;gap:4px}
+
+/* News gradients */
+.ng-1{background:linear-gradient(135deg,#0B2D5C,#1A4D8C,#2A6DBC)}
+.ng-2{background:linear-gradient(135deg,#1A4D2E,#2A6B43,#3A8C56)}
+.ng-3{background:linear-gradient(135deg,#2D2151,#4A3478,#6A54A0)}
+.ng-4{background:linear-gradient(135deg,#5C2E1A,#8B4530,#B85A3D)}
+.ng-deco{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:var(--serif);font-size:60px;color:rgba(255,255,255,.1);font-weight:700}
+
+/* ===== Activity Section ===== */
+.activity-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:24px}
+.activity-large{background:linear-gradient(135deg,#0B2D5C 0%,#1A4D8C 60%,#2A6DBC 100%);border-radius:var(--radius-lg);overflow:hidden;cursor:pointer;transition:var(--transition);position:relative;min-height:480px;display:flex;align-items:flex-end}
+.activity-large:hover{transform:scale(1.01);box-shadow:var(--shadow-lg)}
+.activity-large .deco{position:absolute;top:0;left:0;width:100%;height:100%;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:50px 50px}
+.activity-large .deco-circle{position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:rgba(196,154,61,.08)}
+.activity-large .content{position:relative;z-index:2;padding:36px;color:#fff}
+.activity-large .cat-badge{display:inline-flex;align-items:center;gap:6px;padding:6px 16px;background:rgba(196,154,61,.2);border:1px solid var(--accent);border-radius:20px;font-size:13px;color:var(--accent-light);margin-bottom:16px}
+.activity-large .date-block{display:flex;align-items:baseline;gap:8px;margin-bottom:16px}
+.activity-large .date-block .day{font-family:var(--serif);font-size:56px;font-weight:700;line-height:1}
+.activity-large .date-block .month{font-size:16px;opacity:.7}
+.activity-large .title{font-family:var(--serif);font-size:28px;font-weight:700;margin-bottom:16px;line-height:1.4}
+.activity-large .info-row{display:flex;gap:32px;margin-bottom:24px;flex-wrap:wrap}
+.activity-large .info-item{display:flex;flex-direction:column;gap:4px}
+.activity-large .info-item .label{font-size:12px;opacity:.5}
+.activity-large .info-item .value{font-size:15px}
+.activity-large .register-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 32px;background:var(--accent);border-radius:30px;font-size:14px;font-weight:500;transition:var(--transition)}
+.activity-large .register-btn:hover{background:var(--accent-light)}
+
+.activity-small-list{display:flex;flex-direction:column;gap:24px}
+.activity-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;cursor:pointer;transition:var(--transition);display:flex;gap:20px;align-items:flex-start;flex:1}
+.activity-card:hover{transform:translateX(6px);box-shadow:var(--shadow-md);border-color:var(--primary-light)}
+.activity-card .date-col{text-align:center;min-width:64px;padding:12px 8px;border-radius:var(--radius);background:var(--bg-gray);border-bottom:3px solid var(--primary)}
+.activity-card .date-col .day{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--primary);line-height:1}
+.activity-card .date-col .month{font-size:12px;color:var(--text-light);margin-top:2px}
+.activity-card .info-col{flex:1;min-width:0}
+.activity-card .cat-tag{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;margin-bottom:8px}
+.activity-card .title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:8px;line-height:1.5;transition:var(--transition)}
+.activity-card:hover .title{color:var(--primary)}
+.activity-card .meta{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--text-light)}
+.activity-card .meta-row{display:flex;align-items:center;gap:6px}
+
+/* Category colors */
+.cat-lecture{background:rgba(11,45,92,.1);color:var(--primary)}
+.cat-seminar{background:rgba(26,77,46,.1);color:#1A4D2E}
+.cat-forum{background:rgba(45,33,81,.1);color:#4A3478}
+.cat-admission{background:rgba(196,154,61,.12);color:var(--accent-dark)}
+.cat-badge.cat-lecture{background:rgba(196,154,61,.15);border-color:var(--accent);color:var(--accent-light)}
+
+/* ===== Footer ===== */
+.footer{background:var(--bg-dark);color:rgba(255,255,255,.6);padding:60px 0 24px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:40px}
+.footer-brand .logo-text .main{color:#fff}
+.footer-brand .desc{font-size:13px;line-height:1.8;margin:16px 0}
+.footer-brand .social{display:flex;gap:12px}
+.footer-brand .social a{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:16px;transition:var(--transition);cursor:pointer}
+.footer-brand .social a:hover{background:var(--accent);color:#fff}
+.footer-col h4{color:#fff;font-size:15px;margin-bottom:16px;font-weight:600}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul li a{font-size:13px;transition:var(--transition);cursor:pointer}
+.footer-col ul li a:hover{color:var(--accent-light);padding-left:4px}
+.footer-contact .item{display:flex;gap:10px;margin-bottom:12px;font-size:13px}
+.footer-contact .item .icon{flex-shrink:0;margin-top:2px}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;text-align:center;font-size:13px}
+.footer-bottom a{color:var(--accent-light)}
+
+/* ===== Modal ===== */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:var(--transition);backdrop-filter:blur(4px)}
+.modal-overlay.show{opacity:1;visibility:visible}
+.modal{background:#fff;border-radius:var(--radius-lg);max-width:800px;width:90%;max-height:85vh;overflow-y:auto;transform:scale(.9);transition:var(--transition)}
+.modal-overlay.show .modal{transform:scale(1)}
+.modal-header{position:sticky;top:0;background:#fff;padding:24px 32px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;z-index:2;border-radius:var(--radius-lg) var(--radius-lg) 0 0}
+.modal-close{width:32px;height:32px;border-radius:50%;background:var(--bg-gray);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:var(--transition);border:none;font-size:18px;color:var(--text-light);flex-shrink:0}
+.modal-close:hover{background:var(--primary);color:#fff;transform:rotate(90deg)}
+.modal-body{padding:32px}
+.modal-hero{height:240px;border-radius:var(--radius);margin-bottom:24px;display:flex;align-items:center;justify-content:center}
+.modal-meta{display:flex;gap:20px;margin-bottom:20px;flex-wrap:wrap}
+.modal-meta-item{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--text-light);padding:6px 14px;background:var(--bg-gray);border-radius:20px}
+.modal-content{font-size:15px;line-height:2;color:var(--text)}
+.modal-content p{margin-bottom:16px}
+.modal-content h3{font-size:18px;color:var(--primary);margin:24px 0 12px;font-weight:600}
+.modal-actions{display:flex;gap:12px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.btn-primary{padding:12px 32px;background:var(--primary);color:#fff;border-radius:30px;font-size:14px;cursor:pointer;transition:var(--transition);border:none}
+.btn-primary:hover{background:var(--primary-light)}
+.btn-outline{padding:12px 32px;background:#fff;color:var(--text);border:1px solid var(--border);border-radius:30px;font-size:14px;cursor:pointer;transition:var(--transition)}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+
+/* ===== Animations ===== */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .8s ease,transform .8s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ===== Responsive ===== */
+@media(max-width:1024px){
+  .faculty-inner{grid-template-columns:1fr;gap:40px}
+  .faculty-visual{height:300px}
+  .news-grid{grid-template-columns:repeat(2,1fr)}
+  .activity-layout{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+}
+@media(max-width:768px){
+  .container{padding:0 20px}
+  .top-bar{display:none}
+  .nav{display:none}
+  .banner-title{font-size:28px}
+  .banner-subtitle{font-size:14px}
+  .banner-arrow{display:none}
+  .news-grid{grid-template-columns:1fr}
+  .faculty-stats{grid-template-columns:repeat(2,1fr)}
+  .section-title{font-size:24px}
+  .activity-large .title{font-size:20px}
+  .footer-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Top Bar ===== -->
+<div class="top-bar">
+  <div class="container">
+    <div class="left">
+      <a href="#">西湖大学</a>
+      <a href="#">图书馆</a>
+      <a href="#">OA系统</a>
+    </div>
+    <div class="right">
+      <span>📧 邮箱</span>
+      <span>📱 校园门户</span>
+      <span>🔗 信息门户</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Header ===== -->
+<header class="header" id="header">
+  <div class="container header-inner">
+    <div class="logo" onclick="scrollToTop()">
+      <div class="logo-icon">理</div>
+      <div class="logo-text">
+        <span class="main">西湖大学理学院</span>
+        <span class="sub">SCHOOL OF SCIENCE · WESTLAKE UNIVERSITY</span>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-item active" onclick="scrollToSection('banner')">首页</div>
+      <div class="nav-item" onclick="scrollToSection('faculty')">教师队伍</div>
+      <div class="nav-item" onclick="scrollToSection('news')">新闻动态
+        <div class="dropdown">
+          <a onclick="scrollToSection('news')">新闻列表</a>
+          <a onclick="scrollToSection('news')">学术资讯</a>
+          <a onclick="scrollToSection('news')">通知公告</a>
+          <a onclick="scrollToSection('news')">媒体报道</a>
+        </div>
+      </div>
+      <div class="nav-item" onclick="scrollToSection('activities')">活动信息
+        <div class="dropdown">
+          <a onclick="scrollToSection('activities')">活动列表</a>
+          <a onclick="scrollToSection('activities')">学术讲座</a>
+          <a onclick="scrollToSection('activities')">学术会议</a>
+        </div>
+      </div>
+      <div class="nav-item">学院概况
+        <div class="dropdown">
+          <a>学院介绍</a>
+          <a>科系介绍</a>
+          <a>学院生活</a>
+          <a>联系我们</a>
+        </div>
+      </div>
+      <div class="nav-item">招生信息
+        <div class="dropdown">
+          <a>本科招生</a>
+          <a>研究生招生</a>
+          <a>博士招生</a>
+        </div>
+      </div>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" title="搜索">🔍</button>
+      <div class="lang-toggle">
+        <span class="active-lang">中</span>
+        <span>/</span>
+        <span>EN</span>
+      </div>
+      <div class="tenant-switch">
+        <div class="tenant-btn">
+          <span class="dot"></span>
+          <span id="currentTenant">理学院</span>
+          <span>▾</span>
+        </div>
+        <div class="tenant-dropdown">
+          <a class="active" onclick="switchTenant('理学院','#0B2D5C')"><span class="dot" style="background:#0B2D5C"></span>理学院</a>
+          <a onclick="switchTenant('天文系','#1A4D2E')"><span class="dot" style="background:#1A4D2E"></span>天文系</a>
+          <a onclick="switchTenant('化学系','#2D2151')"><span class="dot" style="background:#2D2151"></span>化学系</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Banner Carousel ===== -->
+<section class="banner" id="banner">
+  <div class="banner-slides" id="bannerSlides">
+    <!-- Slide 1 -->
+    <div class="banner-slide slide-1 active" data-index="0">
+      <div class="slide-bg"></div>
+      <div class="banner-shape s1"></div>
+      <div class="banner-shape s2"></div>
+      <div class="banner-grid"></div>
+      <div class="banner-content">
+        <div class="banner-text">
+          <div class="banner-tag"><span class="dot"></span>理学院 · 探索科学 致知穷理</div>
+          <h1 class="banner-title">探索自然奥秘<br>追求科学真理</h1>
+          <p class="banner-subtitle">西湖大学理学院致力于基础科学前沿研究，涵盖物理学、天文学、化学等领域，培养具有国际视野的创新型科学人才。</p>
+          <button class="banner-cta" onclick="scrollToSection('faculty')">了解更多 →</button>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 2 -->
+    <div class="banner-slide slide-2" data-index="1">
+      <div class="slide-bg"></div>
+      <div class="banner-shape s1"></div>
+      <div class="banner-shape s3"></div>
+      <div class="banner-grid"></div>
+      <div class="banner-content">
+        <div class="banner-text">
+          <div class="banner-tag"><span class="dot"></span>科研前沿 · 创新突破</div>
+          <h1 class="banner-title">前沿研究<br>引领学术创新</h1>
+          <p class="banner-subtitle">学院教师活跃在国际科学前沿，在量子物理、天体物理、合成化学等领域取得了一系列具有国际影响力的研究成果。</p>
+          <button class="banner-cta" onclick="scrollToSection('news')">查看成果 →</button>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 3 -->
+    <div class="banner-slide slide-3" data-index="2">
+      <div class="slide-bg"></div>
+      <div class="banner-shape s1"></div>
+      <div class="banner-shape s2"></div>
+      <div class="banner-grid"></div>
+      <div class="banner-content">
+        <div class="banner-text">
+          <div class="banner-tag"><span class="dot"></span>师资力量 · 学术殿堂</div>
+          <h1 class="banner-title">国际一流师资<br>卓越学术团队</h1>
+          <p class="banner-subtitle">学院汇聚了多位院士、国家杰出青年科学基金获得者及海外引进人才，打造具有国际竞争力的学术研究团队。</p>
+          <button class="banner-cta" onclick="scrollToSection('faculty')">师资介绍 →</button>
+        </div>
+      </div>
+    </div>
+    <!-- Slide 4 -->
+    <div class="banner-slide slide-4" data-index="3">
+      <div class="slide-bg"></div>
+      <div class="banner-shape s1"></div>
+      <div class="banner-shape s3"></div>
+      <div class="banner-grid"></div>
+      <div class="banner-content">
+        <div class="banner-text">
+          <div class="banner-tag"><span class="dot"></span>校园生活 · 云谷校区</div>
+          <h1 class="banner-title">云谷之畔<br>科学殿堂</h1>
+          <p class="banner-subtitle">坐落于杭州云谷校区，学院拥有世界一流的科研设施和优美的校园环境，为师生提供卓越的学习与研究体验。</p>
+          <button class="banner-cta" onclick="scrollToSection('activities')">校园活动 →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="banner-arrow prev" onclick="changeSlide(-1)">‹</button>
+  <button class="banner-arrow next" onclick="changeSlide(1)">›</button>
+  <div class="banner-dots" id="bannerDots">
+    <div class="dot active" onclick="goToSlide(0)"></div>
+    <div class="dot" onclick="goToSlide(1)"></div>
+    <div class="dot" onclick="goToSlide(2)"></div>
+    <div class="dot" onclick="goToSlide(3)"></div>
+  </div>
+</section>
+
+<!-- ===== Faculty Section ===== -->
+<section class="section faculty-section" id="faculty">
+  <div class="faculty-deco d1"></div>
+  <div class="faculty-deco d2"></div>
+  <div class="faculty-deco d3"></div>
+  <div class="container">
+    <div class="faculty-inner">
+      <div class="faculty-text fade-up">
+        <div class="section-title-group">
+          <h2 class="section-title">教师队伍</h2>
+          <span class="section-subtitle">FACULTY</span>
+        </div>
+        <p class="faculty-desc">
+          理学院拥有一支国际一流的高水平师资队伍，包括多位中国科学院院士、国家杰出青年科学基金获得者及海外高层次引进人才。学院教师活跃在物理学、天文学、化学等前沿科学领域，以卓越的学术水平和创新精神，致力于基础科学研究与拔尖人才培养，在量子物理、天体物理、合成化学等方向取得了一系列具有国际影响力的原创性成果。
+        </p>
+        <div class="faculty-stats">
+          <div class="faculty-stat">
+            <div class="num">8</div>
+            <div class="label">院士</div>
+          </div>
+          <div class="faculty-stat">
+            <div class="num">45</div>
+            <div class="label">教授</div>
+          </div>
+          <div class="faculty-stat">
+            <div class="num">32</div>
+            <div class="label">副教授</div>
+          </div>
+          <div class="faculty-stat">
+            <div class="num">12</div>
+            <div class="label">研究方向</div>
+          </div>
+        </div>
+        <button class="faculty-btn" onclick="alert('跳转至教师队伍详情页')">查看教师队伍 →</button>
+      </div>
+      <div class="faculty-visual fade-up">
+        <div class="faculty-circle c1"></div>
+        <div class="faculty-circle c2"></div>
+        <div class="faculty-circle c3"></div>
+        <div class="faculty-orbit-dot" style="top:10%;left:50%;transform:translateX(-50%)"></div>
+        <div class="faculty-orbit-dot" style="top:50%;right:10%;transform:translateY(-50%)"></div>
+        <div class="faculty-orbit-dot" style="bottom:10%;left:50%;transform:translateX(-50%)"></div>
+        <div class="faculty-orbit-dot" style="top:50%;left:10%;transform:translateY(-50%)"></div>
+        <div class="faculty-emblem">理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== News Section ===== -->
+<section class="section section-gray" id="news">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-title-group">
+        <h2 class="section-title">新闻动态</h2>
+        <span class="section-subtitle">NEWS &amp; UPDATES</span>
+      </div>
+      <a class="section-more" onclick="alert('跳转至新闻列表页')">查看更多 →</a>
+    </div>
+    <div class="news-grid">
+      <!-- News 1 -->
+      <div class="news-card fade-up" onclick="openNewsModal(0)">
+        <div class="news-img">
+          <div class="gradient ng-1">
+            <div class="ng-deco">科研</div>
+          </div>
+          <span class="cat-tag cat-lecture">科研成果</span>
+          <div class="news-date-badge">
+            <div class="day">08</div>
+            <div class="month">2026.08</div>
+          </div>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">理学院2026年暑期科研夏令营圆满结束</h3>
+          <p class="news-excerpt">为期两周的暑期科研夏令营吸引了全国近百名优秀本科生参与，体验西湖大学理学院的科研魅力。</p>
+          <div class="news-meta">
+            <span>👁 1,234</span>
+            <span>📅 2026-08-10</span>
+          </div>
+        </div>
+      </div>
+      <!-- News 2 -->
+      <div class="news-card fade-up" onclick="openNewsModal(1)">
+        <div class="news-img">
+          <div class="gradient ng-2">
+            <div class="ng-deco">Nature</div>
+          </div>
+          <span class="cat-tag cat-seminar">学术发表</span>
+          <div class="news-date-badge">
+            <div class="day">05</div>
+            <div class="month">2026.08</div>
+          </div>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">我院张三教授在Nature发表量子计算重要研究成果</h3>
+          <p class="news-excerpt">该研究在量子纠错码领域取得突破性进展，为实用化量子计算提供了新的理论框架和实验验证。</p>
+          <div class="news-meta">
+            <span>👁 2,567</span>
+            <span>📅 2026-08-05</span>
+          </div>
+        </div>
+      </div>
+      <!-- News 3 -->
+      <div class="news-card fade-up" onclick="openNewsModal(2)">
+        <div class="news-img">
+          <div class="gradient ng-3">
+            <div class="ng-deco">合作</div>
+          </div>
+          <span class="cat-tag cat-forum">交流合作</span>
+          <div class="news-date-badge">
+            <div class="day">02</div>
+            <div class="month">2026.08</div>
+          </div>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">理学院与MIT物理系签署战略合作协议</h3>
+          <p class="news-excerpt">双方将在量子物理、凝聚态物理等领域开展深度合作，包括联合培养博士研究生、共享实验平台等。</p>
+          <div class="news-meta">
+            <span>👁 987</span>
+            <span>📅 2026-08-02</span>
+          </div>
+        </div>
+      </div>
+      <!-- News 4 -->
+      <div class="news-card fade-up" onclick="openNewsModal(3)">
+        <div class="news-img">
+          <div class="gradient ng-4">
+            <div class="ng-deco">论坛</div>
+          </div>
+          <span class="cat-tag cat-admission">通知公告</span>
+          <div class="news-date-badge">
+            <div class="day">28</div>
+            <div class="month">2026.07</div>
+          </div>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">2026年度理学院学术论坛将于9月开幕</h3>
+          <p class="news-excerpt">本届论坛以"基础科学的前沿与未来"为主题，邀请国内外知名学者做特邀报告，现已开放注册报名。</p>
+          <div class="news-meta">
+            <span>👁 1,543</span>
+            <span>📅 2026-07-28</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Activity Section ===== -->
+<section class="section" id="activities">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="section-title-group">
+        <h2 class="section-title">活动信息</h2>
+        <span class="section-subtitle">EVENTS &amp; LECTURES</span>
+      </div>
+      <a class="section-more" onclick="alert('跳转至活动列表页')">查看更多 →</a>
+    </div>
+    <div class="activity-layout">
+      <!-- Large Activity Card -->
+      <div class="activity-large fade-up" onclick="openActivityModal(0)">
+        <div class="deco"></div>
+        <div class="deco-circle"></div>
+        <div class="content">
+          <span class="cat-badge cat-lecture">🏷 学术讲座</span>
+          <div class="date-block">
+            <span class="day">15</span>
+            <span class="month">2026年8月 · 周六</span>
+          </div>
+          <h3 class="title">量子计算的前沿与挑战</h3>
+          <div class="info-row">
+            <div class="info-item">
+              <span class="label">主讲人</span>
+              <span class="value">张三 教授</span>
+            </div>
+            <div class="info-item">
+              <span class="label">时间</span>
+              <span class="value">14:00 - 16:00</span>
+            </div>
+            <div class="info-item">
+              <span class="label">地点</span>
+              <span class="value">云谷校区 理科楼 A301</span>
+            </div>
+          </div>
+          <button class="register-btn" onclick="event.stopPropagation();openActivityModal(0)">立即报名 →</button>
+        </div>
+      </div>
+      <!-- Small Activity Cards -->
+      <div class="activity-small-list">
+        <div class="activity-card fade-up" onclick="openActivityModal(1)">
+          <div class="date-col">
+            <div class="day">18</div>
+            <div class="month">8月</div>
+          </div>
+          <div class="info-col">
+            <span class="cat-tag cat-seminar">学术研讨</span>
+            <h4 class="title">分子化学合成新方法研讨会</h4>
+            <div class="meta">
+              <div class="meta-row">👨‍🏫 主讲人：李四 研究员</div>
+              <div class="meta-row">🕐 10:00-12:00 · 📍 理科楼 B205</div>
+            </div>
+          </div>
+        </div>
+        <div class="activity-card fade-up" onclick="openActivityModal(2)">
+          <div class="date-col">
+            <div class="day">22</div>
+            <div class="month">8月</div>
+          </div>
+          <div class="info-col">
+            <span class="cat-tag cat-forum">论文分享</span>
+            <h4 class="title">天文物理最新发现：系外行星观测</h4>
+            <div class="meta">
+              <div class="meta-row">👨‍🏫 主讲人：王五 副教授</div>
+              <div class="meta-row">🕐 15:00-17:00 · 📍 天文楼 C108</div>
+            </div>
+          </div>
+        </div>
+        <div class="activity-card fade-up" onclick="openActivityModal(3)">
+          <div class="date-col">
+            <div class="day">25</div>
+            <div class="month">8月</div>
+          </div>
+          <div class="info-col">
+            <span class="cat-tag cat-admission">招生宣讲</span>
+            <h4 class="title">2027年理学院研究生招生宣讲会</h4>
+            <div class="meta">
+              <div class="meta-row">👨‍🏫 主讲人：赵六 院长</div>
+              <div class="meta-row">🕐 19:00-21:00 · 📍 线上+线下</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo">
+          <div class="logo-icon">理</div>
+          <div class="logo-text">
+            <span class="main">西湖大学理学院</span>
+            <span class="sub">SCHOOL OF SCIENCE</span>
+          </div>
+        </div>
+        <p class="desc">西湖大学理学院致力于基础科学前沿研究，培养具有国际视野和创新能力的科学人才，为人类探索自然奥秘贡献力量。</p>
+        <div class="social">
+          <a title="微信">💬</a>
+          <a title="微博">📢</a>
+          <a title="邮箱">📧</a>
+          <a title="视频号">📹</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>快速导航</h4>
+        <ul>
+          <li><a>学院介绍</a></li>
+          <li><a>科系介绍</a></li>
+          <li><a>教师队伍</a></li>
+          <li><a>新闻动态</a></li>
+          <li><a>活动信息</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>招生信息</h4>
+        <ul>
+          <li><a>本科生招生</a></li>
+          <li><a>研究生招生</a></li>
+          <li><a>博士招生</a></li>
+          <li><a>国际学生</a></li>
+          <li><a>招生问答</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>联系我们</h4>
+        <div class="item"><span class="icon">📍</span> 浙江省杭州市西湖区墩余路600号</div>
+        <div class="item"><span class="icon">📧</span> science@westlake.edu.cn</div>
+        <div class="item"><span class="icon">📞</span> 0571-xxxx-xxxx</div>
+        <div class="item"><span class="icon">🕐</span> 周一至周五 8:30-17:30</div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 西湖大学理学院 · 浙ICP备xxxxxxxx号 · <a href="#">隐私政策</a> · <a href="#">使用条款</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ===== News Detail Modal ===== -->
+<div class="modal-overlay" id="newsModal" onclick="closeModal('newsModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="cat-tag cat-lecture" id="newsModalCat">科研成果</span>
+        <h2 style="font-family:var(--serif);font-size:24px;color:var(--primary);margin-top:8px" id="newsModalTitle">新闻标题</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('newsModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <div class="modal-meta-item">📅 <span id="newsModalDate">2026-08-10</span></div>
+        <div class="modal-meta-item">👁 <span id="newsModalViews">1,234</span></div>
+        <div class="modal-meta-item">✍️ 理学院</div>
+      </div>
+      <div class="modal-hero ng-1" id="newsModalHero">
+        <div class="ng-deco">理学院</div>
+      </div>
+      <div class="modal-content" id="newsModalContent">
+        <p>新闻正文内容...</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="closeModal('newsModal')">关闭</button>
+        <button class="btn-outline">分享文章</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== Activity Detail Modal ===== -->
+<div class="modal-overlay" id="activityModal" onclick="closeModal('activityModal',event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div>
+        <span class="cat-badge cat-lecture" id="actModalCat">学术讲座</span>
+        <h2 style="font-family:var(--serif);font-size:24px;color:var(--primary);margin-top:8px" id="actModalTitle">活动标题</h2>
+      </div>
+      <button class="modal-close" onclick="closeModal('activityModal')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta">
+        <div class="modal-meta-item">📅 <span id="actModalDate">2026年8月15日</span></div>
+        <div class="modal-meta-item">🕐 <span id="actModalTime">14:00-16:00</span></div>
+        <div class="modal-meta-item">📍 <span id="actModalLocation">云谷校区</span></div>
+        <div class="modal-meta-item">👨‍🏫 <span id="actModalSpeaker">张三教授</span></div>
+      </div>
+      <div class="modal-content" id="actModalContent">
+        <p>活动详情...</p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn-primary" onclick="alert('报名成功！我们将通过邮件发送确认信息。')">立即报名</button>
+        <button class="btn-outline" onclick="closeModal('activityModal')">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== Banner Carousel ===== */
+let currentSlide = 0;
+const totalSlides = 4;
+let autoPlayTimer = null;
+
+function goToSlide(index) {
+  const slides = document.querySelectorAll('.banner-slide');
+  const dots = document.querySelectorAll('.banner-dots .dot');
+  slides.forEach(s => s.classList.remove('active'));
+  dots.forEach(d => d.classList.remove('active'));
+  slides[index].classList.add('active');
+  dots[index].classList.add('active');
+  currentSlide = index;
+}
+
+function changeSlide(direction) {
+  let next = currentSlide + direction;
+  if (next >= totalSlides) next = 0;
+  if (next < 0) next = totalSlides - 1;
+  goToSlide(next);
+  resetAutoPlay();
+}
+
+function startAutoPlay() {
+  autoPlayTimer = setInterval(() => {
+    changeSlide(1);
+  }, 5000);
+}
+
+function resetAutoPlay() {
+  clearInterval(autoPlayTimer);
+  startAutoPlay();
+}
+
+// Pause on hover
+document.getElementById('banner').addEventListener('mouseenter', () => clearInterval(autoPlayTimer));
+document.getElementById('banner').addEventListener('mouseleave', startAutoPlay);
+
+startAutoPlay();
+
+/* ===== Navigation ===== */
+function scrollToSection(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const headerHeight = 72;
+    const top = el.offsetTop - headerHeight;
+    window.scrollTo({ top, behavior: 'smooth' });
+  }
+  // Update active nav
+  document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+  event.currentTarget.closest('.nav-item')?.classList.add('active');
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ===== Header Scroll Effect ===== */
+window.addEventListener('scroll', () => {
+  const header = document.getElementById('header');
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+  // Update active section
+  updateActiveNav();
+});
+
+function updateActiveNav() {
+  const sections = ['banner', 'faculty', 'news', 'activities'];
+  const scrollPos = window.scrollY + 100;
+  let activeId = 'banner';
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= scrollPos) activeId = id;
+  });
+  // Could update nav active states here
+}
+
+/* ===== Tenant Switch ===== */
+function switchTenant(name, color) {
+  document.getElementById('currentTenant').textContent = name;
+  document.querySelectorAll('.tenant-dropdown a').forEach(a => a.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  // Visual feedback
+  const dot = document.querySelector('.tenant-btn .dot');
+  dot.style.background = color;
+}
+
+/* ===== News Modal Data ===== */
+const newsData = [
+  {
+    title: '理学院2026年暑期科研夏令营圆满结束',
+    cat: '科研成果', catClass: 'cat-lecture', gradient: 'ng-1',
+    date: '2026-08-10', views: '1,234',
+    content: `<p>2026年8月10日，为期两周的西湖大学理学院暑期科研夏令营圆满落下帷幕。本次夏令营吸引了来自全国各地的近百名优秀本科生参与，他们深入实验室，亲身体验了西湖大学理学院的科研氛围。</p>
+    <h3>丰富的科研体验</h3>
+    <p>夏令营期间，营员们分别进入了物理学、天文学、化学等方向的实验室，在导师和研究生的指导下参与了真实的科研项目。从实验设计、数据采集到结果分析，营员们完整体验了科学研究的全过程。</p>
+    <h3>学术交流与分享</h3>
+    <p>学院还组织了多场学术报告和交流活动，多位教授为营员们带来了精彩的前沿科学讲座，介绍了各自领域的最新研究进展。营员们也通过小组汇报的形式展示了各自的夏令营科研成果。</p>
+    <p>闭营仪式上，理学院院长为优秀营员颁发了证书，并鼓励大家在未来的学术道路上继续追求卓越。</p>`
+  },
+  {
+    title: '我院张三教授在Nature发表量子计算重要研究成果',
+    cat: '学术发表', catClass: 'cat-seminar', gradient: 'ng-2',
+    date: '2026-08-05', views: '2,567',
+    content: `<p>2026年8月5日，西湖大学理学院张三教授课题组在国际顶尖学术期刊《Nature》上发表了题为"High-fidelity quantum error correction with surface codes"的研究论文。</p>
+    <h3>研究背景</h3>
+    <p>量子计算有望在特定问题上实现指数级加速，但量子比特的脆弱性使得量子纠错成为实现实用化量子计算的关键瓶颈。现有的量子纠错方案在保真度和可扩展性方面仍面临重大挑战。</p>
+    <h3>突破性进展</h3>
+    <p>张三教授团队提出了一种新型的表面码纠错方案，通过引入辅助比特的优化布局和自适应纠错策略，将逻辑量子比特的保真度提升了近一个数量级。该方案在实验中也得到了验证，为构建大规模容错量子计算机奠定了重要基础。</p>
+    <p>该研究成果得到了国际同行的高度评价，被认为"为实用化量子计算扫清了一个重要障碍"。</p>`
+  },
+  {
+    title: '理学院与MIT物理系签署战略合作协议',
+    cat: '交流合作', catClass: 'cat-forum', gradient: 'ng-3',
+    date: '2026-08-02', views: '987',
+    content: `<p>2026年8月2日，西湖大学理学院与美国麻省理工学院（MIT）物理系正式签署战略合作协议，双方将在科研合作、人才培养、学术交流等方面开展全面深入的合作。</p>
+    <h3>合作内容</h3>
+    <p>根据协议，双方将重点在量子物理、凝聚态物理、天体物理等前沿领域开展联合研究，定期举办双边学术研讨会，并联合培养博士研究生。此外，MIT物理系将每年选派访问学者来理学院进行学术交流。</p>
+    <h3>共同愿景</h3>
+    <p>理学院院长表示："此次与MIT物理系的战略合作，将进一步加强学院的国际学术影响力，为师生提供更高水平的国际交流平台。我们期待通过双方的紧密合作，在基础科学前沿取得更多突破性成果。"</p>`
+  },
+  {
+    title: '2026年度理学院学术论坛将于9月开幕',
+    cat: '通知公告', catClass: 'cat-admission', gradient: 'ng-4',
+    date: '2026-07-28', views: '1,543',
+    content: `<p>2026年度西湖大学理学院学术论坛将于9月15日至17日在云谷校区举办。本届论坛以"基础科学的前沿与未来"为主题，邀请了国内外知名学者做特邀报告。</p>
+    <h3>论坛主题</h3>
+    <p>本届论坛涵盖物理学、天文学、化学等基础科学领域的最新进展，包括量子计算、系外行星探测、分子合成化学等热点方向。论坛将设置主旨报告、邀请报告、青年学者论坛和海报展示等环节。</p>
+    <h3>报名方式</h3>
+    <p>论坛现已开放注册报名，欢迎校内外师生及科研工作者参加。详细信息和报名链接请访问理学院官方网站。早鸟报名截止日期为8月31日。</p>`
+  }
+];
+
+function openNewsModal(index) {
+  const data = newsData[index];
+  document.getElementById('newsModalTitle').textContent = data.title;
+  const catEl = document.getElementById('newsModalCat');
+  catEl.textContent = data.cat;
+  catEl.className = 'cat-tag ' + data.catClass;
+  document.getElementById('newsModalDate').textContent = data.date;
+  document.getElementById('newsModalViews').textContent = data.views;
+  const hero = document.getElementById('newsModalHero');
+  hero.className = 'modal-hero ' + data.gradient;
+  hero.innerHTML = '<div class="ng-deco">理学院</div>';
+  document.getElementById('newsModalContent').innerHTML = data.content;
+  document.getElementById('newsModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ===== Activity Modal Data ===== */
+const activityData = [
+  {
+    title: '量子计算的前沿与挑战', cat: '学术讲座', catClass: 'cat-lecture',
+    date: '2026年8月15日（周六）', time: '14:00 - 16:00',
+    location: '云谷校区 理科楼 A301', speaker: '张三 教授',
+    content: `<p>本次讲座将介绍量子计算领域的最新进展，重点讨论量子纠错、量子算法和量子模拟等前沿方向面临的挑战与机遇。</p>
+    <h3>讲座内容</h3>
+    <p>张三教授将从量子计算的基本原理出发，深入浅出地介绍当前量子计算硬件和软件的发展现状，分析实现实用化量子计算的关键技术瓶颈，并展望未来的发展方向。</p>
+    <h3>主讲人简介</h3>
+    <p>张三，西湖大学理学院教授，国家杰出青年科学基金获得者，长期从事量子信息与量子计算研究，在Nature、Science等期刊发表多篇高水平论文。</p>
+    <h3>参与方式</h3>
+    <p>本次讲座面向全校师生开放，无需预约直接到场参加。校外人员请提前联系学院办公室登记。</p>`
+  },
+  {
+    title: '分子化学合成新方法研讨会', cat: '学术研讨', catClass: 'cat-seminar',
+    date: '2026年8月18日（周二）', time: '10:00 - 12:00',
+    location: '云谷校区 理科楼 B205', speaker: '李四 研究员',
+    content: `<p>本次研讨会将聚焦分子化学合成领域的最新方法学进展，探讨绿色合成、催化新策略等前沿话题。</p>
+    <h3>研讨内容</h3>
+    <p>李四研究员将分享其在新型催化剂设计和绿色合成路线方面的最新研究成果，并与参会者就分子合成的未来发展方向展开深入讨论。</p>
+    <h3>主讲人简介</h3>
+    <p>李四，西湖大学理学院研究员，从事有机合成方法学和绿色化学研究，在JACS、Angew等期刊发表多篇论文。</p>`
+  },
+  {
+    title: '天文物理最新发现：系外行星观测', cat: '论文分享', catClass: 'cat-forum',
+    date: '2026年8月22日（周六）', time: '15:00 - 17:00',
+    location: '云谷校区 天文楼 C108', speaker: '王五 副教授',
+    content: `<p>本次论文分享会将介绍系外行星观测的最新进展，包括新发现的宜居带行星及其大气成分分析。</p>
+    <h3>分享内容</h3>
+    <p>王五副教授将介绍利用凌星法和视向速度法探测系外行星的技术原理，分享其团队在系外行星大气探测方面的最新研究成果，并讨论寻找地外生命的科学前景。</p>
+    <h3>主讲人简介</h3>
+    <p>王五，西湖大学理学院副教授，从事天体物理学研究，专注于系外行星探测和 characterization，在ApJ、MNRAS等期刊发表多篇论文。</p>`
+  },
+  {
+    title: '2027年理学院研究生招生宣讲会', cat: '招生宣讲', catClass: 'cat-admission',
+    date: '2026年8月25日（周二）', time: '19:00 - 21:00',
+    location: '线上 + 线下（理科楼报告厅）', speaker: '赵六 院长',
+    content: `<p>理学院将于8月25日举办2027年研究生招生宣讲会，介绍学院研究生培养体系、招生政策和申请流程。</p>
+    <h3>宣讲内容</h3>
+    <p>赵六院长将全面介绍理学院的研究生培养体系，包括博士和硕士项目的研究方向、培养方案、奖助体系等。各学科方向负责人也将现场解答考生疑问。</p>
+    <h3>参与方式</h3>
+    <p>本次宣讲会采取线上+线下相结合的方式。线下参加请提前预约座位，线上可通过理学院官方视频号观看直播。</p>
+    <h3>招生政策亮点</h3>
+    <p>2027年理学院将继续推行"申请-考核"制博士招生，同时新增天文学博士点。优秀本科生可申请直博项目，享受全额奖学金资助。</p>`
+  }
+];
+
+function openActivityModal(index) {
+  const data = activityData[index];
+  document.getElementById('actModalTitle').textContent = data.title;
+  const catEl = document.getElementById('actModalCat');
+  catEl.textContent = data.cat;
+  catEl.className = 'cat-badge ' + data.catClass;
+  document.getElementById('actModalDate').textContent = data.date;
+  document.getElementById('actModalTime').textContent = data.time;
+  document.getElementById('actModalLocation').textContent = data.location;
+  document.getElementById('actModalSpeaker').textContent = data.speaker;
+  document.getElementById('actModalContent').innerHTML = data.content;
+  document.getElementById('activityModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+/* ===== Close Modal ===== */
+function closeModal(id, event) {
+  if (event && event.target !== event.currentTarget) return;
+  document.getElementById(id).classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+// Close on ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeModal('newsModal');
+    closeModal('activityModal');
+  }
+});
+
+/* ===== Fade-up Animation on Scroll ===== */
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+.workbuddy/
+*.pyc
+__pycache__/
+.DS_Store
+*.log
+node_modules/
+.env
