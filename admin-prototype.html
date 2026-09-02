@@ -175,6 +175,80 @@ tr:hover td { background: #fafafa; }
 /* Content pages visibility */
 .content-page { display: none; }
 .content-page.active { display: block; }
+
+/* ===== 教师队伍 新建表单 专用样式 ===== */
+
+/* 顶部 Tab 栏（页面级 / 弹窗级通用） */
+.tabs-bar {
+  display: flex; align-items: center; gap: 36px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.tabs-bar .tab {
+  font-size: 14px; color: var(--text-muted);
+  cursor: pointer; position: relative; padding: 4px 0;
+  transition: color .15s; user-select: none;
+}
+.tabs-bar .tab:hover { color: var(--primary); }
+.tabs-bar .tab.active {
+  color: var(--primary); font-weight: 500;
+}
+.tabs-bar .tab.active::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; bottom: -15px;
+  height: 2px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* 自定义单选（蓝点圆环） */
+.radio-group { display: inline-flex; align-items: center; gap: 22px; }
+.radio-item {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; cursor: pointer; user-select: none;
+}
+.radio-item input[type="radio"] {
+  appearance: none; -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border: 1px solid #d9d9d9; border-radius: 50%;
+  background: #fff; position: relative; cursor: pointer; flex-shrink: 0;
+  transition: all .15s;
+}
+.radio-item input[type="radio"]:checked {
+  border: 4px solid var(--primary);
+}
+
+/* 弹窗宽度变体 */
+.modal.modal-lg { width: 720px; }
+.modal.modal-xl { width: 880px; }
+
+/* dashed 上传区 */
+.upload-area {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  width: 120px; height: 120px;
+  border: 1px dashed #d9d9d9; border-radius: 6px;
+  background: #fafafa;
+  cursor: pointer;
+  color: var(--text-muted); font-size: 13px;
+  gap: 6px;
+  transition: all .15s;
+}
+.upload-area:hover { border-color: var(--primary); color: var(--primary); background: #f0f7ff; }
+.upload-area .upload-icon { font-size: 24px; opacity: .5; }
+.upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
+
+/* 表单左对齐栅格（截图样式：标签固定宽度，右边控件对齐） */
+.form-row.aligned > .form-field {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.form-row.aligned > .form-field.align-top { align-items: flex-start; }
+.form-row.aligned .form-label { margin: 0; }
 </style>
 </head>
 <body>
@@ -523,7 +597,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb">首页 / 内容管理 / <span>教师队伍</span></div>
       <div class="page-header"><h2>教师队伍</h2><p>管理教师信息，支持分类展示（教授/副教授/讲师等）</p></div>
       <div class="card">
-        <div class="card-header"><h3>教师列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增教师</button></div>
+        <div class="card-header"><h3>教师列表</h3><button class="btn btn-primary" onclick="showModal('facultyModal')">+ 新增教师</button></div>
         <div class="card-body">
           <div class="toolbar">
             <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
@@ -640,7 +714,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb">首页 / 教师队伍 / <span>教师队伍</span></div>
       <div class="page-header"><h2>教师队伍</h2><p>官网前台教师展示管理，支持按类别筛选和排序</p></div>
       <div class="card">
-        <div class="card-header"><h3>师资展示列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增展示</button></div>
+        <div class="card-header"><h3>师资展示列表</h3><button class="btn btn-primary" onclick="showModal('facultyModal')">+ 新增展示</button></div>
         <div class="card-body">
           <div class="toolbar">
             <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
@@ -704,7 +778,7 @@ tr:hover td { background: #fafafa; }
   </main>
 </div>
 
-<!-- User Modal (demo) -->
+<!-- 用户 Modal (demo) -->
 <div class="modal-overlay" id="userModal">
   <div class="modal">
     <div class="modal-header"><h3>新增用户</h3><button class="modal-close" onclick="closeModal('userModal')">✕</button></div>
@@ -726,6 +800,109 @@ tr:hover td { background: #fafafa; }
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('userModal')">取消</button>
       <button class="btn btn-primary" onclick="closeModal('userModal');showToast('用户创建成功！','success')">确定</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Faculty Modal -->
+<div class="modal-overlay" id="facultyModal">
+  <div class="modal modal-xl">
+    <div class="modal-header">
+      <h3>新建教师</h3>
+      <button class="modal-close" onclick="closeModal('facultyModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:0">
+      <!-- 顶部 Tab 栏（按截图：欢迎 / banner / 人物列表表 / 新建人物） -->
+      <div class="tabs-bar" style="padding:14px 32px; margin-bottom:0">
+        <div class="tab">欢迎</div>
+        <div class="tab">banner</div>
+        <div class="tab">人物列表表</div>
+        <div class="tab active">新建人物</div>
+      </div>
+
+      <!-- 表单区 -->
+      <div style="padding: 24px 32px 0;">
+        <div class="form-row aligned">
+
+          <div class="form-field">
+            <label class="form-label"><span class="required">*</span>语言：</label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="fac-lang" checked>中文</label>
+              <label class="radio-item"><input type="radio" name="fac-lang">English</label>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label"><span class="required">*</span>身份：</label>
+            <select class="form-select">
+              <option>请选择身份</option>
+              <option>教授</option>
+              <option>副教授</option>
+              <option>助理教授</option>
+              <option>讲师</option>
+              <option>研究员</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label"><span class="required">*</span>姓名：</label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="fac-name-type" checked>中文名</label>
+              <label class="radio-item"><input type="radio" name="fac-name-type">英文名</label>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label"><span class="required">*</span>姓：</label>
+            <input class="form-input" placeholder="请输入姓">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">名：</label>
+            <input class="form-input" placeholder="请输入名">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">第二名称：</label>
+            <input class="form-input" placeholder="请输入第二名称">
+          </div>
+
+          <div class="form-field align-top">
+            <label class="form-label"><span class="required">*</span>照片：</label>
+            <div>
+              <label class="upload-area">
+                <span class="upload-icon">📷</span>
+                <span>图片上传</span>
+                <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+              </label>
+              <div class="upload-hint">请上传照片，格式支持 JPG、JPEG、PNG</div>
+            </div>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">电子邮件：</label>
+            <input class="form-input" placeholder="请输入电子邮件">
+          </div>
+
+          <div class="form-field align-top">
+            <label class="form-label"><span class="required">*</span>职位：</label>
+            <textarea class="form-textarea" placeholder="请输入职位" style="min-height:90px"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">内容：</label>
+            <div class="radio-group">
+              <label class="radio-item"><input type="radio" name="fac-content-type">自定义</label>
+              <label class="radio-item"><input type="radio" name="fac-content-type">外链</label>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="margin-top:24px">
+      <button class="btn btn-outline" onclick="closeModal('facultyModal')">取消</button>
+      <button class="btn btn-primary" onclick="closeModal('facultyModal');showToast('教师创建成功！','success')">保存</button>
     </div>
   </div>
 </div>
