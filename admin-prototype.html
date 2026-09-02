@@ -339,6 +339,26 @@ tr:hover td { background: #fafafa; }
 
 /* 表格列悬停高亮（交互反馈） */
 #recruitmentTbody tr:hover { background: #fafbfc; }
+#downloadsTbody tr:hover { background: #fafbfc; }
+
+/* 资料下载：纯文字状态/语言 + 蓝色文字链接式按钮（无底色样式） */
+.link-action {
+  background: none; border: none; padding: 0; margin: 0 4px;
+  color: var(--primary); cursor: pointer; font-size: 13px;
+}
+.link-action:hover { text-decoration: underline; }
+.link-action.danger { color: var(--danger); }
+.link-action.danger:hover { color: #ff7875; }
+.dl-status, .dl-lang { font-size: 13px; color: var(--text); }
+
+/* 中文 / 英文 切换 tab（资料下载用） */
+.lang-tab {
+  height: 32px; padding: 0 16px; background: #fff; border: none;
+  font-size: 13px; color: var(--text-light); cursor: pointer;
+  border-right: 1px solid var(--border);
+}
+.lang-tab:last-child { border-right: none; }
+.lang-tab.active { background: var(--primary); color: #fff; }
 </style>
 </head>
 <body>
@@ -458,6 +478,11 @@ tr:hover td { background: #fafafa; }
       <!-- 招生培养（一级菜单，招生信息列表，带发布/取消发布） -->
       <div class="menu-item" data-page="recruitment" onclick="navigate('recruitment')">
         <span class="icon">🎓</span>招生培养
+      </div>
+
+      <!-- 资料下载（一级菜单，资料列表，带发布/取消发布） -->
+      <div class="menu-item" data-page="downloads" onclick="navigate('downloads')">
+        <span class="icon">📚</span>资料下载
       </div>
 
       <div class="menu-group">
@@ -930,6 +955,70 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
     </div>
+
+    <!-- Page: 资料下载（一级菜单，资料列表） -->
+    <div class="content-page" id="page-downloads">
+      <div class="breadcrumb">首页 / <span>资料下载</span></div>
+      <div class="page-header">
+        <h2>资料下载</h2>
+        <p>维护可下载的资料文件（简章、申请模板、规章制度等），支持发布 / 取消发布生命周期管理</p>
+      </div>
+
+      <!-- 筛选工具栏（中文 / 英文 tab + 标题搜索 + 查询 / 重置） -->
+      <div class="card">
+        <div class="card-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <div class="lang-tabs" id="dlLangTabs" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setDlLangTab('zh')">中文</button>
+            <button type="button" class="lang-tab"        data-lang="en" onclick="setDlLangTab('en')">英文</button>
+          </div>
+          <span style="color:var(--text-light);font-size:13px">标题：</span>
+          <input class="form-input" id="dlSearchTitle" placeholder="请输入标题" style="flex:1;min-width:200px">
+          <button class="btn btn-primary">🔍 查询</button>
+          <button class="btn btn-outline">↻ 重置</button>
+        </div>
+      </div>
+
+      <!-- 列表 -->
+      <div class="card">
+        <div class="card-header">
+          <h3>资料列表</h3>
+          <button class="btn btn-primary" onclick="openDownload('create')">+ 新增</button>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div style="overflow-x:auto">
+          <table id="downloadsTable">
+            <thead>
+              <tr>
+                <th style="min-width:220px">标题</th>
+                <th style="width:80px">语言</th>
+                <th style="width:70px">排序</th>
+                <th style="width:100px">发布状态</th>
+                <th style="width:120px">发布时间</th>
+                <th style="width:100px">创建人</th>
+                <th style="width:160px">创建时间</th>
+                <th style="width:220px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="downloadsTbody">
+              <!-- 由 JS 渲染 -->
+            </tbody>
+          </table>
+          </div>
+          <div class="pagination">
+            <span id="downloadsTotal">共 0 条</span>
+            <button disabled>‹</button>
+            <button class="active">1</button>
+            <button>›</button>
+            <span style="margin-left:auto;display:inline-flex;align-items:center;gap:6px">
+              <select style="height:32px;border:1px solid var(--border);border-radius:6px;padding:0 8px;font-size:13px"><option>10 条/页</option><option>20 条/页</option><option>50 条/页</option></select>
+              <span>跳至</span>
+              <input style="height:32px;width:60px;border:1px solid var(--border);border-radius:6px;padding:0 8px;font-size:13px" placeholder="页">
+              <span>页</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -1178,6 +1267,67 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
     <div class="modal-footer" id="recruitmentFooter"></div>
+  </div>
+</div>
+
+<!-- ====== 资料下载 弹窗（按截图 1:1） ====== -->
+<div class="modal-overlay" id="downloadModal">
+  <div class="modal" style="width:680px">
+    <div class="modal-header">
+      <h3 id="downloadTabTitle">新增资料</h3>
+      <button class="modal-close" onclick="closeModal('downloadModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-column" id="downloadForm">
+
+        <!-- 1. 语言 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>语言</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="dl-lang" value="zh" checked>中文</label>
+            <label class="radio-item"><input type="radio" name="dl-lang" value="en">英文</label>
+          </div>
+        </div>
+
+        <!-- 2. 标题 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>标题</label>
+          <input class="form-input" id="dl-title" placeholder="请输入标题">
+        </div>
+
+        <!-- 3. 封面（dashed 上传 + 格式说明） -->
+        <div class="form-field align-top">
+          <label class="form-label"><span class="required">*</span>封面</label>
+          <div>
+            <label class="upload-area" id="dl-cover-upload" style="width:140px;height:200px">
+              <span>图片上传</span>
+              <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+            </label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG、PNG 尺寸：139px*205px 大小 不能超过2MB 最多上传一份</div>
+          </div>
+        </div>
+
+        <!-- 4. 文件（dashed 上传 + 格式说明） -->
+        <div class="form-field align-top">
+          <label class="form-label"><span class="required">*</span>文件</label>
+          <div>
+            <label class="upload-area" id="dl-file-upload">
+              <span>文件上传</span>
+              <input type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.zip,.rar" style="display:none">
+            </label>
+            <div class="upload-hint">格式：PDF、WORD、EXCEL、PPT、ZIP、RAR、7z 大小 不能超过100MB 最多上传一份</div>
+          </div>
+        </div>
+
+        <!-- 5. 发布时间 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>发布时间</label>
+          <input class="form-input" type="date" id="dl-publish-time">
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer" id="downloadFooter"></div>
   </div>
 </div>
 
@@ -1543,6 +1693,171 @@ function editorCmd(cmd, arg) {
 
 // 启动时渲染列表
 renderRecruitmentTable();
+
+/* ===== 资料下载：资料列表 + 新增/编辑/详情 + 发布/取消发布 ===== */
+let DOWNLOADS_LIST = [
+  // 已发布（演示数据）
+  { id: 1, title:'理学院宣传册',                 lang:'zh', order: 6,  status:'published', publishTime:'2026-03-05', createdAt:'2025-03-14 22:40:01', creator:'admin' },
+  { id: 2, title:'化学系宣传册',                 lang:'zh', order:17,  status:'published', publishTime:'2025-06-21', createdAt:'2025-03-09 00:53:47', creator:'admin' },
+  // 未发布
+  { id: 3, title:'test-发布时间',                lang:'zh', order:14,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 15:19:10', creator:'admin' },
+  { id: 4, title:'化学系宣传化学系宣传',         lang:'zh', order:15,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:35:13', creator:'admin' },
+  { id: 5, title:'理学院宣传册',                 lang:'zh', order:16,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:32:51', creator:'admin' },
+  { id: 6, title:'发布时间2',                    lang:'zh', order: 9,  status:'draft',     publishTime:'2025-03-17', createdAt:'2025-03-14 15:24:33', creator:'admin' },
+  { id: 7, title:'test1 发不时间1',              lang:'zh', order: 2,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-08-18 14:08:29', creator:'admin' },
+  { id: 8, title:'test1 发不时间1',              lang:'zh', order:10,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:02', creator:'admin' },
+  { id: 9, title:'test1 发不时间1',              lang:'zh', order:11,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:01', creator:'admin' },
+  { id:10, title:'test1 发不时间1',              lang:'zh', order:12,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:23:47', creator:'admin' },
+];
+
+// 语言 tab 状态（默认中文）
+let DL_LANG_TAB = 'zh';
+
+function setDlLangTab(lang) {
+  DL_LANG_TAB = lang;
+  document.querySelectorAll('#dlLangTabs .lang-tab').forEach(b => {
+    b.classList.toggle('active', b.dataset.lang === lang);
+  });
+  renderDownloadsTable();
+}
+
+function renderDownloadsTable() {
+  const tbody = document.getElementById('downloadsTbody');
+  if (!tbody) return;
+  // 演示：tab 切换只影响展示顺序，不影响统计
+  document.getElementById('downloadsTotal').textContent = '共 ' + DOWNLOADS_LIST.length + ' 条';
+
+  // 按发布时间倒序（与截图一致：3-05 已发布在最上）
+  const list = DOWNLOADS_LIST.slice().sort((a, b) => (a.publishTime < b.publishTime ? 1 : -1));
+
+  tbody.innerHTML = list.map((r, idx) => {
+    const langText    = '<span class="dl-lang">'   + (r.lang === 'en' ? 'English' : '中文')    + '</span>';
+    const statusText  = '<span class="dl-status">' + (r.status === 'published' ? '已发布' : '未发布') + '</span>';
+    const actions = r.status === 'published'
+      ? '<button class="link-action" onclick="toggleDownloadPublish(' + r.id + ')">取消发布</button>'
+      : '<button class="link-action" onclick="toggleDownloadPublish(' + r.id + ')">发布</button>' +
+        '<button class="link-action" onclick="openDownload(\'edit\',' + r.id + ')">编辑</button>' +
+        '<button class="link-action danger" onclick="deleteDownload(' + r.id + ')">删除</button>';
+    return '<tr>'
+      + '<td title="' + r.title + '" style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.title + '</td>'
+      + '<td>' + langText + '</td>'
+      + '<td>' + r.order + '</td>'
+      + '<td>' + statusText + '</td>'
+      + '<td>' + r.publishTime + '</td>'
+      + '<td>' + r.creator + '</td>'
+      + '<td>' + r.createdAt + '</td>'
+      + '<td class="actions">' + actions + '</td>'
+      + '</tr>';
+  }).join('');
+}
+
+function toggleDownloadPublish(id) {
+  const item = DOWNLOADS_LIST.find(d => d.id === id);
+  if (!item) return;
+  if (item.status === 'published') {
+    item.status = 'draft';
+    showToast('「' + item.title + '」已取消发布', 'success');
+  } else {
+    item.status = 'published';
+    showToast('「' + item.title + '」已发布', 'success');
+  }
+  renderDownloadsTable();
+}
+
+function deleteDownload(id) {
+  const item = DOWNLOADS_LIST.find(d => d.id === id);
+  if (!item) return;
+  if (!confirm('确定删除「' + item.title + '」吗？此操作不可撤销。')) return;
+  DOWNLOADS_LIST = DOWNLOADS_LIST.filter(d => d.id !== id);
+  renderDownloadsTable();
+  showToast('资料已删除', 'success');
+}
+
+function openDownload(mode, id) {
+  const form  = document.getElementById('downloadForm');
+  const item  = id ? DOWNLOADS_LIST.find(d => d.id === id) : null;
+  const isView = (mode === 'view');
+
+  document.getElementById('downloadTabTitle').textContent =
+    mode === 'create' ? '新增资料' : (mode === 'edit' ? '编辑资料' : '资料详情');
+
+  const setVal    = (e, v) => { const el = document.getElementById(e); if (el) el.value = v || ''; };
+  const pickRadio = (n, v) => { const el = document.querySelector('input[name="' + n + '"][value="' + v + '"]'); if (el) el.checked = true; };
+
+  // 重置 + 默认今天
+  const today = new Date().toISOString().slice(0,10);
+  setVal('dl-title', '');
+  setVal('dl-publish-time', today);
+  pickRadio('dl-lang', 'zh');
+
+  // 回填（编辑 / 详情）
+  if (item) {
+    setVal('dl-title', item.title);
+    setVal('dl-publish-time', item.publishTime);
+    pickRadio('dl-lang', item.lang);
+  }
+
+  // 只读态
+  form.classList.toggle('is-readonly', isView);
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'file') return;
+    el.disabled = isView;
+  });
+
+  // 底部按钮
+  document.getElementById('downloadFooter').innerHTML = isView
+    ? '<button class="btn btn-primary" onclick="closeModal(\'downloadModal\')">关闭</button>'
+    : '<button class="btn btn-outline" onclick="closeModal(\'downloadModal\')">取消</button>' +
+      '<button class="btn btn-primary" onclick="saveDownload(\'' + mode + '\'' + (id ? ',' + id : '') + ')">' +
+      (mode === 'edit' ? '保存修改' : '保存') + '</button>';
+
+  showModal('downloadModal');
+}
+
+function saveDownload(mode, id) {
+  const titleEl = document.getElementById('dl-title');
+  if (!titleEl.value.trim()) {
+    showToast('请输入资料标题', 'error');
+    titleEl.focus();
+    return;
+  }
+  if (!document.getElementById('dl-publish-time').value) {
+    showToast('请选择发布时间', 'error');
+    return;
+  }
+  const data = {
+    title: titleEl.value.trim(),
+    publishTime: document.getElementById('dl-publish-time').value,
+    lang: (document.querySelector('input[name="dl-lang"]:checked') || {}).value || 'zh',
+  };
+
+  if (mode === 'edit' && id) {
+    const item = DOWNLOADS_LIST.find(d => d.id === id);
+    if (item) {
+      Object.assign(item, data);
+      // order 保留用户已有值（演示：此弹窗未含 order）
+    }
+    showToast('资料已更新', 'success');
+  } else {
+    const newId = Math.max(0, ...DOWNLOADS_LIST.map(d => d.id)) + 1;
+    const now = new Date();
+    const pad = n => n < 10 ? '0' + n : '' + n;
+    DOWNLOADS_LIST.unshift({
+      id: newId,
+      ...data,
+      order: Math.max(0, ...DOWNLOADS_LIST.map(d => d.order || 0)) + 1,
+      status: 'draft',
+      createdAt: now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()),
+      creator: 'admin',
+    });
+    showToast('资料创建成功', 'success');
+  }
+  closeModal('downloadModal');
+  renderDownloadsTable();
+}
+
+// 启动时渲染列表
+renderDownloadsTable();
 </script>
 
 </body>
