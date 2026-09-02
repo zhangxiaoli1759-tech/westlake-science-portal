@@ -1232,13 +1232,13 @@ td.actions .actions {
         <div class="form-field">
           <label class="form-label"><span class="required">*</span>内容类型</label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="rec-content-type" value="custom" checked>自定义</label>
-            <label class="radio-item"><input type="radio" name="rec-content-type" value="link">外链</label>
+            <label class="radio-item"><input type="radio" name="rec-content-type" value="custom" checked onchange="toggleRecContentType()">自定义</label>
+            <label class="radio-item"><input type="radio" name="rec-content-type" value="link" onchange="toggleRecContentType()">外链</label>
           </div>
         </div>
 
-        <!-- 8. 内容（富文本 mock：工具栏 + 编辑区） -->
-        <div class="form-field align-top">
+        <!-- 8. 内容（富文本，自定义时展示） -->
+        <div class="form-field align-top" id="rec-content-custom">
           <label class="form-label">内容</label>
           <div class="editor-wrap" style="width:100%">
             <div class="editor-toolbar" id="recEditorToolbar">
@@ -1271,6 +1271,13 @@ td.actions .actions {
             <div class="editor-area" id="recEditor" contenteditable="true" data-placeholder="请输入正文"></div>
             <div class="editor-readonly" id="recEditorReadonly"></div>
           </div>
+        </div>
+
+        <!-- 8b. 外链地址（选中外链时展示） -->
+        <div class="form-field" id="rec-content-link" style="display:none">
+          <label class="form-label"><span class="required">*</span>外链地址</label>
+          <input class="form-input" id="rec-link-url" placeholder="请输入外链地址，例如 /kxyj/achievements/">
+          <div class="upload-hint" style="margin-top:6px">详情链接 注意：如果跳转站内链接，请维护相对地址。例如网页地址'https://science.westlake.edu.cn/kxyj/achievements/'，链接只需要填写'/kxyj/achievements/'</div>
         </div>
 
       </div>
@@ -1618,6 +1625,8 @@ function openRecruitment(mode, id) {
   setVal('rec-publish-time', today);
   pickRadio('rec-lang', 'zh'); pickRadio('rec-type', '本科生');
   pickRadio('rec-content-type', 'custom');
+  setVal('rec-link-url', '');
+  toggleRecContentType();
   document.getElementById('recEditor').innerHTML = '';
 
   // 回填（编辑/详情）
@@ -1628,6 +1637,8 @@ function openRecruitment(mode, id) {
     pickRadio('rec-lang', item.lang);
     pickRadio('rec-type', item.type);
     pickRadio('rec-content-type', item.contentType || 'custom');
+    setVal('rec-link-url', item.linkUrl || '');
+    toggleRecContentType();
     document.getElementById('recEditor').innerHTML = item.content || '';
     document.getElementById('recEditorReadonly').innerHTML = item.content || '';
   } else {
@@ -1659,14 +1670,16 @@ function saveRecruitment(mode, id) {
     titleEl.focus();
     return;
   }
+  const contentType = (document.querySelector('input[name="rec-content-type"]:checked') || {}).value || 'custom';
   const data = {
     title: titleEl.value.trim(),
     summary: document.getElementById('rec-summary').value,
     publishTime: document.getElementById('rec-publish-time').value,
     lang: (document.querySelector('input[name="rec-lang"]:checked') || {}).value || 'zh',
     type: (document.querySelector('input[name="rec-type"]:checked') || {}).value || '本科生',
-    contentType: (document.querySelector('input[name="rec-content-type"]:checked') || {}).value || 'custom',
-    content: document.getElementById('recEditor').innerHTML,
+    contentType,
+    linkUrl: contentType === 'link' ? document.getElementById('rec-link-url').value.trim() : '',
+    content: contentType === 'link' ? '' : document.getElementById('recEditor').innerHTML,
   };
 
   if (mode === 'edit' && id) {
@@ -1695,6 +1708,23 @@ function saveRecruitment(mode, id) {
 function editorCmd(cmd, arg) {
   document.execCommand(cmd, false, arg);
   document.getElementById('recEditor').focus();
+}
+
+/* 招生培养：内容类型切换（自定义 ↔ 外链）
+   - 自定义：展示富文本编辑器，隐藏外链地址
+   - 外链：  隐藏富文本，展示外链地址输入框 + 提示语 */
+function toggleRecContentType() {
+  const type = (document.querySelector('input[name="rec-content-type"]:checked') || {}).value || 'custom';
+  const customBox = document.getElementById('rec-content-custom');
+  const linkBox = document.getElementById('rec-content-link');
+  if (!customBox || !linkBox) return;
+  if (type === 'link') {
+    customBox.style.display = 'none';
+    linkBox.style.display = '';
+  } else {
+    customBox.style.display = '';
+    linkBox.style.display = 'none';
+  }
 }
 
 // 启动时渲染列表
