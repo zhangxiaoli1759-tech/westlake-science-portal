@@ -455,7 +455,7 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
 
-      <!-- 招生培养（一级菜单，资讯列表，带发布/取消发布） -->
+      <!-- 招生培养（一级菜单，招生信息列表，带发布/取消发布） -->
       <div class="menu-item" data-page="recruitment" onclick="navigate('recruitment')">
         <span class="icon">🎓</span>招生培养
       </div>
@@ -830,7 +830,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 新闻动态 -->
     <div class="content-page" id="page-news">
       <div class="breadcrumb">首页 / 新闻活动 / <span>新闻动态</span></div>
-      <div class="page-header"><h2>新闻动态</h2><p>管理新闻资讯，支持下发至天文系、化学系</p></div>
+      <div class="page-header"><h2>新闻动态</h2><p>管理新闻内容，支持下发至天文系、化学系</p></div>
       <div class="card">
         <div class="card-header"><h3>新闻列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')">+ 新增新闻</button></div>
         <div class="card-body">
@@ -871,12 +871,12 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
 
-    <!-- Page: 招生培养（一级菜单，资讯列表） -->
+    <!-- Page: 招生培养（一级菜单，招生信息列表） -->
     <div class="content-page" id="page-recruitment">
       <div class="breadcrumb">首页 / <span>招生培养</span></div>
       <div class="page-header">
         <h2>招生培养</h2>
-        <p>发布与维护招生相关的资讯文章，支持发布 / 取消发布生命周期管理</p>
+        <p>发布与维护本科生 / 研究生 / 短期项目招生信息，支持发布 / 取消发布生命周期管理</p>
       </div>
 
       <!-- 筛选工具栏 -->
@@ -886,7 +886,7 @@ tr:hover td { background: #fafafa; }
             <option>全部语言</option><option>中文</option><option>English</option>
           </select>
           <select class="form-select" style="width:auto">
-            <option>全部类型</option><option>学术研究</option><option>人物故事</option><option>师生活动</option><option>交流合作</option><option>通知公告</option>
+            <option>全部类型</option><option>本科生</option><option>研究生</option><option>短期项目</option>
           </select>
           <select class="form-select" style="width:auto">
             <option>全部状态</option><option>未发布</option><option>已发布</option>
@@ -900,8 +900,8 @@ tr:hover td { background: #fafafa; }
       <!-- 列表 -->
       <div class="card">
         <div class="card-header">
-          <h3>资讯列表</h3>
-          <button class="btn btn-primary" onclick="openRecruitment('create')">+ 新增资讯</button>
+          <h3>招生信息列表</h3>
+          <button class="btn btn-primary" onclick="openRecruitment('create')">+ 新增招生信息</button>
         </div>
         <div class="card-body" style="padding:0">
           <div style="overflow-x:auto">
@@ -1075,7 +1075,7 @@ tr:hover td { background: #fafafa; }
 <div class="modal-overlay" id="recruitmentModal">
   <div class="modal modal-xl" style="width:880px">
     <div class="modal-header">
-      <h3 id="recruitmentTabTitle">新增资讯</h3>
+      <h3 id="recruitmentTabTitle">新增招生信息</h3>
       <button class="modal-close" onclick="closeModal('recruitmentModal')">✕</button>
     </div>
     <div class="modal-body">
@@ -1090,10 +1090,10 @@ tr:hover td { background: #fafafa; }
           </div>
         </div>
 
-        <!-- 2. 资讯标题 -->
+        <!-- 2. 招生信息标题 -->
         <div class="form-field">
-          <label class="form-label"><span class="required">*</span>资讯标题</label>
-          <input class="form-input" id="rec-title" placeholder="请输入资讯标题">
+          <label class="form-label"><span class="required">*</span>招生信息标题</label>
+          <input class="form-input" id="rec-title" placeholder="请输入招生信息标题">
         </div>
 
         <!-- 3. 简介（按截图：单行 input，不是 textarea） -->
@@ -1102,15 +1102,13 @@ tr:hover td { background: #fafafa; }
           <input class="form-input" id="rec-summary" placeholder="请输入简介">
         </div>
 
-        <!-- 4. 类型（5 选 1） -->
+        <!-- 4. 类型（3 选 1） -->
         <div class="form-field">
           <label class="form-label"><span class="required">*</span>类型</label>
           <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="rec-type" value="学术研究" checked>学术研究</label>
-            <label class="radio-item"><input type="radio" name="rec-type" value="人物故事">人物故事</label>
-            <label class="radio-item"><input type="radio" name="rec-type" value="师生活动">师生活动</label>
-            <label class="radio-item"><input type="radio" name="rec-type" value="交流合作">交流合作</label>
-            <label class="radio-item"><input type="radio" name="rec-type" value="通知公告">通知公告</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="本科生" checked>本科生</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="研究生">研究生</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="短期项目">短期项目</label>
           </div>
         </div>
 
@@ -1357,34 +1355,34 @@ function saveFaculty(mode) {
   showToast(mode === 'edit' ? '教师信息已更新！' : '教师创建成功！', 'success');
 }
 
-/* ===== 招生培养：资讯列表 + 新增/编辑/详情 + 发布/取消发布 ===== */
-const RECRUITMENT_TYPES = ['学术研究','人物故事','师生活动','交流合作','通知公告'];
+/* ===== 招生培养：招生信息列表 + 新增/编辑/详情 + 发布/取消发布 ===== */
+const RECRUITMENT_TYPES = ['本科生','研究生','短期项目'];
 
 let RECRUITMENT_LIST = [
   // 已发布（演示数据，覆盖多种类型/语言）
-  { id: 1, title:'2026 年理学院博士研究生招生简章解读',   lang:'zh', type:'通知公告', status:'published', clicks: 1283, publishTime:'2026-08-30', lastPublishTime:'2026-08-30', createdAt:'2026-08-15 14:22', creator:'admin',
+  { id: 1, title:'2026 年理学院博士研究生招生简章解读',   lang:'zh', type:'研究生', status:'published', clicks: 1283, publishTime:'2026-08-30', lastPublishTime:'2026-08-30', createdAt:'2026-08-15 14:22', creator:'admin',
     summary:'本文详细解读 2026 年理学院博士招生简章的政策变化、申请流程与考核标准。',
     content:'<h2>招生简章解读</h2><p>2026 年理学院博士招生简章在以下方面做了重要调整：</p><ol><li>扩大直博生比例至 40%</li><li>新增"申请-考核"通道</li><li>理工交叉学科纳入重点支持</li></ol><p>欢迎全国优秀学子报考。</p>',
     contentType:'custom' },
-  { id: 2, title:'对话诺贝尔奖得主：在基础科学中寻找终身志业', lang:'zh', type:'人物故事', status:'published', clicks: 856, publishTime:'2026-08-20', lastPublishTime:'2026-08-20', createdAt:'2026-08-10 10:05', creator:'editor_wu',
+  { id: 2, title:'对话诺贝尔奖得主：在基础科学中寻找终身志业', lang:'zh', type:'本科生', status:'published', clicks: 856, publishTime:'2026-08-20', lastPublishTime:'2026-08-20', createdAt:'2026-08-10 10:05', creator:'editor_wu',
     summary:'专访三位在理学院工作的诺贝尔奖得主，分享他们的科研心路。',
     content:'<p>对话中，三位科学家反复提到一个关键词：耐心。</p>',
     contentType:'custom' },
-  { id: 3, title:'Physics PhD Application Guide',           lang:'en', type:'学术研究', status:'published', clicks: 412, publishTime:'2026-07-28', lastPublishTime:'2026-07-28', createdAt:'2026-07-20 09:30', creator:'editor_li',
+  { id: 3, title:'Physics PhD Application Guide',           lang:'en', type:'研究生', status:'published', clicks: 412, publishTime:'2026-07-28', lastPublishTime:'2026-07-28', createdAt:'2026-07-20 09:30', creator:'editor_li',
     summary:'A comprehensive guide for international applicants to the Physics PhD program.',
     content:'<p>This guide covers eligibility, required documents, and timeline.</p>',
     contentType:'custom' },
 
   // 未发布
-  { id: 4, title:'理学院 2026 年夏令营报名启动',           lang:'zh', type:'师生活动', status:'draft', clicks: 0, publishTime:'2026-09-10', lastPublishTime:'-', createdAt:'2026-09-01 16:48', creator:'admin',
+  { id: 4, title:'理学院 2026 年夏令营报名启动',           lang:'zh', type:'短期项目', status:'draft', clicks: 0, publishTime:'2026-09-10', lastPublishTime:'-', createdAt:'2026-09-01 16:48', creator:'admin',
     summary:'面向全国优秀本科生，7 天沉浸式科研体验。',
     content:'<p>夏令营包含实验室轮转、导师面对面、城市探索等环节。</p>',
     contentType:'custom' },
-  { id: 5, title:'与中科院上海有机所签订联合培养协议',     lang:'zh', type:'交流合作', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 11:15', creator:'editor_zhao',
+  { id: 5, title:'与中科院上海有机所签订联合培养协议',     lang:'zh', type:'研究生', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 11:15', creator:'editor_zhao',
     summary:'双方将在博士生联合培养、科研平台共享等领域展开深度合作。',
     content:'<p>协议明确了双方导师互聘、学分互认、学位联合授予等机制。</p>',
     contentType:'custom' },
-  { id: 6, title:'招生答疑直播：9 月 5 日 19:30',          lang:'zh', type:'通知公告', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 14:00', creator:'admin',
+  { id: 6, title:'招生答疑直播：9 月 5 日 19:30',          lang:'zh', type:'本科生', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 14:00', creator:'admin',
     summary:'招生办老师在线答疑，关于推免、考研、夏令营的所有疑问。',
     content:'<p>直播间入口将在公众号提前一天推送。</p>',
     contentType:'custom' },
@@ -1443,7 +1441,7 @@ function deleteRecruitment(id) {
   if (!confirm('确定删除「' + item.title + '」吗？此操作不可撤销。')) return;
   RECRUITMENT_LIST = RECRUITMENT_LIST.filter(r => r.id !== id);
   renderRecruitmentTable();
-  showToast('资讯已删除', 'success');
+  showToast('招生信息已删除', 'success');
 }
 
 function openRecruitment(mode, id) {
@@ -1453,7 +1451,7 @@ function openRecruitment(mode, id) {
 
   // 标题
   document.getElementById('recruitmentTabTitle').textContent =
-    mode === 'create' ? '新增资讯' : (mode === 'edit' ? '编辑资讯' : '资讯详情');
+    mode === 'create' ? '新增招生信息' : (mode === 'edit' ? '编辑招生信息' : '招生信息详情');
 
   const setVal    = (e, v) => { const el = document.getElementById(e); if (el) el.value = v || ''; };
   const pickRadio = (n, v) => { const el = document.querySelector('input[name="' + n + '"][value="' + v + '"]'); if (el) el.checked = true; };
@@ -1462,7 +1460,7 @@ function openRecruitment(mode, id) {
   const today = new Date().toISOString().slice(0,10);
   setVal('rec-title', ''); setVal('rec-summary', '');
   setVal('rec-publish-time', today);
-  pickRadio('rec-lang', 'zh'); pickRadio('rec-type', '学术研究');
+  pickRadio('rec-lang', 'zh'); pickRadio('rec-type', '本科生');
   pickRadio('rec-content-type', 'custom');
   document.getElementById('recEditor').innerHTML = '';
 
@@ -1501,7 +1499,7 @@ function saveRecruitment(mode, id) {
   // 极简校验（演示用）
   const titleEl = document.getElementById('rec-title');
   if (!titleEl.value.trim()) {
-    showToast('请输入资讯标题', 'error');
+    showToast('请输入招生信息标题', 'error');
     titleEl.focus();
     return;
   }
@@ -1510,7 +1508,7 @@ function saveRecruitment(mode, id) {
     summary: document.getElementById('rec-summary').value,
     publishTime: document.getElementById('rec-publish-time').value,
     lang: (document.querySelector('input[name="rec-lang"]:checked') || {}).value || 'zh',
-    type: (document.querySelector('input[name="rec-type"]:checked') || {}).value || '学术研究',
+    type: (document.querySelector('input[name="rec-type"]:checked') || {}).value || '本科生',
     contentType: (document.querySelector('input[name="rec-content-type"]:checked') || {}).value || 'custom',
     content: document.getElementById('recEditor').innerHTML,
   };
@@ -1518,7 +1516,7 @@ function saveRecruitment(mode, id) {
   if (mode === 'edit' && id) {
     const item = RECRUITMENT_LIST.find(r => r.id === id);
     if (item) Object.assign(item, data);
-    showToast('资讯已更新', 'success');
+    showToast('招生信息已更新', 'success');
   } else {
     const newId = Math.max(0, ...RECRUITMENT_LIST.map(r => r.id)) + 1;
     const now = new Date();
@@ -1532,7 +1530,7 @@ function saveRecruitment(mode, id) {
       createdAt: now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()),
       creator: 'admin',
     });
-    showToast('资讯创建成功', 'success');
+    showToast('招生信息创建成功', 'success');
   }
   closeModal('recruitmentModal');
   renderRecruitmentTable();
