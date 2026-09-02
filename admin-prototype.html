@@ -239,16 +239,16 @@ tr:hover td { background: #fafafa; }
 .upload-area .upload-icon { font-size: 24px; opacity: .5; }
 .upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 10px; }
 
-/* 表单左对齐栅格（截图样式：标签固定宽度，右边控件对齐） */
-.form-row.aligned > .form-field {
+/* 表单单列栅格（截图风格：标签固定宽度，右边控件对齐，整列堆叠） */
+.form-column > .form-field {
   display: grid;
-  grid-template-columns: 96px 1fr;
+  grid-template-columns: 110px 1fr;
   align-items: center;
   gap: 16px;
   margin-bottom: 18px;
 }
-.form-row.aligned > .form-field.align-top { align-items: flex-start; }
-.form-row.aligned .form-label { margin: 0; }
+.form-column > .form-field.align-top { align-items: flex-start; padding-top: 4px; }
+.form-column .form-label { margin: 0; text-align: right; }
 </style>
 </head>
 <body>
@@ -806,23 +806,16 @@ tr:hover td { background: #fafafa; }
 
 <!-- New Faculty Modal -->
 <div class="modal-overlay" id="facultyModal">
-  <div class="modal modal-xl">
-    <div class="modal-header">
-      <h3>新建教师</h3>
-      <button class="modal-close" onclick="closeModal('facultyModal')">✕</button>
-    </div>
+  <div class="modal" style="width:620px">
     <div class="modal-body" style="padding:0">
-      <!-- 顶部 Tab 栏（按截图：欢迎 / banner / 人物列表表 / 新建人物） -->
-      <div class="tabs-bar" style="padding:14px 32px; margin-bottom:0">
-        <div class="tab">欢迎</div>
-        <div class="tab">banner</div>
-        <div class="tab">人物列表表</div>
+      <!-- 顶部 Tab 栏：仅保留「新建人物」 -->
+      <div class="tabs-bar" style="padding:18px 28px; margin-bottom:0">
         <div class="tab active">新建人物</div>
       </div>
 
-      <!-- 表单区 -->
-      <div style="padding: 24px 32px 0;">
-        <div class="form-row aligned">
+      <!-- 表单区：单列布局 -->
+      <div style="padding: 18px 28px 4px;">
+        <div class="form-column">
 
           <div class="form-field">
             <label class="form-label"><span class="required">*</span>语言：</label>
@@ -900,7 +893,7 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
     </div>
-    <div class="modal-footer" style="margin-top:24px">
+    <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeModal('facultyModal')">取消</button>
       <button class="btn btn-primary" onclick="closeModal('facultyModal');showToast('教师创建成功！','success')">保存</button>
     </div>
