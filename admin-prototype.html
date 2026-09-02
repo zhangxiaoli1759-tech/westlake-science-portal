@@ -806,7 +806,7 @@ tr:hover td { background: #fafafa; }
 
 <!-- New Faculty Modal -->
 <div class="modal-overlay" id="facultyModal">
-  <div class="modal" style="width:620px">
+  <div class="modal" style="width:680px">
     <div class="modal-body" style="padding:0">
       <!-- 顶部 Tab 栏：仅保留「新建人物」 -->
       <div class="tabs-bar" style="padding:18px 28px; margin-bottom:0">
@@ -818,15 +818,15 @@ tr:hover td { background: #fafafa; }
         <div class="form-column">
 
           <div class="form-field">
-            <label class="form-label"><span class="required">*</span>语言：</label>
+            <label class="form-label"><span class="required">*</span>语言</label>
             <div class="radio-group">
-              <label class="radio-item"><input type="radio" name="fac-lang" checked>中文</label>
-              <label class="radio-item"><input type="radio" name="fac-lang">English</label>
+              <label class="radio-item"><input type="radio" name="fac-lang" value="zh" checked onchange="syncFacultyLang()">中文</label>
+              <label class="radio-item"><input type="radio" name="fac-lang" value="en" onchange="syncFacultyLang()">English</label>
             </div>
           </div>
 
           <div class="form-field">
-            <label class="form-label"><span class="required">*</span>身份：</label>
+            <label class="form-label"><span class="required">*</span>身份</label>
             <select class="form-select">
               <option>请选择身份</option>
               <option>教授</option>
@@ -838,30 +838,30 @@ tr:hover td { background: #fafafa; }
           </div>
 
           <div class="form-field">
-            <label class="form-label"><span class="required">*</span>姓名：</label>
+            <label class="form-label"><span class="required">*</span>姓名</label>
             <div class="radio-group">
-              <label class="radio-item"><input type="radio" name="fac-name-type" checked>中文名</label>
-              <label class="radio-item"><input type="radio" name="fac-name-type">英文名</label>
+              <label class="radio-item"><input type="radio" name="fac-name-type" value="zh" checked onchange="syncFacultyNameFields()">中文名</label>
+              <label class="radio-item"><input type="radio" name="fac-name-type" value="en" onchange="syncFacultyNameFields()">英文名</label>
             </div>
           </div>
 
           <div class="form-field">
-            <label class="form-label"><span class="required">*</span>姓：</label>
-            <input class="form-input" placeholder="请输入姓">
+            <label class="form-label" id="fac-label-last"><span class="required">*</span>姓</label>
+            <input class="form-input" id="fac-lastname" placeholder="请输入姓">
           </div>
 
           <div class="form-field">
-            <label class="form-label">名：</label>
-            <input class="form-input" placeholder="请输入名">
+            <label class="form-label" id="fac-label-first">名</label>
+            <input class="form-input" id="fac-firstname" placeholder="请输入名">
           </div>
 
           <div class="form-field">
-            <label class="form-label">第二名称：</label>
-            <input class="form-input" placeholder="请输入第二名称">
+            <label class="form-label" id="fac-label-second">第二名称</label>
+            <input class="form-input" id="fac-secondname" placeholder="请输入第二名称">
           </div>
 
           <div class="form-field align-top">
-            <label class="form-label"><span class="required">*</span>照片：</label>
+            <label class="form-label"><span class="required">*</span>照片</label>
             <div>
               <label class="upload-area">
                 <span class="upload-icon">📷</span>
@@ -873,17 +873,17 @@ tr:hover td { background: #fafafa; }
           </div>
 
           <div class="form-field">
-            <label class="form-label">电子邮件：</label>
+            <label class="form-label">电子邮件</label>
             <input class="form-input" placeholder="请输入电子邮件">
           </div>
 
           <div class="form-field align-top">
-            <label class="form-label"><span class="required">*</span>职位：</label>
+            <label class="form-label"><span class="required">*</span>职位</label>
             <textarea class="form-textarea" placeholder="请输入职位" style="min-height:90px"></textarea>
           </div>
 
           <div class="form-field">
-            <label class="form-label">内容：</label>
+            <label class="form-label">内容</label>
             <div class="radio-group">
               <label class="radio-item"><input type="radio" name="fac-content-type">自定义</label>
               <label class="radio-item"><input type="radio" name="fac-content-type">外链</label>
@@ -968,6 +968,43 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
     if (e.target === overlay) overlay.classList.remove('show');
   });
 });
+
+/* ===== 新建教师弹窗：姓名类型联动 =====
+   切「英文名」→ 姓/名/第二名称 的 label 与 placeholder 同步切英文
+   切「语言 = English」→ 自动选中英文名，保持表单语言一致
+*/
+function syncFacultyNameFields() {
+  const picked = document.querySelector('input[name="fac-name-type"]:checked');
+  const isEn = !!picked && picked.value === 'en';
+
+  const setLabel = (id, html) => { const el = document.getElementById(id); if (el) el.innerHTML = html; };
+  const setPh    = (id, text) => { const el = document.getElementById(id); if (el) el.placeholder = text; };
+
+  if (isEn) {
+    setLabel('fac-label-last',   '<span class="required">*</span>Last Name');
+    setLabel('fac-label-first',  'First Name');
+    setLabel('fac-label-second', 'Middle Name');
+    setPh('fac-lastname',   'e.g. Smith');
+    setPh('fac-firstname',  'e.g. John');
+    setPh('fac-secondname', 'e.g. Michael (optional)');
+  } else {
+    setLabel('fac-label-last',   '<span class="required">*</span>姓');
+    setLabel('fac-label-first',  '名');
+    setLabel('fac-label-second', '第二名称');
+    setPh('fac-lastname',   '请输入姓');
+    setPh('fac-firstname',  '请输入名');
+    setPh('fac-secondname', '请输入第二名称');
+  }
+}
+
+function syncFacultyLang() {
+  const picked = document.querySelector('input[name="fac-lang"]:checked');
+  if (!picked) return;
+  const target = picked.value === 'en' ? 'en' : 'zh';
+  const nameRadio = document.querySelector(`input[name="fac-name-type"][value="${target}"]`);
+  if (nameRadio) nameRadio.checked = true;
+  syncFacultyNameFields();
+}
 </script>
 
 </body>
