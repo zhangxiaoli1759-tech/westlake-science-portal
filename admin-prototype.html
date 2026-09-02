@@ -904,6 +904,15 @@ tr:hover td { background: #fafafa; }
             </div>
           </div>
 
+          <!-- 工作方式：单选，默认主聘 -->
+          <div class="form-field">
+            <label class="form-label">工作方式</label>
+            <div class="radio-group" id="fac-workmode">
+              <label class="radio-item"><input type="radio" name="fac-work-mode" value="main" checked>主聘</label>
+              <label class="radio-item"><input type="radio" name="fac-work-mode" value="part">兼聘</label>
+            </div>
+          </div>
+
           <div class="form-field">
             <label class="form-label">电子邮件</label>
             <input class="form-input" id="fac-email" placeholder="请输入电子邮件">
@@ -1047,10 +1056,10 @@ function updateOfficeCount() {
 
 /* ===== 教师：新增 / 编辑 / 详情 三态复用同一个弹窗 ===== */
 const FACULTY_DEMO = {
-  '张教授':   { lang:'zh', role:'教授',     last:'张', first:'教授',   second:'', office:'云谷校区 J3-A501', email:'zhang@westlake.edu.cn', position:'教授、博士生导师\n研究方向：凝聚态物理', content:'custom' },
-  '李教授':   { lang:'zh', role:'教授',     last:'李', first:'教授',   second:'', office:'云谷校区 J3-B208', email:'li@westlake.edu.cn',    position:'教授、博士生导师\n研究方向：有机化学',   content:'custom' },
-  '王副教授': { lang:'zh', role:'副教授',   last:'王', first:'副教授', second:'', office:'云谷校区 J2-C315', email:'wang@westlake.edu.cn',  position:'副教授\n研究方向：天体物理',            content:'custom' },
-  '陈博士':   { lang:'zh', role:'助理教授', last:'陈', first:'博士',   second:'', office:'云谷校区 J1-D102', email:'chen@westlake.edu.cn',  position:'助理教授\n研究方向：量子信息',          content:'link'   },
+  '张教授':   { lang:'zh', role:'教授',     last:'张', first:'教授',   second:'', office:'云谷校区 J3-A501', workmode:'main', email:'zhang@westlake.edu.cn', position:'教授、博士生导师\n研究方向：凝聚态物理', content:'custom' },
+  '李教授':   { lang:'zh', role:'教授',     last:'李', first:'教授',   second:'', office:'云谷校区 J3-B208', workmode:'main', email:'li@westlake.edu.cn',    position:'教授、博士生导师\n研究方向：有机化学',   content:'custom' },
+  '王副教授': { lang:'zh', role:'副教授',   last:'王', first:'副教授', second:'', office:'云谷校区 J2-C315', workmode:'part', email:'wang@westlake.edu.cn',  position:'副教授\n研究方向：天体物理',            content:'custom' },
+  '陈博士':   { lang:'zh', role:'助理教授', last:'陈', first:'博士',   second:'', office:'云谷校区 J1-D102', workmode:'part', email:'chen@westlake.edu.cn',  position:'助理教授\n研究方向：量子信息',          content:'link'   },
 };
 
 function openFaculty(mode, name) {
@@ -1070,11 +1079,13 @@ function openFaculty(mode, name) {
     ['fac-lastname','fac-firstname','fac-secondname','fac-office','fac-email','fac-position','fac-role']
       .forEach(id => setVal(id, ''));
     pickRadio('fac-lang','zh'); pickRadio('fac-name-type','zh'); pickRadio('fac-content-type','custom');
+    pickRadio('fac-work-mode','main');   // 默认主聘
   } else {
     setVal('fac-lastname', d.last);   setVal('fac-firstname', d.first); setVal('fac-secondname', d.second);
     setVal('fac-office',   d.office); setVal('fac-email',     d.email); setVal('fac-position',   d.position);
     setVal('fac-role',     d.role);
     pickRadio('fac-lang', d.lang); pickRadio('fac-name-type', d.lang); pickRadio('fac-content-type', d.content);
+    pickRadio('fac-work-mode', d.workmode || 'main');
   }
   syncFacultyNameFields();
   updateOfficeCount();
