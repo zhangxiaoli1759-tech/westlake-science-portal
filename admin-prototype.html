@@ -345,11 +345,20 @@ tr:hover td { background: #fafafa; }
 .link-action {
   background: none; border: none; padding: 0; margin: 0 4px;
   color: var(--primary); cursor: pointer; font-size: 13px;
+  line-height: 1; vertical-align: baseline;
 }
-.link-action:hover { text-decoration: underline; }
+.link-action:hover { color: var(--primary-light); }
 .link-action.danger { color: var(--danger); }
 .link-action.danger:hover { color: #ff7875; }
 .dl-status, .dl-lang { font-size: 13px; color: var(--text); }
+
+/* 表格内操作栏单元格：与其他单元格严格对齐 */
+td.actions {
+  vertical-align: middle;
+}
+td.actions .actions {
+  display: flex; gap: 0; align-items: center;
+}
 
 /* 中文 / 英文 切换 tab（资料下载用） */
 .lang-tab {
@@ -991,7 +1000,6 @@ tr:hover td { background: #fafafa; }
               <tr>
                 <th style="min-width:220px">标题</th>
                 <th style="width:80px">语言</th>
-                <th style="width:70px">排序</th>
                 <th style="width:100px">发布状态</th>
                 <th style="width:120px">发布时间</th>
                 <th style="width:100px">创建人</th>
@@ -1697,17 +1705,17 @@ renderRecruitmentTable();
 /* ===== 资料下载：资料列表 + 新增/编辑/详情 + 发布/取消发布 ===== */
 let DOWNLOADS_LIST = [
   // 已发布（演示数据）
-  { id: 1, title:'理学院宣传册',                 lang:'zh', order: 6,  status:'published', publishTime:'2026-03-05', createdAt:'2025-03-14 22:40:01', creator:'admin' },
-  { id: 2, title:'化学系宣传册',                 lang:'zh', order:17,  status:'published', publishTime:'2025-06-21', createdAt:'2025-03-09 00:53:47', creator:'admin' },
+  { id: 1, title:'理学院宣传册',                 lang:'zh', status:'published', publishTime:'2026-03-05', createdAt:'2025-03-14 22:40:01', creator:'admin' },
+  { id: 2, title:'化学系宣传册',                 lang:'zh', status:'published', publishTime:'2025-06-21', createdAt:'2025-03-09 00:53:47', creator:'admin' },
   // 未发布
-  { id: 3, title:'test-发布时间',                lang:'zh', order:14,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 15:19:10', creator:'admin' },
-  { id: 4, title:'化学系宣传化学系宣传',         lang:'zh', order:15,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:35:13', creator:'admin' },
-  { id: 5, title:'理学院宣传册',                 lang:'zh', order:16,  status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:32:51', creator:'admin' },
-  { id: 6, title:'发布时间2',                    lang:'zh', order: 9,  status:'draft',     publishTime:'2025-03-17', createdAt:'2025-03-14 15:24:33', creator:'admin' },
-  { id: 7, title:'test1 发不时间1',              lang:'zh', order: 2,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-08-18 14:08:29', creator:'admin' },
-  { id: 8, title:'test1 发不时间1',              lang:'zh', order:10,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:02', creator:'admin' },
-  { id: 9, title:'test1 发不时间1',              lang:'zh', order:11,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:01', creator:'admin' },
-  { id:10, title:'test1 发不时间1',              lang:'zh', order:12,  status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:23:47', creator:'admin' },
+  { id: 3, title:'test-发布时间',                lang:'zh', status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 15:19:10', creator:'admin' },
+  { id: 4, title:'化学系宣传化学系宣传',         lang:'zh', status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:35:13', creator:'admin' },
+  { id: 5, title:'理学院宣传册',                 lang:'zh', status:'draft',     publishTime:'2025-06-12', createdAt:'2025-03-14 00:32:51', creator:'admin' },
+  { id: 6, title:'发布时间2',                    lang:'zh', status:'draft',     publishTime:'2025-03-17', createdAt:'2025-03-14 15:24:33', creator:'admin' },
+  { id: 7, title:'test1 发不时间1',              lang:'zh', status:'draft',     publishTime:'2025-03-16', createdAt:'2025-08-18 14:08:29', creator:'admin' },
+  { id: 8, title:'test1 发不时间1',              lang:'zh', status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:02', creator:'admin' },
+  { id: 9, title:'test1 发不时间1',              lang:'zh', status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:24:01', creator:'admin' },
+  { id:10, title:'test1 发不时间1',              lang:'zh', status:'draft',     publishTime:'2025-03-16', createdAt:'2025-03-14 15:23:47', creator:'admin' },
 ];
 
 // 语言 tab 状态（默认中文）
@@ -1741,12 +1749,11 @@ function renderDownloadsTable() {
     return '<tr>'
       + '<td title="' + r.title + '" style="max-width:320px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.title + '</td>'
       + '<td>' + langText + '</td>'
-      + '<td>' + r.order + '</td>'
       + '<td>' + statusText + '</td>'
       + '<td>' + r.publishTime + '</td>'
       + '<td>' + r.creator + '</td>'
       + '<td>' + r.createdAt + '</td>'
-      + '<td class="actions">' + actions + '</td>'
+      + '<td class="actions"><div class="actions">' + actions + '</div></td>'
       + '</tr>';
   }).join('');
 }
@@ -1833,10 +1840,7 @@ function saveDownload(mode, id) {
 
   if (mode === 'edit' && id) {
     const item = DOWNLOADS_LIST.find(d => d.id === id);
-    if (item) {
-      Object.assign(item, data);
-      // order 保留用户已有值（演示：此弹窗未含 order）
-    }
+    if (item) Object.assign(item, data);
     showToast('资料已更新', 'success');
   } else {
     const newId = Math.max(0, ...DOWNLOADS_LIST.map(d => d.id)) + 1;
@@ -1845,7 +1849,6 @@ function saveDownload(mode, id) {
     DOWNLOADS_LIST.unshift({
       id: newId,
       ...data,
-      order: Math.max(0, ...DOWNLOADS_LIST.map(d => d.order || 0)) + 1,
       status: 'draft',
       createdAt: now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds()),
       creator: 'admin',
