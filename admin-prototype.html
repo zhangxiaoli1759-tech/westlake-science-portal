@@ -249,6 +249,28 @@ tr:hover td { background: #fafafa; }
 }
 .form-column > .form-field.align-top { align-items: flex-start; padding-top: 4px; }
 .form-column .form-label { margin: 0; text-align: right; }
+
+/* 输入字数统计（办公室字段 50 字上限） */
+.input-wrap { position: relative; width: 100%; }
+.input-wrap .form-input { padding-right: 58px; }
+.char-count {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 11px; color: var(--text-muted); pointer-events: none;
+  font-variant-numeric: tabular-nums;
+}
+.char-count.near-limit { color: var(--warning, #e6a23c); }
+.char-count.at-limit   { color: var(--danger,  #f56c6c); }
+
+/* 详情模式：只读态 */
+.form-column.is-readonly .form-input,
+.form-column.is-readonly .form-select,
+.form-column.is-readonly .form-textarea {
+  background: #f5f7fa; color: #606266; cursor: default; border-color: #e4e7ed;
+}
+.form-column.is-readonly .upload-area { opacity: .55; pointer-events: none; }
+.form-column.is-readonly .char-count,
+.form-column.is-readonly .upload-hint { display: none; }
+.form-column.is-readonly .radio-item { color: #606266; cursor: default; }
 </style>
 </head>
 <body>
@@ -597,7 +619,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb">首页 / 内容管理 / <span>教师队伍</span></div>
       <div class="page-header"><h2>教师队伍</h2><p>管理教师信息，支持分类展示（教授/副教授/讲师等）</p></div>
       <div class="card">
-        <div class="card-header"><h3>教师列表</h3><button class="btn btn-primary" onclick="showModal('facultyModal')">+ 新增教师</button></div>
+        <div class="card-header"><h3>教师列表</h3><button class="btn btn-primary" onclick="openFaculty('create')">+ 新增教师</button></div>
         <div class="card-body">
           <div class="toolbar">
             <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
@@ -607,10 +629,10 @@ tr:hover td { background: #fafafa; }
           <table>
             <thead><tr><th>姓名</th><th>职称</th><th>研究方向</th><th>所属院系</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>理学院</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
-              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>化学系</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
-              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>天文系</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
-              <tr><td>陈博士</td><td><span class="tag tag-warning">助理教授</span></td><td>量子信息</td><td>理学院</td><td>3</td><td><span class="tag tag-warning">隐藏</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>理学院</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','张教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','张教授')">详情</button></td></tr>
+              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>化学系</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','李教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','李教授')">详情</button></td></tr>
+              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>天文系</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','王副教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','王副教授')">详情</button></td></tr>
+              <tr><td>陈博士</td><td><span class="tag tag-warning">助理教授</span></td><td>量子信息</td><td>理学院</td><td>3</td><td><span class="tag tag-warning">隐藏</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','陈博士')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','陈博士')">详情</button></td></tr>
             </tbody>
           </table>
           <div class="pagination"><span>共 58 条</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>›</button></div>
@@ -714,7 +736,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb">首页 / 教师队伍 / <span>教师队伍</span></div>
       <div class="page-header"><h2>教师队伍</h2><p>官网前台教师展示管理，支持按类别筛选和排序</p></div>
       <div class="card">
-        <div class="card-header"><h3>师资展示列表</h3><button class="btn btn-primary" onclick="showModal('facultyModal')">+ 新增展示</button></div>
+        <div class="card-header"><h3>师资展示列表</h3><button class="btn btn-primary" onclick="openFaculty('create')">+ 新增展示</button></div>
         <div class="card-body">
           <div class="toolbar">
             <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索教师姓名..."></div>
@@ -723,9 +745,9 @@ tr:hover td { background: #fafafa; }
           <table>
             <thead><tr><th>姓名</th><th>职称</th><th>研究方向</th><th>头衔</th><th>排序</th><th>状态</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>国家杰青</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
-              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>长江学者</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
-              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>优青</td><td>3</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm">编辑</button><button class="btn btn-outline btn-sm">详情</button></td></tr>
+              <tr><td>张教授</td><td><span class="tag tag-danger">教授</span></td><td>凝聚态物理</td><td>国家杰青</td><td>1</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','张教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','张教授')">详情</button></td></tr>
+              <tr><td>李教授</td><td><span class="tag tag-danger">教授</span></td><td>有机化学</td><td>长江学者</td><td>2</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','李教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','李教授')">详情</button></td></tr>
+              <tr><td>王副教授</td><td><span class="tag tag-info">副教授</span></td><td>天体物理</td><td>优青</td><td>3</td><td><span class="tag tag-success">展示</span></td><td class="actions"><button class="btn btn-outline btn-sm" onclick="openFaculty('edit','王副教授')">编辑</button><button class="btn btn-outline btn-sm" onclick="openFaculty('view','王副教授')">详情</button></td></tr>
             </tbody>
           </table>
         </div>
@@ -808,14 +830,14 @@ tr:hover td { background: #fafafa; }
 <div class="modal-overlay" id="facultyModal">
   <div class="modal" style="width:680px">
     <div class="modal-body" style="padding:0">
-      <!-- 顶部 Tab 栏：仅保留「新建人物」 -->
+      <!-- 顶部 Tab 栏：新建 / 编辑 / 详情 三态复用 -->
       <div class="tabs-bar" style="padding:18px 28px; margin-bottom:0">
-        <div class="tab active">新建人物</div>
+        <div class="tab active" id="fac-tab-title">新建人物</div>
       </div>
 
       <!-- 表单区：单列布局 -->
       <div style="padding: 18px 28px 4px;">
-        <div class="form-column">
+        <div class="form-column" id="facultyForm">
 
           <div class="form-field">
             <label class="form-label"><span class="required">*</span>语言</label>
@@ -827,13 +849,13 @@ tr:hover td { background: #fafafa; }
 
           <div class="form-field">
             <label class="form-label"><span class="required">*</span>身份</label>
-            <select class="form-select">
-              <option>请选择身份</option>
-              <option>教授</option>
-              <option>副教授</option>
-              <option>助理教授</option>
-              <option>讲师</option>
-              <option>研究员</option>
+            <select class="form-select" id="fac-role">
+              <option value="">请选择身份</option>
+              <option value="教授">教授</option>
+              <option value="副教授">副教授</option>
+              <option value="助理教授">助理教授</option>
+              <option value="讲师">讲师</option>
+              <option value="研究员">研究员</option>
             </select>
           </div>
 
@@ -863,40 +885,47 @@ tr:hover td { background: #fafafa; }
           <div class="form-field align-top">
             <label class="form-label"><span class="required">*</span>照片</label>
             <div>
-              <label class="upload-area">
+              <label class="upload-area" id="fac-upload">
                 <span class="upload-icon">📷</span>
                 <span>图片上传</span>
-                <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+                <input type="file" id="fac-photo" accept="image/jpeg,image/jpg,image/png" style="display:none">
               </label>
               <div class="upload-hint">请上传照片，格式支持 JPG、JPEG、PNG</div>
             </div>
           </div>
 
+          <!-- 办公室：文本框，限制 50 字 -->
+          <div class="form-field">
+            <label class="form-label">办公室</label>
+            <div class="input-wrap">
+              <input class="form-input" id="fac-office" maxlength="50" placeholder="请输入办公室"
+                     oninput="updateOfficeCount()">
+              <span class="char-count" id="fac-office-count">0/50</span>
+            </div>
+          </div>
+
           <div class="form-field">
             <label class="form-label">电子邮件</label>
-            <input class="form-input" placeholder="请输入电子邮件">
+            <input class="form-input" id="fac-email" placeholder="请输入电子邮件">
           </div>
 
           <div class="form-field align-top">
             <label class="form-label"><span class="required">*</span>职位</label>
-            <textarea class="form-textarea" placeholder="请输入职位" style="min-height:90px"></textarea>
+            <textarea class="form-textarea" id="fac-position" placeholder="请输入职位" style="min-height:90px"></textarea>
           </div>
 
           <div class="form-field">
             <label class="form-label">内容</label>
             <div class="radio-group">
-              <label class="radio-item"><input type="radio" name="fac-content-type">自定义</label>
-              <label class="radio-item"><input type="radio" name="fac-content-type">外链</label>
+              <label class="radio-item"><input type="radio" name="fac-content-type" value="custom" checked>自定义</label>
+              <label class="radio-item"><input type="radio" name="fac-content-type" value="link">外链</label>
             </div>
           </div>
 
         </div>
       </div>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-outline" onclick="closeModal('facultyModal')">取消</button>
-      <button class="btn btn-primary" onclick="closeModal('facultyModal');showToast('教师创建成功！','success')">保存</button>
-    </div>
+    <div class="modal-footer" id="facultyFooter"></div>
   </div>
 </div>
 
@@ -1004,6 +1033,72 @@ function syncFacultyLang() {
   const nameRadio = document.querySelector(`input[name="fac-name-type"][value="${target}"]`);
   if (nameRadio) nameRadio.checked = true;
   syncFacultyNameFields();
+}
+
+/* ===== 办公室字段：50 字上限 + 实时计数 ===== */
+function updateOfficeCount() {
+  const el = document.getElementById('fac-office');
+  const tag = document.getElementById('fac-office-count');
+  if (!el || !tag) return;
+  const n = el.value.length;                 // maxlength=50，超出不会录入
+  tag.textContent = n + '/50';
+  tag.className = 'char-count' + (n >= 50 ? ' at-limit' : (n >= 40 ? ' near-limit' : ''));
+}
+
+/* ===== 教师：新增 / 编辑 / 详情 三态复用同一个弹窗 ===== */
+const FACULTY_DEMO = {
+  '张教授':   { lang:'zh', role:'教授',     last:'张', first:'教授',   second:'', office:'云谷校区 J3-A501', email:'zhang@westlake.edu.cn', position:'教授、博士生导师\n研究方向：凝聚态物理', content:'custom' },
+  '李教授':   { lang:'zh', role:'教授',     last:'李', first:'教授',   second:'', office:'云谷校区 J3-B208', email:'li@westlake.edu.cn',    position:'教授、博士生导师\n研究方向：有机化学',   content:'custom' },
+  '王副教授': { lang:'zh', role:'副教授',   last:'王', first:'副教授', second:'', office:'云谷校区 J2-C315', email:'wang@westlake.edu.cn',  position:'副教授\n研究方向：天体物理',            content:'custom' },
+  '陈博士':   { lang:'zh', role:'助理教授', last:'陈', first:'博士',   second:'', office:'云谷校区 J1-D102', email:'chen@westlake.edu.cn',  position:'助理教授\n研究方向：量子信息',          content:'link'   },
+};
+
+function openFaculty(mode, name) {
+  const form = document.getElementById('facultyForm');
+  const isView = (mode === 'view');
+  const d = FACULTY_DEMO[name] || null;
+
+  // ① 顶部 tab 标题
+  document.getElementById('fac-tab-title').textContent =
+    mode === 'create' ? '新建人物' : (mode === 'edit' ? '编辑人物' : '人物详情');
+
+  // ② 清空（新增）或回填（编辑/详情）
+  const setVal    = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+  const pickRadio = (n, v)  => { const el = document.querySelector(`input[name="${n}"][value="${v}"]`); if (el) el.checked = true; };
+
+  if (mode === 'create' || !d) {
+    ['fac-lastname','fac-firstname','fac-secondname','fac-office','fac-email','fac-position','fac-role']
+      .forEach(id => setVal(id, ''));
+    pickRadio('fac-lang','zh'); pickRadio('fac-name-type','zh'); pickRadio('fac-content-type','custom');
+  } else {
+    setVal('fac-lastname', d.last);   setVal('fac-firstname', d.first); setVal('fac-secondname', d.second);
+    setVal('fac-office',   d.office); setVal('fac-email',     d.email); setVal('fac-position',   d.position);
+    setVal('fac-role',     d.role);
+    pickRadio('fac-lang', d.lang); pickRadio('fac-name-type', d.lang); pickRadio('fac-content-type', d.content);
+  }
+  syncFacultyNameFields();
+  updateOfficeCount();
+
+  // ③ 详情模式：整表只读
+  form.classList.toggle('is-readonly', isView);
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'file') return;   // file 由 CSS 的 pointer-events 控制
+    el.disabled = isView;
+  });
+
+  // ④ 底部按钮：详情只有一个「关闭」
+  document.getElementById('facultyFooter').innerHTML = isView
+    ? '<button class="btn btn-primary" onclick="closeModal(\'facultyModal\')">关闭</button>'
+    : '<button class="btn btn-outline" onclick="closeModal(\'facultyModal\')">取消</button>' +
+      '<button class="btn btn-primary" onclick="saveFaculty(\'' + mode + '\')">' +
+      (mode === 'edit' ? '保存修改' : '保存') + '</button>';
+
+  showModal('facultyModal');
+}
+
+function saveFaculty(mode) {
+  closeModal('facultyModal');
+  showToast(mode === 'edit' ? '教师信息已更新！' : '教师创建成功！', 'success');
 }
 </script>
 
