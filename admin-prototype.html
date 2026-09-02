@@ -271,6 +271,74 @@ tr:hover td { background: #fafafa; }
 .form-column.is-readonly .char-count,
 .form-column.is-readonly .upload-hint { display: none; }
 .form-column.is-readonly .radio-item { color: #606266; cursor: default; }
+
+/* ====== 招生培养：富文本编辑器（WangEditor 风格简化版） ====== */
+.editor-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  background: #fafbfc;
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+}
+.editor-toolbar button {
+  width: 28px; height: 28px;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #606266;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 13px;
+}
+.editor-toolbar button:hover { background: #fff; border-color: var(--border); color: var(--primary); }
+.editor-toolbar .tb-sep {
+  width: 1px; height: 18px; background: var(--border); margin: 0 4px;
+}
+.editor-area {
+  min-height: 160px;
+  border: 1px solid var(--border);
+  border-radius: 0 0 6px 6px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  outline: none;
+  background: #fff;
+  max-height: 280px;
+  overflow-y: auto;
+}
+.editor-area:focus { border-color: var(--primary); }
+.editor-area:empty::before {
+  content: attr(data-placeholder);
+  color: #c0c4cc;
+}
+.form-column.is-readonly .editor-toolbar,
+.form-column.is-readonly .editor-area { display: none; }
+.editor-readonly {
+  display: none;
+  padding: 10px 12px;
+  background: #f5f7fa;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #606266;
+  min-height: 60px;
+  max-height: 220px;
+  overflow-y: auto;
+  border: 1px solid #e4e7ed;
+}
+.form-column.is-readonly .editor-readonly { display: block; }
+
+/* 列表操作按钮颜色区分 */
+.btn-publish   { background: #52c41a; color: #fff; border: 1px solid #52c41a; }
+.btn-publish:hover   { background: #73d13d; border-color: #73d13d; }
+.btn-unpublish { background: #faad14; color: #fff; border: 1px solid #faad14; }
+.btn-unpublish:hover { background: #ffc53d; border-color: #ffc53d; }
+.btn-delete    { background: #ff4d4f; color: #fff; border: 1px solid #ff4d4f; }
+.btn-delete:hover    { background: #ff7875; border-color: #ff7875; }
+
+/* 表格列悬停高亮（交互反馈） */
+#recruitmentTbody tr:hover { background: #fafbfc; }
 </style>
 </head>
 <body>
@@ -385,6 +453,11 @@ tr:hover td { background: #fafafa; }
             <span class="icon">🎉</span>活动信息
           </div>
         </div>
+      </div>
+
+      <!-- 招生培养（一级菜单，资讯列表，带发布/取消发布） -->
+      <div class="menu-item" data-page="recruitment" onclick="navigate('recruitment')">
+        <span class="icon">🎓</span>招生培养
       </div>
 
       <div class="menu-group">
@@ -797,6 +870,66 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
     </div>
+
+    <!-- Page: 招生培养（一级菜单，资讯列表） -->
+    <div class="content-page" id="page-recruitment">
+      <div class="breadcrumb">首页 / <span>招生培养</span></div>
+      <div class="page-header">
+        <h2>招生培养</h2>
+        <p>发布与维护招生相关的资讯文章，支持发布 / 取消发布生命周期管理</p>
+      </div>
+
+      <!-- 筛选工具栏 -->
+      <div class="card">
+        <div class="card-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <select class="form-select" style="width:auto">
+            <option>全部语言</option><option>中文</option><option>English</option>
+          </select>
+          <select class="form-select" style="width:auto">
+            <option>全部类型</option><option>学术研究</option><option>人物故事</option><option>师生活动</option><option>交流合作</option><option>通知公告</option>
+          </select>
+          <select class="form-select" style="width:auto">
+            <option>全部状态</option><option>未发布</option><option>已发布</option>
+          </select>
+          <input class="form-input" placeholder="按标题搜索…" style="flex:1;min-width:200px">
+          <button class="btn btn-outline">查询</button>
+          <button class="btn btn-outline">重置</button>
+        </div>
+      </div>
+
+      <!-- 列表 -->
+      <div class="card">
+        <div class="card-header">
+          <h3>资讯列表</h3>
+          <button class="btn btn-primary" onclick="openRecruitment('create')">+ 新增资讯</button>
+        </div>
+        <div class="card-body" style="padding:0">
+          <div style="overflow-x:auto">
+          <table id="recruitmentTable">
+            <thead>
+              <tr>
+                <th style="width:50px">序号</th>
+                <th style="min-width:200px">标题</th>
+                <th style="width:80px">语言</th>
+                <th style="width:120px">类型</th>
+                <th style="width:100px">发布状态</th>
+                <th style="width:80px">点击数</th>
+                <th style="width:150px">最新发布时间</th>
+                <th style="width:110px">发布时间</th>
+                <th style="width:150px">创建时间</th>
+                <th style="width:90px">创建人</th>
+                <th style="width:200px">操作</th>
+              </tr>
+            </thead>
+            <tbody id="recruitmentTbody">
+              <!-- 由 JS 渲染 -->
+            </tbody>
+          </table>
+          </div>
+          <div class="pagination"><span id="recruitmentTotal">共 0 条</span><button disabled>‹</button><button class="active">1</button><button>›</button></div>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 
@@ -935,6 +1068,118 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
     <div class="modal-footer" id="facultyFooter"></div>
+  </div>
+</div>
+
+<!-- ====== 招生培养 弹窗（按截图 1:1） ====== -->
+<div class="modal-overlay" id="recruitmentModal">
+  <div class="modal modal-xl" style="width:880px">
+    <div class="modal-header">
+      <h3 id="recruitmentTabTitle">新增资讯</h3>
+      <button class="modal-close" onclick="closeModal('recruitmentModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-column" id="recruitmentForm">
+
+        <!-- 1. 语言 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>语言</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="rec-lang" value="zh" checked>中文</label>
+            <label class="radio-item"><input type="radio" name="rec-lang" value="en">English</label>
+          </div>
+        </div>
+
+        <!-- 2. 资讯标题 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>资讯标题</label>
+          <input class="form-input" id="rec-title" placeholder="请输入资讯标题">
+        </div>
+
+        <!-- 3. 简介（按截图：单行 input，不是 textarea） -->
+        <div class="form-field">
+          <label class="form-label">简介</label>
+          <input class="form-input" id="rec-summary" placeholder="请输入简介">
+        </div>
+
+        <!-- 4. 类型（5 选 1） -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>类型</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="rec-type" value="学术研究" checked>学术研究</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="人物故事">人物故事</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="师生活动">师生活动</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="交流合作">交流合作</label>
+            <label class="radio-item"><input type="radio" name="rec-type" value="通知公告">通知公告</label>
+          </div>
+        </div>
+
+        <!-- 5. Web 端图片（dashed 上传 + 完整格式说明） -->
+        <div class="form-field align-top">
+          <label class="form-label">Web端图片</label>
+          <div>
+            <label class="upload-area" id="rec-upload">
+              <span>图片上传</span>
+              <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+            </label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG、PNG 尺寸：510px*315px 大小 不能超过2MB 最多上传一份</div>
+          </div>
+        </div>
+
+        <!-- 6. 发布时间（日期，默认今天） -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>发布时间</label>
+          <input class="form-input" type="date" id="rec-publish-time">
+        </div>
+
+        <!-- 7. 内容类型 -->
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>内容类型</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="rec-content-type" value="custom" checked>自定义</label>
+            <label class="radio-item"><input type="radio" name="rec-content-type" value="link">外链</label>
+          </div>
+        </div>
+
+        <!-- 8. 内容（富文本 mock：工具栏 + 编辑区） -->
+        <div class="form-field align-top">
+          <label class="form-label">内容</label>
+          <div class="editor-wrap" style="width:100%">
+            <div class="editor-toolbar" id="recEditorToolbar">
+              <button type="button" title="撤销" onclick="editorCmd('undo')">↶</button>
+              <button type="button" title="重做" onclick="editorCmd('redo')">↷</button>
+              <span class="tb-sep"></span>
+              <button type="button" title="标题" onclick="editorCmd('formatBlock','H2')">H</button>
+              <button type="button" title="加粗" onclick="editorCmd('bold')"><b>B</b></button>
+              <button type="button" title="斜体" onclick="editorCmd('italic')"><i>I</i></button>
+              <button type="button" title="字体" onclick="editorCmd('fontName','楷体')"><b>F</b></button>
+              <button type="button" title="字号" onclick="editorCmd('fontSize','4')"><b>T</b><sub>1</sub></button>
+              <button type="button" title="下划线" onclick="editorCmd('underline')"><u>U</u></button>
+              <button type="button" title="删除线" onclick="editorCmd('strikeThrough')"><s>S</s></button>
+              <span class="tb-sep"></span>
+              <button type="button" title="图片" onclick="alert('演示模式：图片上传未启用')">🖼</button>
+              <button type="button" title="链接" onclick="editorCmd('createLink','https://')">🔗</button>
+              <button type="button" title="有序列表" onclick="editorCmd('insertOrderedList')">1.</button>
+              <button type="button" title="引用" onclick="editorCmd('formatBlock','BLOCKQUOTE')">"</button>
+              <button type="button" title="表格" onclick="editorCmd('insertHTML','<table border=1 style=border-collapse:collapse><tr><td>单元格</td></tr></table>')">⊞</button>
+              <button type="button" title="删除线" onclick="editorCmd('strikeThrough')"><s>S</s></button>
+              <button type="button" title="对齐" onclick="editorCmd('justifyFull')">≡</button>
+              <button type="button" title="清除格式" onclick="editorCmd('removeFormat')">Tx</button>
+              <button type="button" title="画笔" onclick="editorCmd('hiliteColor','#fff59d')">🖌</button>
+              <button type="button" title="表情" onclick="editorCmd('insertText','😀')">😊</button>
+              <button type="button" title="代码" onclick="editorCmd('formatBlock','PRE')">&lt;/&gt;</button>
+              <button type="button" title="分隔线" onclick="editorCmd('insertHorizontalRule')">—</button>
+              <button type="button" title="链接2" onclick="editorCmd('createLink','https://')">🔗</button>
+              <button type="button" title="全屏" onclick="editorCmd('removeFormat')">⛶</button>
+            </div>
+            <div class="editor-area" id="recEditor" contenteditable="true" data-placeholder="请输入正文"></div>
+            <div class="editor-readonly" id="recEditorReadonly"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="modal-footer" id="recruitmentFooter"></div>
   </div>
 </div>
 
@@ -1111,6 +1356,195 @@ function saveFaculty(mode) {
   closeModal('facultyModal');
   showToast(mode === 'edit' ? '教师信息已更新！' : '教师创建成功！', 'success');
 }
+
+/* ===== 招生培养：资讯列表 + 新增/编辑/详情 + 发布/取消发布 ===== */
+const RECRUITMENT_TYPES = ['学术研究','人物故事','师生活动','交流合作','通知公告'];
+
+let RECRUITMENT_LIST = [
+  // 已发布（演示数据，覆盖多种类型/语言）
+  { id: 1, title:'2026 年理学院博士研究生招生简章解读',   lang:'zh', type:'通知公告', status:'published', clicks: 1283, publishTime:'2026-08-30', lastPublishTime:'2026-08-30', createdAt:'2026-08-15 14:22', creator:'admin',
+    summary:'本文详细解读 2026 年理学院博士招生简章的政策变化、申请流程与考核标准。',
+    content:'<h2>招生简章解读</h2><p>2026 年理学院博士招生简章在以下方面做了重要调整：</p><ol><li>扩大直博生比例至 40%</li><li>新增"申请-考核"通道</li><li>理工交叉学科纳入重点支持</li></ol><p>欢迎全国优秀学子报考。</p>',
+    contentType:'custom' },
+  { id: 2, title:'对话诺贝尔奖得主：在基础科学中寻找终身志业', lang:'zh', type:'人物故事', status:'published', clicks: 856, publishTime:'2026-08-20', lastPublishTime:'2026-08-20', createdAt:'2026-08-10 10:05', creator:'editor_wu',
+    summary:'专访三位在理学院工作的诺贝尔奖得主，分享他们的科研心路。',
+    content:'<p>对话中，三位科学家反复提到一个关键词：耐心。</p>',
+    contentType:'custom' },
+  { id: 3, title:'Physics PhD Application Guide',           lang:'en', type:'学术研究', status:'published', clicks: 412, publishTime:'2026-07-28', lastPublishTime:'2026-07-28', createdAt:'2026-07-20 09:30', creator:'editor_li',
+    summary:'A comprehensive guide for international applicants to the Physics PhD program.',
+    content:'<p>This guide covers eligibility, required documents, and timeline.</p>',
+    contentType:'custom' },
+
+  // 未发布
+  { id: 4, title:'理学院 2026 年夏令营报名启动',           lang:'zh', type:'师生活动', status:'draft', clicks: 0, publishTime:'2026-09-10', lastPublishTime:'-', createdAt:'2026-09-01 16:48', creator:'admin',
+    summary:'面向全国优秀本科生，7 天沉浸式科研体验。',
+    content:'<p>夏令营包含实验室轮转、导师面对面、城市探索等环节。</p>',
+    contentType:'custom' },
+  { id: 5, title:'与中科院上海有机所签订联合培养协议',     lang:'zh', type:'交流合作', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 11:15', creator:'editor_zhao',
+    summary:'双方将在博士生联合培养、科研平台共享等领域展开深度合作。',
+    content:'<p>协议明确了双方导师互聘、学分互认、学位联合授予等机制。</p>',
+    contentType:'custom' },
+  { id: 6, title:'招生答疑直播：9 月 5 日 19:30',          lang:'zh', type:'通知公告', status:'draft', clicks: 0, publishTime:'2026-09-05', lastPublishTime:'-', createdAt:'2026-09-02 14:00', creator:'admin',
+    summary:'招生办老师在线答疑，关于推免、考研、夏令营的所有疑问。',
+    content:'<p>直播间入口将在公众号提前一天推送。</p>',
+    contentType:'custom' },
+];
+
+function renderRecruitmentTable() {
+  const tbody = document.getElementById('recruitmentTbody');
+  if (!tbody) return;
+  document.getElementById('recruitmentTotal').textContent = '共 ' + RECRUITMENT_LIST.length + ' 条';
+  tbody.innerHTML = RECRUITMENT_LIST.map((r, idx) => {
+    const langTag = r.lang === 'en'
+      ? '<span class="tag tag-info">English</span>'
+      : '<span class="tag">中文</span>';
+    const statusTag = r.status === 'published'
+      ? '<span class="tag tag-success">已发布</span>'
+      : '<span class="tag tag-warning">未发布</span>';
+    const actions = r.status === 'published'
+      ? '<button class="btn btn-unpublish btn-sm" onclick="togglePublish(' + r.id + ')">取消发布</button>'
+      : '<button class="btn btn-publish btn-sm" onclick="togglePublish(' + r.id + ')">发布</button>' +
+        '<button class="btn btn-outline btn-sm" onclick="openRecruitment(\'edit\',' + r.id + ')">编辑</button>' +
+        '<button class="btn btn-delete btn-sm" onclick="deleteRecruitment(' + r.id + ')">删除</button>';
+    return '<tr>'
+      + '<td>' + (idx + 1) + '</td>'
+      + '<td title="' + r.title + '" style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.title + '</td>'
+      + '<td>' + langTag + '</td>'
+      + '<td><span class="tag">' + r.type + '</span></td>'
+      + '<td>' + statusTag + '</td>'
+      + '<td>' + r.clicks + '</td>'
+      + '<td>' + r.lastPublishTime + '</td>'
+      + '<td>' + r.publishTime + '</td>'
+      + '<td>' + r.createdAt + '</td>'
+      + '<td>' + r.creator + '</td>'
+      + '<td class="actions">' + actions + '</td>'
+      + '</tr>';
+  }).join('');
+}
+
+function togglePublish(id) {
+  const item = RECRUITMENT_LIST.find(r => r.id === id);
+  if (!item) return;
+  if (item.status === 'published') {
+    item.status = 'draft';
+    item.lastPublishTime = '-';
+    showToast('「' + item.title + '」已取消发布', 'success');
+  } else {
+    item.status = 'published';
+    item.lastPublishTime = item.publishTime;
+    showToast('「' + item.title + '」已发布', 'success');
+  }
+  renderRecruitmentTable();
+}
+
+function deleteRecruitment(id) {
+  const item = RECRUITMENT_LIST.find(r => r.id === id);
+  if (!item) return;
+  if (!confirm('确定删除「' + item.title + '」吗？此操作不可撤销。')) return;
+  RECRUITMENT_LIST = RECRUITMENT_LIST.filter(r => r.id !== id);
+  renderRecruitmentTable();
+  showToast('资讯已删除', 'success');
+}
+
+function openRecruitment(mode, id) {
+  const form  = document.getElementById('recruitmentForm');
+  const item  = id ? RECRUITMENT_LIST.find(r => r.id === id) : null;
+  const isView = (mode === 'view');
+
+  // 标题
+  document.getElementById('recruitmentTabTitle').textContent =
+    mode === 'create' ? '新增资讯' : (mode === 'edit' ? '编辑资讯' : '资讯详情');
+
+  const setVal    = (e, v) => { const el = document.getElementById(e); if (el) el.value = v || ''; };
+  const pickRadio = (n, v) => { const el = document.querySelector('input[name="' + n + '"][value="' + v + '"]'); if (el) el.checked = true; };
+
+  // 重置
+  const today = new Date().toISOString().slice(0,10);
+  setVal('rec-title', ''); setVal('rec-summary', '');
+  setVal('rec-publish-time', today);
+  pickRadio('rec-lang', 'zh'); pickRadio('rec-type', '学术研究');
+  pickRadio('rec-content-type', 'custom');
+  document.getElementById('recEditor').innerHTML = '';
+
+  // 回填（编辑/详情）
+  if (item) {
+    setVal('rec-title', item.title);
+    setVal('rec-summary', item.summary);
+    setVal('rec-publish-time', item.publishTime);
+    pickRadio('rec-lang', item.lang);
+    pickRadio('rec-type', item.type);
+    pickRadio('rec-content-type', item.contentType || 'custom');
+    document.getElementById('recEditor').innerHTML = item.content || '';
+    document.getElementById('recEditorReadonly').innerHTML = item.content || '';
+  } else {
+    document.getElementById('recEditorReadonly').innerHTML = '';
+  }
+
+  // 只读态
+  form.classList.toggle('is-readonly', isView);
+  form.querySelectorAll('input, select, textarea').forEach(el => {
+    if (el.type === 'file') return;
+    el.disabled = isView;
+  });
+
+  // 底部按钮
+  document.getElementById('recruitmentFooter').innerHTML = isView
+    ? '<button class="btn btn-primary" onclick="closeModal(\'recruitmentModal\')">关闭</button>'
+    : '<button class="btn btn-outline" onclick="closeModal(\'recruitmentModal\')">取消</button>' +
+      '<button class="btn btn-primary" onclick="saveRecruitment(\'' + mode + '\'' + (id ? ',' + id : '') + ')">' +
+      (mode === 'edit' ? '保存修改' : '保存') + '</button>';
+
+  showModal('recruitmentModal');
+}
+
+function saveRecruitment(mode, id) {
+  // 极简校验（演示用）
+  const titleEl = document.getElementById('rec-title');
+  if (!titleEl.value.trim()) {
+    showToast('请输入资讯标题', 'error');
+    titleEl.focus();
+    return;
+  }
+  const data = {
+    title: titleEl.value.trim(),
+    summary: document.getElementById('rec-summary').value,
+    publishTime: document.getElementById('rec-publish-time').value,
+    lang: (document.querySelector('input[name="rec-lang"]:checked') || {}).value || 'zh',
+    type: (document.querySelector('input[name="rec-type"]:checked') || {}).value || '学术研究',
+    contentType: (document.querySelector('input[name="rec-content-type"]:checked') || {}).value || 'custom',
+    content: document.getElementById('recEditor').innerHTML,
+  };
+
+  if (mode === 'edit' && id) {
+    const item = RECRUITMENT_LIST.find(r => r.id === id);
+    if (item) Object.assign(item, data);
+    showToast('资讯已更新', 'success');
+  } else {
+    const newId = Math.max(0, ...RECRUITMENT_LIST.map(r => r.id)) + 1;
+    const now = new Date();
+    const pad = n => n < 10 ? '0' + n : '' + n;
+    RECRUITMENT_LIST.unshift({
+      id: newId,
+      ...data,
+      status: 'draft',
+      clicks: 0,
+      lastPublishTime: '-',
+      createdAt: now.getFullYear() + '-' + pad(now.getMonth()+1) + '-' + pad(now.getDate()) + ' ' + pad(now.getHours()) + ':' + pad(now.getMinutes()),
+      creator: 'admin',
+    });
+    showToast('资讯创建成功', 'success');
+  }
+  closeModal('recruitmentModal');
+  renderRecruitmentTable();
+}
+
+function editorCmd(cmd, arg) {
+  document.execCommand(cmd, false, arg);
+  document.getElementById('recEditor').focus();
+}
+
+// 启动时渲染列表
+renderRecruitmentTable();
 </script>
 
 </body>
