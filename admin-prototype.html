@@ -170,6 +170,7 @@ tr:hover td { background: #fafafa; }
 .drawer-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.45); z-index: 1000; display: none; }
 .drawer-overlay.show { display: block; }
 .drawer { position: fixed; top: 0; left: 0; width: 420px; max-width: 90vw; height: 100%; background: #fff; box-shadow: 4px 0 24px rgba(0,0,0,.12); transform: translateX(-100%); transition: transform .25s ease; display: flex; flex-direction: column; }
+.drawer.drawer-right { left: auto; right: 0; box-shadow: -4px 0 24px rgba(0,0,0,.12); transform: translateX(100%); }
 .drawer-overlay.show .drawer { transform: translateX(0); }
 .drawer-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
 .drawer-header h3 { font-size: 16px; font-weight: 600; margin: 0; }
@@ -907,7 +908,7 @@ tr:hover td { background: #fafafa; }
       <div class="page-header" data-page-node-id="Qy3sTqxcrtDltlEHNpXjep"><h2 data-page-node-id="t0F0Sw3FYX1CTeRKaq4GLx">人物列表</h2></div>
       <div class="card" data-page-node-id="3DImk2el2f9YAB1O8EwbzA">
         <div class="card-header" style="justify-content:flex-end; border-bottom:none" data-page-node-id="D60tZh6XCIJr7DpEKzdK6Q">
-          <button class="btn btn-outline" onclick="showToast('Banner设置演示','info')" data-page-node-id="w8U0jvBg5BMgHbwH0lzRlW">banner设置</button>
+          <button class="btn btn-outline" onclick="openFacultyBanner()" style="margin-right:10px;background:transparent;border-color:transparent;color:var(--primary);padding-left:8px;padding-right:8px;" data-page-node-id="w8U0jvBg5BMgHbwH0lzRlW">banner设置</button>
           <button class="btn btn-primary" onclick="openFaculty('create')" data-page-node-id="fcuEkz5QyJQaAtm7SPZ9tJ">+ 添加人物</button>
         </div>
         <div class="card-body" style="padding-top:0" data-page-node-id="sKXC0TKGo1AoKJXbCFAgFm">
@@ -1277,9 +1278,9 @@ tr:hover td { background: #fafafa; }
   </div>
 </div>
 
-<!-- Faculty Detail Drawer (left slide-in) -->
+<!-- Faculty Detail Drawer (right slide-in) -->
 <div class="drawer-overlay" id="facultyDetailDrawer" onclick="if(event.target===this)closeFacultyDetail()">
-  <div class="drawer">
+  <div class="drawer drawer-right">
     <div class="drawer-header">
       <h3>人物详情</h3>
       <button class="drawer-close" onclick="closeFacultyDetail()">✕</button>
@@ -1441,6 +1442,42 @@ tr:hover td { background: #fafafa; }
   </div>
 </div>
 
+<!-- ====== 人物列表：banner 设置弹窗 ====== -->
+<div class="modal-overlay" id="facultyBannerModal">
+  <div class="modal" style="width:520px">
+    <div class="modal-header">
+      <h3>banner设置</h3>
+      <button class="modal-close" onclick="closeModal('facultyBannerModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:24px 28px">
+      <div class="form-field align-top">
+        <label class="form-label"><span class="required">*</span>照片：</label>
+        <div>
+          <label class="upload-area" id="faculty-banner-upload" style="width:200px;height:130px">
+            <svg width="140" height="90" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg" style="opacity:.9">
+              <defs>
+                <radialGradient id="facBanGrad" cx="35%" cy="35%" r="65%">
+                  <stop offset="0%" stop-color="#f3d2b5"/>
+                  <stop offset="100%" stop-color="#c49a76"/>
+                </radialGradient>
+              </defs>
+              <circle cx="60" cy="40" r="32" fill="url(#facBanGrad)"/>
+              <path d="M28,46 Q60,68 92,42" fill="none" stroke="#a67c5b" stroke-width="2.5" opacity="0.6"/>
+              <ellipse cx="60" cy="40" rx="52" ry="10" fill="none" stroke="#9c7658" stroke-width="1.5" transform="rotate(-10 60 40)" opacity="0.5"/>
+            </svg>
+            <input type="file" id="faculty-banner-photo" accept="image/jpeg,image/jpg,image/png" style="display:none">
+          </label>
+          <div class="upload-hint">请上传照片，格式支持 JPG、JPEG、PNG</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('facultyBannerModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveFacultyBanner()">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- ====== 资料下载 弹窗（按截图 1:1） ====== -->
 <div class="modal-overlay" id="downloadModal" data-page-node-id="dCsXLFL1WgCf8OmqIc7SGU">
   <div class="modal" style="width:680px" data-page-node-id="rl7DzWYxameGpJ8BP4LAwO">
@@ -1552,6 +1589,9 @@ function closeModal(id) { document.getElementById(id).classList.remove('show'); 
 // Banner 设置弹窗
 function openBannerSetting() { showModal('bannerModal'); }
 function saveBannerSetting() { closeModal('bannerModal'); showToast('Banner 设置已保存', 'success'); }
+
+function openFacultyBanner() { showModal('facultyBannerModal'); }
+function saveFacultyBanner() { closeModal('facultyBannerModal'); showToast('人物 Banner 设置已保存', 'success'); }
 
 // Toast
 function showToast(msg, type) {
