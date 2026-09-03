@@ -176,11 +176,12 @@ tr:hover td { background: #fafafa; }
 .drawer-header h3 { font-size: 16px; font-weight: 600; margin: 0; }
 .drawer-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted); padding: 4px; }
 .drawer-body { flex: 1; overflow-y: auto; padding: 28px 26px; }
-.drawer-row { margin-bottom: 22px; }
-.drawer-row .label { color: var(--text-light); font-size: 13px; margin-bottom: 8px; }
-.drawer-row .value { font-size: 14px; color: var(--text); line-height: 1.5; }
+.drawer-row { display: flex; align-items: flex-start; margin-bottom: 18px; }
+.drawer-row .label { color: var(--text-light); font-size: 13px; width: 72px; flex-shrink: 0; padding-top: 1px; }
+.drawer-row .label::after { content: '：'; }
+.drawer-row .value { font-size: 14px; color: var(--text); line-height: 1.5; flex: 1; word-break: break-word; }
 .drawer-row .value a { color: var(--primary); text-decoration: none; word-break: break-all; }
-.drawer-photo { width: 80px; height: 100px; object-fit: cover; border-radius: 4px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; overflow: hidden; }
+.drawer-photo { width: 80px; height: 100px; object-fit: cover; border-radius: 4px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 28px; overflow: hidden; flex-shrink: 0; }
 
 /* Toast */
 .toast { position: fixed; top: 24px; right: 24px; z-index: 2000; background: #fff; border-radius: 8px; padding: 12px 20px; box-shadow: 0 4px 16px rgba(0,0,0,.12); font-size: 13px; display: none; align-items: center; gap: 8px; }
