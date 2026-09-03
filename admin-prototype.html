@@ -567,6 +567,11 @@ tr:hover td { background: #fafafa; }
         <span class="icon" data-page-node-id="wnWqAVCitb21GJMe6RbbDC">📚</span>资料下载
       </div>
 
+      <!-- 天文小影（一级菜单，视频列表，带发布/取消发布） -->
+      <div class="menu-item" data-page="astro-video" onclick="navigate('astro-video')" data-page-node-id="Lk2mN7vYpQr9xZ0wA3bC8d">
+        <span class="icon" data-page-node-id="Xy5PqR8sTuVw2z0aB4cD7e">🎬</span>天文小影
+      </div>
+
       <div class="menu-group" data-page-node-id="0vKxE2NCgXPgnnrNEsp6oo">
         <div class="menu-item" onclick="toggleMenu('system-menu')" data-page-node-id="CMPPYI5eeqgyuHwGxPkV0w">
           <span class="icon" data-page-node-id="2GB9AHNU7p8a5p1Y7YxO02">⚙️</span>系统管理
@@ -1134,6 +1139,124 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
     </div>
+
+    <!-- Page: 天文小影（新增菜单页面） -->
+    <div class="content-page" id="page-astro-video">
+
+      <!-- 列表视图 -->
+      <div id="astroListView">
+        <div class="breadcrumb">首页 / <span>天文小影</span></div>
+        <div class="page-header"><h2>天文小影</h2></div>
+
+        <!-- 筛选工具栏 -->
+        <div class="card">
+          <div class="card-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+            <div class="lang-tabs" id="astroLangTabs" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden">
+              <button type="button" class="lang-tab active" data-lang="zh" onclick="setAstroLangTab('zh')">中文</button>
+              <button type="button" class="lang-tab" data-lang="en" onclick="setAstroLangTab('en')">英文</button>
+            </div>
+            <span style="color:var(--text-light);font-size:13px">标题：</span>
+            <input class="form-input" id="astroSearchTitle" placeholder="请输入标题" style="width:240px;flex:none">
+            <select class="form-select" id="astroSearchType" style="width:auto">
+              <option value="">请选择类型</option>
+              <option value="astro_clip">天文小影</option>
+              <option value="astro_now">天文此刻</option>
+              <option value="campus_life">校园生活</option>
+            </select>
+            <button class="btn btn-primary" onclick="searchAstro()">🔍 查询</button>
+            <button class="btn btn-outline" onclick="resetAstro()">↻ 重置</button>
+          </div>
+        </div>
+
+        <!-- 列表 -->
+        <div class="card">
+          <div class="card-header">
+            <h3>天文小影列表</h3>
+            <div>
+              <button class="btn btn-outline" onclick="openAstroBanner()" style="margin-right:10px;background:transparent;border-color:transparent;color:var(--primary);padding-left:8px;padding-right:8px;">banner设置</button>
+              <button class="btn btn-primary" onclick="openAstroForm('create')">+ 新增</button>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0">
+            <div style="overflow-x:auto">
+              <table id="astroTable">
+                <thead>
+                  <tr>
+                    <th style="width:50px">序号</th>
+                    <th style="min-width:220px">标题</th>
+                    <th style="width:80px">语言</th>
+                    <th style="width:120px">类型</th>
+                    <th style="width:120px">发布时间</th>
+                    <th style="width:100px">发布状态</th>
+                    <th style="width:100px">创建人</th>
+                    <th style="width:160px">创建时间</th>
+                    <th style="width:220px">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="astroTbody"></tbody>
+              </table>
+            </div>
+            <div class="pagination"><span id="astroTotal">共 0 条</span><button disabled>‹</button><button class="active">1</button><button>›</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 新增 / 编辑 表单视图 -->
+      <div id="astroFormView" style="display:none">
+        <div class="breadcrumb">首页 / <span>天文小影</span> / <span>新建</span></div>
+        <div class="page-header"><h2 id="astroFormTitle" style="border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:8px">新建天文小影</h2></div>
+        <div class="card">
+          <div class="card-body" style="padding:24px">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label><input type="radio" name="astro-lang" value="zh" checked> 中文</label>
+                <label><input type="radio" name="astro-lang" value="en"> English</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>标题：</label>
+              <input class="form-input" id="astro-title" placeholder="请输入标题" style="max-width:520px">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>类型：</label>
+              <div class="radio-group">
+                <label><input type="radio" name="astro-type" value="astro_clip" checked> 天文小影</label>
+                <label><input type="radio" name="astro-type" value="astro_now"> 天文此刻</label>
+                <label><input type="radio" name="astro-type" value="campus_life"> 校园生活</label>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>视频封面：</label>
+              <div>
+                <label class="upload-area" id="astro-cover-upload" style="width:200px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">
+                  <span class="upload-icon">🖼️</span>
+                  <span>图片上传</span>
+                  <input type="file" accept="image/*" hidden>
+                </label>
+                <div style="margin-top:8px;color:#999;font-size:12px;line-height:1.6">格式：JPG,JPEG,PNG,PNEG　尺寸：390px*240px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>视频：</label>
+              <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+                📁 视频上传
+                <input type="file" accept="video/*" hidden>
+              </label>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>发布时间：</label>
+              <input type="date" class="form-input" id="astro-publish-time" value="2026-09-03" style="width:200px">
+            </div>
+          </div>
+          <div class="card-footer" style="padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px">
+            <button class="btn btn-outline" onclick="showAstroList()">取消</button>
+            <button class="btn btn-primary" onclick="saveAstroClip()">保存</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </main>
 </div>
 
@@ -1663,6 +1786,150 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 document.getElementById('confirmModal').addEventListener('click', function(e) {
   if (e.target === this) closeConfirm();
 });
+
+/* ===== 天文小影：列表 + 新增/编辑 + 发布/取消发布 + 删除 ===== */
+const ASTRO_CLIP_TYPES = [
+  { value: 'astro_clip',   text: '天文小影' },
+  { value: 'astro_now',    text: '天文此刻' },
+  { value: 'campus_life',  text: '校园生活' },
+];
+function astroTypeName(v) { return (ASTRO_CLIP_TYPES.find(t => t.value === v) || {}).text || v; }
+
+let ASTRO_CLIPS_LIST = [
+  { id: 1, title:'我在西湖看星空：第一支天文小影',    lang:'zh', type:'astro_clip',  status:'published', publishTime:'2026-08-28', lastPublishTime:'2026-08-28', createdAt:'2026-08-20 10:11', creator:'editor_wu' },
+  { id: 2, title:'天文台开放日 vlog',                 lang:'zh', type:'campus_life', status:'published', publishTime:'2026-08-15', lastPublishTime:'2026-08-15', createdAt:'2026-08-12 09:30', creator:'admin' },
+  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now',   status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li' },
+  { id: 4, title:'A Night at the Observatory',        lang:'en', type:'astro_clip',  status:'published', publishTime:'2026-07-30', lastPublishTime:'2026-07-30', createdAt:'2026-07-22 11:00', creator:'editor_li' },
+  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now',   status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin' },
+];
+
+let ASTRO_LANG_TAB = 'zh';
+let astroEditId = null;
+
+function renderAstroTable() {
+  const tbody = document.getElementById('astroTbody');
+  if (!tbody) return;
+  const kw = (document.getElementById('astroSearchTitle').value || '').trim().toLowerCase();
+  const typeFilter = document.getElementById('astroSearchType').value;
+
+  let filtered = ASTRO_CLIPS_LIST.filter(r => r.lang === ASTRO_LANG_TAB);
+  if (kw) filtered = filtered.filter(r => r.title.toLowerCase().includes(kw));
+  if (typeFilter) filtered = filtered.filter(r => r.type === typeFilter);
+
+  document.getElementById('astroTotal').textContent = '共 ' + filtered.length + ' 条';
+  tbody.innerHTML = filtered.map((r, idx) => {
+    const langText = r.lang === 'en' ? 'English' : '中文';
+    const statusText = r.status === 'published' ? '已发布' : '未发布';
+    const actions = r.status === 'published'
+      ? '<span class="link-action" onclick="toggleAstroStatus(' + r.id + ')">取消发布</span>'
+      : '<span class="link-action" onclick="toggleAstroStatus(' + r.id + ')">发布</span>'
+        + '<span class="link-action" onclick="openAstroForm(\'edit\',' + r.id + ')">编辑</span>'
+        + '<span class="link-action danger" onclick="deleteAstroClip(' + r.id + ')">删除</span>';
+    return '<tr>'
+      + '<td>' + (idx + 1) + '</td>'
+      + '<td title="' + r.title + '" style="max-width:300px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + r.title + '</td>'
+      + '<td>' + langText + '</td>'
+      + '<td>' + astroTypeName(r.type) + '</td>'
+      + '<td>' + r.publishTime + '</td>'
+      + '<td>' + statusText + '</td>'
+      + '<td>' + r.creator + '</td>'
+      + '<td>' + r.createdAt + '</td>'
+      + '<td class="actions">' + actions + '</td>'
+      + '</tr>';
+  }).join('');
+}
+
+function setAstroLangTab(l) {
+  ASTRO_LANG_TAB = l;
+  document.querySelectorAll('#astroLangTabs .lang-tab').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
+  renderAstroTable();
+}
+
+function searchAstro() { renderAstroTable(); }
+
+function resetAstro() {
+  document.getElementById('astroSearchTitle').value = '';
+  document.getElementById('astroSearchType').value = '';
+  renderAstroTable();
+}
+
+function openAstroForm(mode, id) {
+  document.getElementById('astroListView').style.display = 'none';
+  document.getElementById('astroFormView').style.display = 'block';
+  document.getElementById('astro-title').value = '';
+  document.querySelector('input[name="astro-lang"][value="zh"]').checked = true;
+  document.querySelector('input[name="astro-type"][value="astro_clip"]').checked = true;
+  document.getElementById('astro-publish-time').value = '2026-09-03';
+  astroEditId = null;
+  const formTitleEl = document.getElementById('astroFormTitle');
+  if (mode === 'edit' && id) {
+    const item = ASTRO_CLIPS_LIST.find(r => r.id === id);
+    if (item) {
+      formTitleEl.textContent = '编辑天文小影';
+      document.getElementById('astro-title').value = item.title;
+      document.querySelector('input[name="astro-lang"][value="' + item.lang + '"]').checked = true;
+      document.querySelector('input[name="astro-type"][value="' + item.type + '"]').checked = true;
+      document.getElementById('astro-publish-time').value = item.publishTime;
+      astroEditId = id;
+    }
+  } else {
+    formTitleEl.textContent = '新建天文小影';
+  }
+}
+
+function showAstroList() {
+  document.getElementById('astroFormView').style.display = 'none';
+  document.getElementById('astroListView').style.display = 'block';
+  renderAstroTable();
+}
+
+function saveAstroClip() {
+  const title = document.getElementById('astro-title').value.trim();
+  if (!title) { showToast('请输入标题', 'error'); return; }
+  const lang = (document.querySelector('input[name="astro-lang"]:checked') || {}).value || 'zh';
+  const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
+  const publishTime = document.getElementById('astro-publish-time').value || '2026-09-03';
+  const now = '2026-09-03 16:30';
+  if (astroEditId) {
+    const item = ASTRO_CLIPS_LIST.find(r => r.id === astroEditId);
+    if (item) { item.title = title; item.lang = lang; item.type = type; item.publishTime = publishTime; }
+    showToast('保存成功', 'success');
+  } else {
+    const newId = ASTRO_CLIPS_LIST.reduce((m, r) => Math.max(m, r.id), 0) + 1;
+    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
+    showToast('保存成功', 'success');
+  }
+  showAstroList();
+}
+
+function toggleAstroStatus(id) {
+  const item = ASTRO_CLIPS_LIST.find(r => r.id === id);
+  if (!item) return;
+  if (item.status === 'published') {
+    item.status = 'draft';
+    item.lastPublishTime = '-';
+    showToast('「' + item.title + '」已取消发布', 'success');
+  } else {
+    item.status = 'published';
+    item.lastPublishTime = item.publishTime;
+    showToast('「' + item.title + '」已发布', 'success');
+  }
+  renderAstroTable();
+}
+
+function deleteAstroClip(id) {
+  const item = ASTRO_CLIPS_LIST.find(r => r.id === id);
+  if (!item) return;
+  openConfirm('确认删除', '确定要删除「' + item.title + '」吗？删除后不可恢复。', function() {
+    ASTRO_CLIPS_LIST = ASTRO_CLIPS_LIST.filter(r => r.id !== id);
+    renderAstroTable();
+    showToast('删除成功', 'success');
+  });
+}
+
+function openAstroBanner() { showModal('bannerModal'); }
+
+renderAstroTable();
 
 /* ===== 新建教师弹窗：姓名类型联动 =====
    切「英文名」→ 姓/名/第二名称 的 label 与 placeholder 同步切英文
