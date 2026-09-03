@@ -1207,6 +1207,7 @@ tr:hover td { background: #fafafa; }
         <div class="page-header"><h2 id="astroFormTitle" style="border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:8px">新建天文小影</h2></div>
         <div class="card">
           <div class="card-body" style="padding:24px">
+            <div class="form-column">
             <div class="form-field">
               <label class="form-label"><span class="required">*</span>语言：</label>
               <div class="radio-group">
@@ -1226,11 +1227,20 @@ tr:hover td { background: #fafafa; }
                 <label><input type="radio" name="astro-type" value="campus_life"> 校园生活</label>
               </div>
             </div>
-            <div class="form-field" id="astro-series-field" style="display:none">
-              <label class="form-label"><span class="required">*</span>所属系列：</label>
-              <div class="radio-group">
-                <label><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
-                <label><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
+            <div id="astro-now-fields" class="form-column" style="display:none">
+              <div class="form-field">
+                <label class="form-label"><span class="required">*</span>所属系列：</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
+                  <label><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
+                </div>
+              </div>
+              <div class="form-field">
+                <label class="form-label"><span class="required">*</span>所属学期：</label>
+                <div class="radio-group">
+                  <label><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
+                  <label><input type="radio" name="astro-term" value="autumn"> 秋季学期</label>
+                </div>
               </div>
             </div>
             <div class="form-field align-top">
@@ -1254,6 +1264,7 @@ tr:hover td { background: #fafafa; }
             <div class="form-field">
               <label class="form-label"><span class="required">*</span>发布时间：</label>
               <input type="date" class="form-input" id="astro-publish-time" value="2026-09-03" style="width:200px">
+            </div>
             </div>
           </div>
           <div class="card-footer" style="padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px">
@@ -1805,9 +1816,9 @@ function astroTypeName(v) { return (ASTRO_CLIP_TYPES.find(t => t.value === v) ||
 let ASTRO_CLIPS_LIST = [
   { id: 1, title:'我在西湖看星空：第一支天文小影',    lang:'zh', type:'astro_clip',  status:'published', publishTime:'2026-08-28', lastPublishTime:'2026-08-28', createdAt:'2026-08-20 10:11', creator:'editor_wu' },
   { id: 2, title:'天文台开放日 vlog',                 lang:'zh', type:'campus_life', status:'published', publishTime:'2026-08-15', lastPublishTime:'2026-08-15', createdAt:'2026-08-12 09:30', creator:'admin' },
-  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now',   status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium' },
+  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now',   status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium', term:'spring' },
   { id: 4, title:'A Night at the Observatory',        lang:'en', type:'astro_clip',  status:'published', publishTime:'2026-07-30', lastPublishTime:'2026-07-30', createdAt:'2026-07-22 11:00', creator:'editor_li' },
-  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now',   status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar' },
+  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now',   status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar', term:'autumn' },
 ];
 
 let ASTRO_LANG_TAB = 'zh';
@@ -1881,6 +1892,8 @@ function openAstroForm(mode, id) {
       if (item.type === 'astro_now') {
         const sr = document.querySelector('input[name="astro-series"][value="' + (item.series || 'colloquium') + '"]');
         if (sr) sr.checked = true;
+        const tr = document.querySelector('input[name="astro-term"][value="' + (item.term || 'spring') + '"]');
+        if (tr) tr.checked = true;
       }
       document.getElementById('astro-publish-time').value = item.publishTime;
       astroEditId = id;
@@ -1891,10 +1904,10 @@ function openAstroForm(mode, id) {
   toggleAstroSeries();
 }
 
-// 类型联动：选「天文此刻」显示所属系列，其他类型隐藏
+// 类型联动：选「天文此刻」显示所属系列 + 所属学期，其他类型隐藏
 function toggleAstroSeries() {
   const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
-  const f = document.getElementById('astro-series-field');
+  const f = document.getElementById('astro-now-fields');
   if (f) f.style.display = type === 'astro_now' ? '' : 'none';
 }
 
@@ -1910,19 +1923,22 @@ function saveAstroClip() {
   const lang = (document.querySelector('input[name="astro-lang"]:checked') || {}).value || 'zh';
   const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
   let series = '';
+  let term = '';
   if (type === 'astro_now') {
     series = (document.querySelector('input[name="astro-series"]:checked') || {}).value || '';
     if (!series) { showToast('请选择所属系列', 'error'); return; }
+    term = (document.querySelector('input[name="astro-term"]:checked') || {}).value || '';
+    if (!term) { showToast('请选择所属学期', 'error'); return; }
   }
   const publishTime = document.getElementById('astro-publish-time').value || '2026-09-03';
   const now = '2026-09-03 16:30';
   if (astroEditId) {
     const item = ASTRO_CLIPS_LIST.find(r => r.id === astroEditId);
-    if (item) { item.title = title; item.lang = lang; item.type = type; item.series = series; item.publishTime = publishTime; }
+    if (item) { item.title = title; item.lang = lang; item.type = type; item.series = series; item.term = term; item.publishTime = publishTime; }
     showToast('保存成功', 'success');
   } else {
     const newId = ASTRO_CLIPS_LIST.reduce((m, r) => Math.max(m, r.id), 0) + 1;
-    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, series, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
+    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, series, term, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
     showToast('保存成功', 'success');
   }
   showAstroList();
