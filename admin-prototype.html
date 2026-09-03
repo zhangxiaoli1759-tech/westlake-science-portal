@@ -1318,7 +1318,7 @@ tr:hover td { background: #fafafa; }
         <!-- 6. 发布时间（日期，默认今天） -->
         <div class="form-field" data-page-node-id="AbUs60RWa5Pvu82KJclCmY">
           <label class="form-label" data-page-node-id="kHhvaaBdakGfPeiyyYfXNn"><span class="required" data-page-node-id="K4a0pSiEs6HOZbwE0mxY2B">*</span>发布时间</label>
-          <input class="form-input" type="date" id="rec-publish-time" data-page-node-id="6oIf0oPTo9EsQEKGprbruG">
+          <input class="form-input" type="text" id="rec-publish-time" placeholder="请选择发布时间" data-page-node-id="6oIf0oPTo9EsQEKGprbruG" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
         </div>
 
         <!-- 7. 内容类型 -->
@@ -1467,7 +1467,7 @@ tr:hover td { background: #fafafa; }
         <!-- 5. 发布时间 -->
         <div class="form-field" data-page-node-id="IueGutIMiQy0G3SeG40SYZ">
           <label class="form-label" data-page-node-id="m5lBPDz1QSJw4pl5HV3YKc"><span class="required" data-page-node-id="mhuSh7v6DxpvPFMiCxtxnk">*</span>发布时间</label>
-          <input class="form-input" type="date" id="dl-publish-time" data-page-node-id="pkE9y07KkpntmzryqsosEv">
+          <input class="form-input" type="text" id="dl-publish-time" placeholder="请选择发布时间" data-page-node-id="pkE9y07KkpntmzryqsosEv" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
         </div>
 
       </div>
@@ -1771,7 +1771,7 @@ function openRecruitment(mode, id) {
 
   // 重置（发布时间不预填默认值，由用户自行选择）
   setVal('rec-title', ''); setVal('rec-summary', '');
-  setVal('rec-publish-time', '');
+  setVal('rec-publish-time', ''); document.getElementById('rec-publish-time').type = 'text';
   pickRadio('rec-lang', 'zh'); pickRadio('rec-type', '本科生');
   pickRadio('rec-content-type', 'custom');
   setVal('rec-link-url', '');
@@ -1783,6 +1783,7 @@ function openRecruitment(mode, id) {
     setVal('rec-title', item.title);
     setVal('rec-summary', item.summary);
     setVal('rec-publish-time', item.publishTime);
+    document.getElementById('rec-publish-time').type = item.publishTime ? 'date' : 'text';
     pickRadio('rec-lang', item.lang);
     pickRadio('rec-type', item.type);
     pickRadio('rec-content-type', item.contentType || 'custom');
@@ -1970,13 +1971,14 @@ function openDownload(mode, id) {
 
   // 重置（发布时间不预填默认值，由用户自行选择）
   setVal('dl-title', '');
-  setVal('dl-publish-time', '');
+  setVal('dl-publish-time', ''); document.getElementById('dl-publish-time').type = 'text';
   pickRadio('dl-lang', 'zh');
 
   // 回填（编辑 / 详情）
   if (item) {
     setVal('dl-title', item.title);
     setVal('dl-publish-time', item.publishTime);
+    document.getElementById('dl-publish-time').type = item.publishTime ? 'date' : 'text';
     pickRadio('dl-lang', item.lang);
   }
 
