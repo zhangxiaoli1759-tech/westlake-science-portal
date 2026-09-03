@@ -166,6 +166,14 @@ tr:hover td { background: #fafafa; }
 .modal-body { padding: 24px; }
 .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
 
+/* 二次确认弹窗 */
+.confirm-modal { width: 400px; }
+.confirm-modal .modal-body { text-align: center; padding: 30px 24px 8px; }
+.confirm-icon { width: 44px; height: 44px; border-radius: 50%; background: #fff1f0; color: #ff4d4f; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 700; margin: 0 auto 14px; }
+.confirm-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+.confirm-msg { color: var(--text-muted); font-size: 14px; line-height: 1.5; }
+.confirm-modal .modal-footer { justify-content: center; }
+
 /* Drawer (left slide-in) */
 .drawer-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.45); z-index: 1000; display: none; }
 .drawer-overlay.show { display: block; }
@@ -1409,6 +1417,21 @@ tr:hover td { background: #fafafa; }
   </div>
 </div>
 
+<!-- ====== 通用：二次确认弹窗 ====== -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal confirm-modal">
+    <div class="modal-body">
+      <div class="confirm-icon">!</div>
+      <div class="confirm-title" id="confirmTitle">确认删除</div>
+      <div class="confirm-msg" id="confirmMsg">确定要删除该内容吗？此操作不可撤销。</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeConfirm()">取消</button>
+      <button class="btn btn-delete" onclick="execConfirm()">确定</button>
+    </div>
+  </div>
+</div>
+
 <!-- ====== 招生培养：banner 设置弹窗 ====== -->
 <div class="modal-overlay" id="bannerModal">
   <div class="modal" style="width:520px">
@@ -1589,6 +1612,24 @@ function switchTenant(code, name, dotClass) {
 function showModal(id) { document.getElementById(id).classList.add('show'); }
 function closeModal(id) { document.getElementById(id).classList.remove('show'); }
 
+// 二次确认弹窗
+let confirmCallback = null;
+function openConfirm(title, msg, onConfirm) {
+  document.getElementById('confirmTitle').textContent = title || '确认删除';
+  document.getElementById('confirmMsg').textContent = msg || '确定要删除该内容吗？此操作不可撤销。';
+  confirmCallback = onConfirm;
+  showModal('confirmModal');
+}
+function closeConfirm() {
+  closeModal('confirmModal');
+  confirmCallback = null;
+}
+function execConfirm() {
+  const cb = confirmCallback;
+  closeConfirm();
+  if (typeof cb === 'function') cb();
+}
+
 // Banner 设置弹窗
 function openBannerSetting() { showModal('bannerModal'); }
 function saveBannerSetting() { closeModal('bannerModal'); showToast('Banner 设置已保存', 'success'); }
@@ -1616,6 +1657,11 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
   overlay.addEventListener('click', function(e) {
     if (e.target === overlay) overlay.classList.remove('show');
   });
+});
+
+// 确认弹窗：点击遮罩关闭并重置回调
+document.getElementById('confirmModal').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
 });
 
 /* ===== 新建教师弹窗：姓名类型联动 =====
@@ -1847,10 +1893,11 @@ function togglePublish(id) {
 function deleteRecruitment(id) {
   const item = RECRUITMENT_LIST.find(r => r.id === id);
   if (!item) return;
-  if (!confirm('确定删除「' + item.title + '」吗？此操作不可撤销。')) return;
-  RECRUITMENT_LIST = RECRUITMENT_LIST.filter(r => r.id !== id);
-  renderRecruitmentTable();
-  showToast('招生信息已删除', 'success');
+  openConfirm('确认删除', '确定要删除「' + item.title + '」吗？删除后不可恢复。', function() {
+    RECRUITMENT_LIST = RECRUITMENT_LIST.filter(r => r.id !== id);
+    renderRecruitmentTable();
+    showToast('删除成功', 'success');
+  });
 }
 
 function openRecruitment(mode, id) {
@@ -2058,10 +2105,11 @@ function toggleDownloadPublish(id) {
 function deleteDownload(id) {
   const item = DOWNLOADS_LIST.find(d => d.id === id);
   if (!item) return;
-  if (!confirm('确定删除「' + item.title + '」吗？此操作不可撤销。')) return;
-  DOWNLOADS_LIST = DOWNLOADS_LIST.filter(d => d.id !== id);
-  renderDownloadsTable();
-  showToast('资料已删除', 'success');
+  openConfirm('确认删除', '确定要删除「' + item.title + '」吗？删除后不可恢复。', function() {
+    DOWNLOADS_LIST = DOWNLOADS_LIST.filter(d => d.id !== id);
+    renderDownloadsTable();
+    showToast('删除成功', 'success');
+  });
 }
 
 function openDownload(mode, id) {
