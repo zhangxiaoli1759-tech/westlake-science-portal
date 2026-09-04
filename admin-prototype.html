@@ -1229,17 +1229,28 @@ tr:hover td { background: #fafafa; }
             </div>
             <div id="astro-now-fields" class="form-column" style="display:none">
               <div class="form-field">
-                <label class="form-label"><span class="required">*</span>所属系列：</label>
+                <label class="form-label"><span class="required">*</span>活动类型：</label>
                 <div class="radio-group">
-                  <label><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
-                  <label><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
+                  <label><input type="checkbox" name="astro-act-type" value="academic"> 学术活动</label>
+                  <label><input type="checkbox" name="astro-act-type" value="teacher_student"> 师生活动</label>
+                  <label><input type="checkbox" name="astro-act-type" value="summer"> 暑假活动</label>
+                  <label><input type="checkbox" name="astro-act-type" value="exchange"> 交流活动</label>
                 </div>
               </div>
-              <div class="form-field">
-                <label class="form-label"><span class="required">*</span>所属学期：</label>
-                <div class="radio-group">
-                  <label><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
-                  <label><input type="radio" name="astro-term" value="autumn"> 秋季学期</label>
+              <div id="astro-series-term-fields" class="form-column" style="display:none">
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属系列：</label>
+                  <div class="radio-group">
+                    <label><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
+                    <label><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属学期：</label>
+                  <div class="radio-group">
+                    <label><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
+                    <label><input type="radio" name="astro-term" value="autumn"> 秋季学期</label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -1816,9 +1827,9 @@ function astroTypeName(v) { return (ASTRO_CLIP_TYPES.find(t => t.value === v) ||
 let ASTRO_CLIPS_LIST = [
   { id: 1, title:'我在西湖看星空：第一支天文小影',    lang:'zh', type:'astro_clip',  status:'published', publishTime:'2026-08-28', lastPublishTime:'2026-08-28', createdAt:'2026-08-20 10:11', creator:'editor_wu' },
   { id: 2, title:'天文台开放日 vlog',                 lang:'zh', type:'campus_life', status:'published', publishTime:'2026-08-15', lastPublishTime:'2026-08-15', createdAt:'2026-08-12 09:30', creator:'admin' },
-  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now',   status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium', term:'spring' },
+  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium', term:'spring' },
   { id: 4, title:'A Night at the Observatory',        lang:'en', type:'astro_clip',  status:'published', publishTime:'2026-07-30', lastPublishTime:'2026-07-30', createdAt:'2026-07-22 11:00', creator:'editor_li' },
-  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now',   status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar', term:'autumn' },
+  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar', term:'autumn' },
 ];
 
 let ASTRO_LANG_TAB = 'zh';
@@ -1877,8 +1888,11 @@ function openAstroForm(mode, id) {
   document.getElementById('astro-title').value = '';
   document.querySelector('input[name="astro-lang"][value="zh"]').checked = true;
   document.querySelector('input[name="astro-type"][value="astro_clip"]').checked = true;
+  document.querySelectorAll('input[name="astro-act-type"]').forEach(c => c.checked = false);
   const defSeries = document.querySelector('input[name="astro-series"][value="colloquium"]');
   if (defSeries) defSeries.checked = true;
+  const defTerm = document.querySelector('input[name="astro-term"][value="spring"]');
+  if (defTerm) defTerm.checked = true;
   document.getElementById('astro-publish-time').value = '2026-09-03';
   astroEditId = null;
   const formTitleEl = document.getElementById('astroFormTitle');
@@ -1890,6 +1904,10 @@ function openAstroForm(mode, id) {
       document.querySelector('input[name="astro-lang"][value="' + item.lang + '"]').checked = true;
       document.querySelector('input[name="astro-type"][value="' + item.type + '"]').checked = true;
       if (item.type === 'astro_now') {
+        (item.actTypes || []).forEach(v => {
+          const a = document.querySelector('input[name="astro-act-type"][value="' + v + '"]');
+          if (a) a.checked = true;
+        });
         const sr = document.querySelector('input[name="astro-series"][value="' + (item.series || 'colloquium') + '"]');
         if (sr) sr.checked = true;
         const tr = document.querySelector('input[name="astro-term"][value="' + (item.term || 'spring') + '"]');
@@ -1901,14 +1919,21 @@ function openAstroForm(mode, id) {
   } else {
     formTitleEl.textContent = '新建天文小影';
   }
-  toggleAstroSeries();
+  toggleAstroNow();
 }
 
-// 类型联动：选「天文此刻」显示所属系列 + 所属学期，其他类型隐藏
-function toggleAstroSeries() {
+// 类型联动：选「天文此刻」显示活动类型等字段；活动类型含「学术活动」才显示所属系列/学期
+function toggleAstroNow() {
   const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
   const f = document.getElementById('astro-now-fields');
   if (f) f.style.display = type === 'astro_now' ? '' : 'none';
+  updateSeriesTermVisibility();
+}
+function updateSeriesTermVisibility() {
+  const checked = Array.from(document.querySelectorAll('input[name="astro-act-type"]:checked')).map(c => c.value);
+  const show = checked.includes('academic');
+  const st = document.getElementById('astro-series-term-fields');
+  if (st) st.style.display = show ? '' : 'none';
 }
 
 function showAstroList() {
@@ -1924,21 +1949,26 @@ function saveAstroClip() {
   const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
   let series = '';
   let term = '';
+  let actTypes = [];
   if (type === 'astro_now') {
-    series = (document.querySelector('input[name="astro-series"]:checked') || {}).value || '';
-    if (!series) { showToast('请选择所属系列', 'error'); return; }
-    term = (document.querySelector('input[name="astro-term"]:checked') || {}).value || '';
-    if (!term) { showToast('请选择所属学期', 'error'); return; }
+    actTypes = Array.from(document.querySelectorAll('input[name="astro-act-type"]:checked')).map(c => c.value);
+    if (!actTypes.length) { showToast('请选择活动类型', 'error'); return; }
+    if (actTypes.includes('academic')) {
+      series = (document.querySelector('input[name="astro-series"]:checked') || {}).value || '';
+      if (!series) { showToast('请选择所属系列', 'error'); return; }
+      term = (document.querySelector('input[name="astro-term"]:checked') || {}).value || '';
+      if (!term) { showToast('请选择所属学期', 'error'); return; }
+    }
   }
   const publishTime = document.getElementById('astro-publish-time').value || '2026-09-03';
   const now = '2026-09-03 16:30';
   if (astroEditId) {
     const item = ASTRO_CLIPS_LIST.find(r => r.id === astroEditId);
-    if (item) { item.title = title; item.lang = lang; item.type = type; item.series = series; item.term = term; item.publishTime = publishTime; }
+    if (item) { item.title = title; item.lang = lang; item.type = type; item.actTypes = actTypes; item.series = series; item.term = term; item.publishTime = publishTime; }
     showToast('保存成功', 'success');
   } else {
     const newId = ASTRO_CLIPS_LIST.reduce((m, r) => Math.max(m, r.id), 0) + 1;
-    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, series, term, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
+    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, actTypes, series, term, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
     showToast('保存成功', 'success');
   }
   showAstroList();
@@ -1972,7 +2002,8 @@ function deleteAstroClip(id) {
 function openAstroBanner() { showModal('bannerModal'); }
 
 // 类型切换实时联动所属系列字段
-document.querySelectorAll('input[name="astro-type"]').forEach(r => r.addEventListener('change', toggleAstroSeries));
+document.querySelectorAll('input[name="astro-type"]').forEach(r => r.addEventListener('change', toggleAstroNow));
+document.querySelectorAll('input[name="astro-act-type"]').forEach(c => c.addEventListener('change', updateSeriesTermVisibility));
 
 renderAstroTable();
 
