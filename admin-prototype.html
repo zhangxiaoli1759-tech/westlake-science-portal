@@ -1246,6 +1246,10 @@ tr:hover td { background: #fafafa; }
                   </div>
                 </div>
                 <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属年份：</label>
+                  <select class="form-input" id="astro-year" style="width:160px"></select>
+                </div>
+                <div class="form-field">
                   <label class="form-label"><span class="required">*</span>所属学期：</label>
                   <div class="radio-group">
                     <label><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
@@ -1827,9 +1831,9 @@ function astroTypeName(v) { return (ASTRO_CLIP_TYPES.find(t => t.value === v) ||
 let ASTRO_CLIPS_LIST = [
   { id: 1, title:'我在西湖看星空：第一支天文小影',    lang:'zh', type:'astro_clip',  status:'published', publishTime:'2026-08-28', lastPublishTime:'2026-08-28', createdAt:'2026-08-20 10:11', creator:'editor_wu' },
   { id: 2, title:'天文台开放日 vlog',                 lang:'zh', type:'campus_life', status:'published', publishTime:'2026-08-15', lastPublishTime:'2026-08-15', createdAt:'2026-08-12 09:30', creator:'admin' },
-  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium', term:'spring' },
+  { id: 3, title:'此刻的银河：夏季观星实况',          lang:'zh', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-05', lastPublishTime:'-',          createdAt:'2026-09-01 15:40', creator:'editor_li', series:'colloquium', term:'spring', year:2026 },
   { id: 4, title:'A Night at the Observatory',        lang:'en', type:'astro_clip',  status:'published', publishTime:'2026-07-30', lastPublishTime:'2026-07-30', createdAt:'2026-07-22 11:00', creator:'editor_li' },
-  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar', term:'autumn' },
+  { id: 5, title:'Summer Stargazing Highlights',      lang:'en', type:'astro_now', actTypes:['academic'], status:'draft',     publishTime:'2026-09-08', lastPublishTime:'-',          createdAt:'2026-09-02 14:20', creator:'admin', series:'seminar', term:'autumn', year:2026 },
 ];
 
 let ASTRO_LANG_TAB = 'zh';
@@ -1894,6 +1898,8 @@ function openAstroForm(mode, id) {
   const defTerm = document.querySelector('input[name="astro-term"][value="spring"]');
   if (defTerm) defTerm.checked = true;
   document.getElementById('astro-publish-time').value = '2026-09-03';
+  const yrSel = document.getElementById('astro-year');
+  if (yrSel) yrSel.value = String(new Date().getFullYear());
   astroEditId = null;
   const formTitleEl = document.getElementById('astroFormTitle');
   if (mode === 'edit' && id) {
@@ -1912,6 +1918,7 @@ function openAstroForm(mode, id) {
         if (sr) sr.checked = true;
         const tr = document.querySelector('input[name="astro-term"][value="' + (item.term || 'spring') + '"]');
         if (tr) tr.checked = true;
+        if (yrSel) yrSel.value = String(item.year || new Date().getFullYear());
       }
       document.getElementById('astro-publish-time').value = item.publishTime;
       astroEditId = id;
@@ -1949,6 +1956,7 @@ function saveAstroClip() {
   const type = (document.querySelector('input[name="astro-type"]:checked') || {}).value || 'astro_clip';
   let series = '';
   let term = '';
+  let year = '';
   let actTypes = [];
   if (type === 'astro_now') {
     actTypes = Array.from(document.querySelectorAll('input[name="astro-act-type"]:checked')).map(c => c.value);
@@ -1958,17 +1966,19 @@ function saveAstroClip() {
       if (!series) { showToast('请选择所属系列', 'error'); return; }
       term = (document.querySelector('input[name="astro-term"]:checked') || {}).value || '';
       if (!term) { showToast('请选择所属学期', 'error'); return; }
+      year = document.getElementById('astro-year').value || '';
+      if (!year) { showToast('请选择所属年份', 'error'); return; }
     }
   }
   const publishTime = document.getElementById('astro-publish-time').value || '2026-09-03';
   const now = '2026-09-03 16:30';
   if (astroEditId) {
     const item = ASTRO_CLIPS_LIST.find(r => r.id === astroEditId);
-    if (item) { item.title = title; item.lang = lang; item.type = type; item.actTypes = actTypes; item.series = series; item.term = term; item.publishTime = publishTime; }
+    if (item) { item.title = title; item.lang = lang; item.type = type; item.actTypes = actTypes; item.series = series; item.term = term; item.year = year; item.publishTime = publishTime; }
     showToast('保存成功', 'success');
   } else {
     const newId = ASTRO_CLIPS_LIST.reduce((m, r) => Math.max(m, r.id), 0) + 1;
-    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, actTypes, series, term, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
+    ASTRO_CLIPS_LIST.push({ id: newId, title, lang, type, actTypes, series, term, year, status: 'draft', publishTime, lastPublishTime: '-', createdAt: now, creator: 'admin' });
     showToast('保存成功', 'success');
   }
   showAstroList();
@@ -2001,10 +2011,25 @@ function deleteAstroClip(id) {
 
 function openAstroBanner() { showModal('bannerModal'); }
 
+// 所属年份下拉：支持点击选择年份，默认系统当前年份
+function populateAstroYearOptions() {
+  const sel = document.getElementById('astro-year');
+  if (!sel) return;
+  const cur = new Date().getFullYear();
+  for (let y = cur - 5; y <= cur + 2; y++) {
+    const o = document.createElement('option');
+    o.value = String(y);
+    o.textContent = String(y) + ' 年';
+    if (y === cur) o.selected = true;
+    sel.appendChild(o);
+  }
+}
+
 // 类型切换实时联动所属系列字段
 document.querySelectorAll('input[name="astro-type"]').forEach(r => r.addEventListener('change', toggleAstroNow));
 document.querySelectorAll('input[name="astro-act-type"]').forEach(c => c.addEventListener('change', updateSeriesTermVisibility));
 
+populateAstroYearOptions();
 renderAstroTable();
 
 /* ===== 新建教师弹窗：姓名类型联动 =====
