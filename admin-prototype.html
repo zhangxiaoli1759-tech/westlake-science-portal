@@ -44,12 +44,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC'
 .tenant-dot.science { background: var(--tenant-science); }
 .tenant-dot.astro { background: var(--tenant-astro); }
 .tenant-dot.chem { background: var(--tenant-chem); }
-.tenant-dropdown { position: absolute; top: 100%; left: 0; margin-top: 4px; background: #fff; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,.12); min-width: 200px; padding: 4px; display: none; z-index: 200; }
-.tenant-dropdown.show { display: block; }
-.tenant-dropdown .header { padding: 8px 12px; font-size: 12px; color: var(--text-muted); border-bottom: 1px solid var(--border); margin-bottom: 4px; }
-.tenant-option { padding: 10px 12px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 13px; transition: background .15s; }
-.tenant-option:hover { background: #f5f5f5; }
-.tenant-option.active { background: #e6f0fa; color: var(--primary); font-weight: 500; }
 
 .topbar-right { display: flex; align-items: center; gap: 16px; }
 .notify-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: #fff; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; font-size: 16px; }
@@ -165,6 +159,18 @@ tr:hover td { background: #fafafa; }
 .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: var(--text-muted); padding: 4px; }
 .modal-body { padding: 24px; }
 .modal-footer { padding: 16px 24px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 8px; }
+
+/* 租户选择弹窗 */
+.tenant-modal { width: 620px; }
+.tenant-list { display: grid; gap: 12px; }
+.tenant-card { display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: all .15s; }
+.tenant-card:hover { border-color: #b8cfe6; background: #f7fafd; }
+.tenant-card.selected { border-color: var(--primary); background: #eef6ff; box-shadow: 0 0 0 3px rgba(24,144,255,.10); }
+.tenant-card .tc-name { font-size: 15px; font-weight: 600; color: var(--text); display: flex; align-items: center; gap: 8px; }
+.tenant-card .tc-desc { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.tenant-card .tc-check { margin-left: auto; width: 20px; height: 20px; border-radius: 50%; border: 1.5px solid #cfd8e3; display: flex; align-items: center; justify-content: center; font-size: 12px; color: transparent; flex-shrink: 0; }
+.tenant-card.selected .tc-check { border-color: var(--primary); background: var(--primary); color: #fff; }
+.tenant-tag { font-size: 11px; padding: 1px 8px; border-radius: 10px; background: #eef1f5; color: var(--text-muted); font-weight: 400; }
 
 /* 二次确认弹窗 */
 .confirm-modal { width: 400px; }
@@ -450,24 +456,12 @@ tr:hover td { background: #fafafa; }
   <div class="topbar-left" data-page-node-id="8yPQUlJtnN2IVgtBLLZRYg">
     <div class="logo" data-page-node-id="NqLS5hNbzsNJZNmrT3KJWA">
       <div class="logo-icon" data-page-node-id="VAn2OsH2mVSI0YMau2eNEF">西</div>
-      <span class="logo-text" data-page-node-id="8Fl5DVs6lo9qAm6QZRiqBa">理学院管理后台</span>
+      <span class="logo-text" id="logoText" data-page-node-id="8Fl5DVs6lo9qAm6QZRiqBa">理学院管理后台</span>
     </div>
-    <div class="tenant-badge" id="tenantSwitcher" onclick="toggleTenantDropdown()" data-page-node-id="HTnjXBDNtJ3etbo7MWDGLU">
+    <div class="tenant-badge" id="tenantSwitcher" onclick="openTenantModal()" title="切换租户" data-page-node-id="HTnjXBDNtJ3etbo7MWDGLU">
       <span class="tenant-dot science" id="tenantDot" data-page-node-id="l003RAE4zXEkQHCWdUyELb"></span>
       <span id="currentTenant" data-page-node-id="5MjZxeHqT3Cz1EAzuUGOvc">理学院</span>
       <span style="font-size:10px" data-page-node-id="ttrzl3P9nQ6iKsLrOBtvSY">▼</span>
-      <div class="tenant-dropdown" id="tenantDropdown" data-page-node-id="SrhNg5sczyH6fuZYm9E3xY">
-        <div class="header" data-page-node-id="RkSJt8LKeJSE2FnDp7hG4C">切换租户</div>
-        <div class="tenant-option active" data-tenant="science" onclick="switchTenant('science','理学院','science')" data-page-node-id="bWHBiRbdJRQ5A4mKV66zAw">
-          <span class="tenant-dot science" data-page-node-id="I4T0K0ghUW9FEXYism0lIM"></span>理学院<span style="margin-left:auto;font-size:11px;color:var(--text-muted)" data-page-node-id="i9JGuY4TVSg02qPYZgnn8R">主租户</span>
-        </div>
-        <div class="tenant-option" data-tenant="astro" onclick="switchTenant('astro','天文系','astro')" data-page-node-id="YvjnsqAcMvR2akZto85c3F">
-          <span class="tenant-dot astro" data-page-node-id="pBH9d6lxjGKWfiSA6M9xHj"></span>天文系
-        </div>
-        <div class="tenant-option" data-tenant="chem" onclick="switchTenant('chem','化学系','chem')" data-page-node-id="e7DbDAh5qORY6TAZGkqX4A">
-          <span class="tenant-dot chem" data-page-node-id="ThCv7VTzdONTFLMag1pJAi"></span>化学系
-        </div>
-      </div>
     </div>
   </div>
   <div class="topbar-right" data-page-node-id="yznX1oZs2j1muf9ZjYfCjo">
@@ -483,116 +477,7 @@ tr:hover td { background: #fafafa; }
 <div class="main" data-page-node-id="yfK7Qg4RjmrePQ0qfa7ToX">
   <!-- Sidebar -->
   <aside class="sidebar" data-page-node-id="RRw56zAIvDgokFa0TFF3Qx">
-    <div class="sidebar-menu" data-page-node-id="UD2KxlVfWAySf92H4HHZXE">
-      <div class="menu-item active" onclick="navigate('dashboard')" data-page-node-id="Du2D9eAJbfdKQ6QqtjDTWJ">
-        <span class="icon" data-page-node-id="pkk3VwF1ofjmGGCClGBXvL">📊</span>仪表盘
-      </div>
-
-      <div class="menu-group" data-page-node-id="p9ZbffCxAV5dTryKbbZus7">
-        <div class="menu-item" onclick="toggleMenu('content-menu')" data-page-node-id="knRGQaKM8ZuZVfzZXCpuDt">
-          <span class="icon" data-page-node-id="znBDwv7FuEqinzqqQGPgti">📝</span>内容管理
-          <span class="arrow open" id="content-arrow" data-page-node-id="jBTQOkKkyHyyA6xLCjr94w">▶</span>
-        </div>
-        <div class="submenu open" id="content-menu" data-page-node-id="4a1droH3ARrNrouq7WujGb">
-          <div class="menu-item" data-page="banner" onclick="navigate('banner')" data-page-node-id="Y3P60fZeZUuQItQjYHMeUE">
-            <span class="icon" data-page-node-id="Xnz0tuHYBdlTfoS6BXBCzm">🖼</span>Banner管理
-          </div>
-          <div class="menu-item" data-page="subjects" onclick="navigate('subjects')" data-page-node-id="NiVCSdJJoyk0g5KUXG4Hvf">
-            <span class="icon" data-page-node-id="PwvYlyHr4qasJAQkGhCkd2">📖</span>学科介绍
-          </div>
-          <div class="menu-item" data-page="faculty" onclick="navigate('faculty')" data-page-node-id="d3jpFumW2GlJr7wz3fuzmu">
-            <span class="icon" data-page-node-id="Ycte6KvgDesoD7qDdp20Cx">👨‍🏫</span>人物列表
-          </div>
-          <div class="menu-item" data-page="admissions" onclick="navigate('admissions')" data-page-node-id="NQob32Vl6NfPmHDcdMlAkO">
-            <span class="icon" data-page-node-id="pi0aUQTnTqsF8gcyz0aTCh">🎓</span>招生信息
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-group" data-page-node-id="Sc5hSXMoUyDBYwolFgKtE1">
-        <div class="menu-item" onclick="toggleMenu('about-menu')" data-page-node-id="fckl5kCH06URIsii9hwB99">
-          <span class="icon" data-page-node-id="0F5mcoyoWDaQRL13fTJmYa">🏛</span>学院概况
-          <span class="arrow" id="about-arrow" data-page-node-id="UzKt89DOi4FDaUSLgkQK9c">▶</span>
-        </div>
-        <div class="submenu" id="about-menu" data-page-node-id="LMlK3S95AhHVjNpUvj33tJ">
-          <div class="menu-item" data-page="about-college" onclick="navigate('about-college')" data-page-node-id="wUCsrtCCsnDt6pCnD2ddF8">
-            <span class="icon" data-page-node-id="CG9Y19Z91SSt5Taplwu1Di">📜</span>学院介绍
-          </div>
-          <div class="menu-item" data-page="about-depts" onclick="navigate('about-depts')" data-page-node-id="FnLUkDKIyzxaCPXawyTeGC">
-            <span class="icon" data-page-node-id="vYLgxllEcWWweVY4cqgP7l">🔬</span>科系介绍
-          </div>
-          <div class="menu-item" data-page="about-life" onclick="navigate('about-life')" data-page-node-id="nGUpVcpgIqg3H4pzU9xrYq">
-            <span class="icon" data-page-node-id="xMOZUMYenOVzYxPoYnhwFt">🌳</span>学院生活
-          </div>
-          <div class="menu-item" data-page="about-contact" onclick="navigate('about-contact')" data-page-node-id="e2yg9yF7M4HicwLGomiroC">
-            <span class="icon" data-page-node-id="zuFsqZ9HWrExmEaCXW1T5e">📞</span>联系我们
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-group" data-page-node-id="Re6P1geoHiAw8FRDAwSGOR">
-        <div class="menu-item" onclick="toggleMenu('teacher-menu')" data-page-node-id="9ez8fluleCrfZ9uS9o4k9u">
-          <span class="icon" data-page-node-id="xArzbK9IMsfjcDVM6M9LZm">👨‍🏫</span>人物列表
-          <span class="arrow" id="teacher-arrow" data-page-node-id="iE4IrMGIHPo0tEF4mHxDG6">▶</span>
-        </div>
-        <div class="submenu" id="teacher-menu" data-page-node-id="GcqSGF6rg2sLERJtpW9R1v">
-          <div class="menu-item" data-page="teacher-list" onclick="navigate('teacher-list')" data-page-node-id="pT0e9aJpZb376RkQ72L0j8">
-            <span class="icon" data-page-node-id="M2sstV35YBdZ0fadu7N5UL">👨‍🏫</span>人物列表
-          </div>
-        </div>
-      </div>
-
-      <div class="menu-group" data-page-node-id="YMl6Y36NBlZANrHKYAuUxs">
-        <div class="menu-item" onclick="toggleMenu('news-menu')" data-page-node-id="MbMjO1rEp9HS9B55FKBybH">
-          <span class="icon" data-page-node-id="zglX2E8N2ZzgPD2AJ3LtCq">📰</span>新闻活动
-          <span class="arrow" id="news-arrow" data-page-node-id="2AximzQ4mYs6kcsZtMOE2u">▶</span>
-        </div>
-        <div class="submenu" id="news-menu" data-page-node-id="GhGOSfULFtIDv5TFbibdyi">
-          <div class="menu-item" data-page="news" onclick="navigate('news')" data-page-node-id="3bAhFmDvfNw7UFuAnGDqXk">
-            <span class="icon" data-page-node-id="NoHrhDGRPucX53M4CbMTWg">📢</span>新闻动态
-          </div>
-          <div class="menu-item" data-page="events" onclick="navigate('events')" data-page-node-id="6G8BKmlTyQmx4S0u8z56Xc">
-            <span class="icon" data-page-node-id="7EVgp9dtvkjY8SLl8G3bxC">🎉</span>活动信息
-          </div>
-        </div>
-      </div>
-
-      <!-- 招生培养（一级菜单，招生信息列表，带发布/取消发布） -->
-      <div class="menu-item" data-page="recruitment" onclick="navigate('recruitment')" data-page-node-id="WCu4IbEzSS9onDvKKpcsCZ">
-        <span class="icon" data-page-node-id="2l8WbQnTZYyyi6bGKFHJSE">🎓</span>招生培养
-      </div>
-
-      <!-- 资料下载（一级菜单，资料列表，带发布/取消发布） -->
-      <div class="menu-item" data-page="downloads" onclick="navigate('downloads')" data-page-node-id="Imm0K3TqfFLSzrd8vUfDSs">
-        <span class="icon" data-page-node-id="wnWqAVCitb21GJMe6RbbDC">📚</span>资料下载
-      </div>
-
-      <!-- 天文小影（一级菜单，视频列表，带发布/取消发布） -->
-      <div class="menu-item" data-page="astro-video" onclick="navigate('astro-video')" data-page-node-id="Lk2mN7vYpQr9xZ0wA3bC8d">
-        <span class="icon" data-page-node-id="Xy5PqR8sTuVw2z0aB4cD7e">🎬</span>天文小影
-      </div>
-
-      <div class="menu-group" data-page-node-id="0vKxE2NCgXPgnnrNEsp6oo">
-        <div class="menu-item" onclick="toggleMenu('system-menu')" data-page-node-id="CMPPYI5eeqgyuHwGxPkV0w">
-          <span class="icon" data-page-node-id="2GB9AHNU7p8a5p1Y7YxO02">⚙️</span>系统管理
-          <span class="arrow" id="system-arrow" data-page-node-id="aP15x343nDMUrXeGCgMz6Y">▶</span>
-        </div>
-        <div class="submenu" id="system-menu" data-page-node-id="ZzeMVUx0NGMZeI5bS2klTO">
-          <div class="menu-item" data-page="users" onclick="navigate('users')" data-page-node-id="bq99w5GmHW8fBHLtENCjg3">
-            <span class="icon" data-page-node-id="1AKPq0pu0YC6Lgyap5D8Mm">👤</span>用户管理
-          </div>
-          <div class="menu-item" data-page="roles" onclick="navigate('roles')" data-page-node-id="B7L2HuVFa4ca4BzCAoZir7">
-            <span class="icon" data-page-node-id="QGChj1MtFDvWuYkoYERFcD">🔑</span>角色管理
-          </div>
-          <div class="menu-item" data-page="menus" onclick="navigate('menus')" data-page-node-id="6pAe981pbuILaezkrI9wRi">
-            <span class="icon" data-page-node-id="oJv46DJ5OE0h5XK6wwCFNR">📋</span>菜单管理
-          </div>
-          <div class="menu-item" data-page="tenants" onclick="navigate('tenants')" data-page-node-id="iF7ODKeYABHgCdnnjaec2a">
-            <span class="icon" data-page-node-id="k9aixOnmgOkxdnDpjcB9bh">🏢</span>租户管理
-          </div>
-        </div>
-      </div>
-    </div>
+    <div class="sidebar-menu" id="sidebarMenu"></div>
   </aside>
 
   <!-- Content -->
@@ -1588,6 +1473,26 @@ tr:hover td { background: #fafafa; }
   </div>
 </div>
 
+<!-- ====== 租户选择弹窗（登录后按角色权限选择） ====== -->
+<div class="modal-overlay" id="tenantModal">
+  <div class="modal tenant-modal">
+    <div class="modal-header">
+      <h3>选择租户</h3>
+      <button class="modal-close" onclick="closeTenantModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.6">
+        当前账号 <b style="color:var(--text)" id="tenantModalUser">admin</b> 拥有以下租户的管理权限，请选择要进入的租户：
+      </p>
+      <div class="tenant-list" id="tenantList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-default" onclick="closeTenantModal()">取消</button>
+      <button class="btn btn-primary" onclick="confirmTenant()">进入后台</button>
+    </div>
+  </div>
+</div>
+
 <!-- ====== 招生培养：banner 设置弹窗 ====== -->
 <div class="modal-overlay" id="bannerModal">
   <div class="modal" style="width:520px">
@@ -1728,12 +1633,22 @@ tr:hover td { background: #fafafa; }
 // Navigation
 function navigate(page) {
   document.querySelectorAll('.content-page').forEach(p => p.classList.remove('active'));
-  const target = document.getElementById('page-' + page);
+  const target = ensurePage(page);
   if (target) target.classList.add('active');
 
   document.querySelectorAll('.sidebar .menu-item').forEach(m => m.classList.remove('active'));
-  const sidebarItem = document.querySelector(`[data-page="${page}"]`);
-  if (sidebarItem) sidebarItem.classList.add('active');
+  const sidebarItem = document.querySelector('.sidebar [data-page="' + page + '"]');
+  if (sidebarItem) {
+    sidebarItem.classList.add('active');
+    const sub = sidebarItem.closest('.submenu');
+    if (sub) {
+      sub.classList.add('open');
+      const arrow = document.getElementById(sub.id.replace('menu', 'arrow'));
+      if (arrow) arrow.classList.add('open');
+    }
+  }
+  const area = document.getElementById('contentArea');
+  if (area) area.scrollTop = 0;
 }
 
 // Menu toggle
@@ -1746,23 +1661,223 @@ function toggleMenu(id) {
   }
 }
 
-// Tenant
-function toggleTenantDropdown() {
-  document.getElementById('tenantDropdown').classList.toggle('show');
-  event.stopPropagation();
+/* ===== 租户与菜单权限 ===== */
+// 租户字典
+const TENANTS = {
+  science: { code: 'science', name: '理学院', dot: 'science', tag: '主租户',
+             desc: '理学院官网（新闻、活动统一下发至天文系、化学系）' },
+  astro:   { code: 'astro',   name: '天文系', dot: 'astro',   tag: '',
+             desc: '天文系官网' },
+  chem:    { code: 'chem',    name: '化学系', dot: 'chem',    tag: '',
+             desc: '化学系官网' }
+};
+
+// 当前登录账号：实际由角色权限接口返回可访问租户列表；admin 拥有 3 个租户权限
+const CURRENT_USER = { name: 'admin', tenants: ['science', 'astro', 'chem'] };
+
+// 各租户下的菜单（按需求截图配置）
+const TENANT_MENUS = {
+  science: {
+    // 首页取菜单首个可用页面（内容管理 → Banner管理）
+    menus: [
+      { label: '内容管理', icon: '📝', children: [
+        { label: 'Banner管理', icon: '🖼', page: 'banner' },
+        { label: '学科介绍', icon: '📖', page: 'subjects' },
+        { label: '人物列表', icon: '👨‍🏫', page: 'faculty' },
+        { label: '招生信息', icon: '🎓', page: 'admissions' }
+      ] },
+      { label: '学院概况', icon: '🏛', children: [
+        { label: '学院介绍', icon: '📜', page: 'about-college' },
+        { label: '科系介绍', icon: '🔬', page: 'about-depts' },
+        { label: '学院生活', icon: '🌳', page: 'about-life' },
+        { label: '联系我们', icon: '📞', page: 'about-contact' }
+      ] },
+      { label: '教师队伍', icon: '👨‍🏫', children: [
+        { label: '人物列表', icon: '👨‍🏫', page: 'teacher-list' }
+      ] },
+      { label: '科学研究', icon: '🔬', page: 'science-research' },
+      { label: '教育教学', icon: '📐', children: [
+        { label: '招生培养', icon: '🎓', page: 'recruitment' },
+        { label: '资料下载', icon: '📚', page: 'downloads' }
+      ] },
+      { label: '招生信息', icon: '🎓', page: 'admission-info' },
+      { label: '人才招聘', icon: '💼', page: 'jobs' },
+      { label: '新闻活动', icon: '📰', children: [
+        { label: '新闻动态', icon: '📢', page: 'news' },
+        { label: '活动信息', icon: '🎉', page: 'events' },
+        { label: '天文小影', icon: '🎬', page: 'astro-video' }
+      ] },
+      { label: '全局设置', icon: '🌐', page: 'global-settings' },
+      { label: '系统管理', icon: '⚙️', children: [
+        { label: '用户管理', icon: '👤', page: 'users' },
+        { label: '角色管理', icon: '🔑', page: 'roles' },
+        { label: '菜单管理', icon: '📋', page: 'menus' },
+        { label: '租户管理', icon: '🏢', page: 'tenants' }
+      ] }
+    ]
+  },
+  astro: {
+    home: 'astro-video',
+    menus: [
+      { label: '首页管理', icon: '🏠', children: [
+        { label: '天文小影', icon: '🎬', page: 'astro-video' }
+      ] },
+      { label: '关于', icon: 'ℹ️', page: 'astro-about' },
+      { label: '人物管理', icon: '👥', page: 'astro-people' },
+      { label: '研究管理', icon: '🔬', page: 'astro-research' },
+      { label: '职业管理', icon: '💼', page: 'astro-career' },
+      { label: '类型配置', icon: '🗂', page: 'astro-types' },
+      { label: '新闻管理', icon: '📢', page: 'news' },
+      { label: '学术活动', icon: '🎉', page: 'events' },
+      { label: '招生培养', icon: '🎓', page: 'recruitment' },
+      { label: '资料下载', icon: '📚', page: 'downloads' },
+      { label: '菜单设置', icon: '📋', page: 'astro-menu-settings' },
+      { label: '回收站', icon: '🗑', page: 'astro-recycle' },
+      { label: '系统管理', icon: '⚙️', children: [
+        { label: '用户管理', icon: '👤', page: 'users' },
+        { label: '角色管理', icon: '🔑', page: 'roles' },
+        { label: '菜单管理', icon: '📋', page: 'menus' },
+        { label: '租户管理', icon: '🏢', page: 'tenants' }
+      ] }
+    ]
+  },
+  chem: {
+    home: 'banner',
+    menus: [
+      { label: '内容管理', icon: '📝', children: [
+        { label: 'Banner', icon: '🖼', page: 'banner' },
+        { label: 'Faculty', icon: '👥', page: 'faculty' },
+        { label: 'Tutor', icon: '👨‍🏫', page: 'teacher-list' },
+        { label: 'Graduate', icon: '🎓', page: 'chem-graduate' },
+        { label: 'Research', icon: '🔬', page: 'chem-research' },
+        { label: 'News', icon: '📢', page: 'news' },
+        { label: 'Events', icon: '🎉', page: 'events' },
+        { label: 'Publication', icon: '📄', page: 'chem-publication' },
+        { label: '菜单设置', icon: '📋', page: 'chem-menu-settings' },
+        { label: '页眉页脚', icon: '🧩', page: 'chem-header-footer' }
+      ] },
+      { label: '研究管理', icon: '🔬', children: [
+        { label: '关于', icon: 'ℹ️', page: 'chem-about' }
+      ] },
+      { label: '系统管理', icon: '⚙️', children: [
+        { label: '用户管理', icon: '👤', page: 'users' },
+        { label: '角色管理', icon: '🔑', page: 'roles' },
+        { label: '菜单管理', icon: '📋', page: 'menus' },
+        { label: '租户管理', icon: '🏢', page: 'tenants' }
+      ] }
+    ]
+  }
+};
+
+// 占位页标题（暂无独立页面的菜单项）
+const PLACEHOLDER_PAGES = {
+  'science-research': '科学研究', 'admission-info': '招生信息', 'jobs': '人才招聘', 'global-settings': '全局设置',
+  'astro-about': '关于', 'astro-people': '人物管理', 'astro-research': '研究管理', 'astro-career': '职业管理',
+  'astro-types': '类型配置', 'astro-menu-settings': '菜单设置', 'astro-recycle': '回收站',
+  'chem-graduate': 'Graduate', 'chem-research': 'Research', 'chem-publication': 'Publication',
+  'chem-menu-settings': '菜单设置', 'chem-header-footer': '页眉页脚', 'chem-about': '关于'
+};
+
+let currentTenant = 'science';
+let pendingTenant = null;
+
+// 渲染侧栏菜单
+function renderSidebar(code) {
+  const cfg = TENANT_MENUS[code];
+  const box = document.getElementById('sidebarMenu');
+  if (!cfg || !box) return;
+  box.innerHTML = cfg.menus.map((m, i) => renderMenuNode(m, i)).join('');
+}
+function renderMenuNode(m, i) {
+  const icon = '<span class="icon">' + (m.icon || '•') + '</span>';
+  if (m.children && m.children.length) {
+    const sid = 'g' + i + '-menu';
+    return '<div class="menu-group">'
+      + '<div class="menu-item" onclick="toggleMenu(\'' + sid + '\')">' + icon + m.label
+      + '<span class="arrow" id="g' + i + '-arrow">▶</span></div>'
+      + '<div class="submenu" id="' + sid + '">'
+      + m.children.map(c => '<div class="menu-item" data-page="' + c.page + '" onclick="navigate(\'' + c.page + '\')">'
+          + '<span class="icon">' + (c.icon || '•') + '</span>' + c.label + '</div>').join('')
+      + '</div></div>';
+  }
+  return '<div class="menu-item" data-page="' + m.page + '" onclick="navigate(\'' + m.page + '\')">' + icon + m.label + '</div>';
 }
 
-function switchTenant(code, name, dotClass) {
-  document.getElementById('currentTenant').textContent = name;
-  const dot = document.getElementById('tenantDot');
-  dot.className = 'tenant-dot ' + dotClass;
-
-  document.querySelectorAll('.tenant-option').forEach(o => o.classList.remove('active'));
-  document.querySelector(`[data-tenant="${code}"]`).classList.add('active');
-  document.getElementById('tenantDropdown').classList.remove('show');
-
-  showToast(`已切换到「${name}」`, 'success');
+// 租户首页
+function tenantHome(code) {
+  const cfg = TENANT_MENUS[code];
+  if (!cfg) return 'dashboard';
+  if (cfg.home && document.getElementById('page-' + cfg.home)) return cfg.home;
+  for (const m of cfg.menus) {
+    if (m.children) { for (const c of m.children) if (document.getElementById('page-' + c.page)) return c.page; }
+    else if (m.page && document.getElementById('page-' + m.page)) return m.page;
+  }
+  return 'dashboard';
 }
+
+// 暂无页面的菜单：自动生成占位页
+function ensurePage(page) {
+  let el = document.getElementById('page-' + page);
+  if (el) return el;
+  const title = PLACEHOLDER_PAGES[page] || page;
+  el = document.createElement('div');
+  el.className = 'content-page';
+  el.id = 'page-' + page;
+  el.innerHTML = '<div class="breadcrumb">首页 / <span>' + title + '</span></div>'
+    + '<div class="page-header"><h2>' + title + '</h2><p>当前租户下的模块页面</p></div>'
+    + '<div class="card"><div class="card-body" style="padding:56px;text-align:center;color:var(--text-muted)">'
+    + '<div style="font-size:34px;margin-bottom:12px">🚧</div>'
+    + '<div style="font-size:14px">「' + title + '」模块页面待补充（原型占位）</div></div></div>';
+  document.getElementById('contentArea').appendChild(el);
+  return el;
+}
+
+// 打开/关闭租户选择弹窗
+function openTenantModal() {
+  pendingTenant = currentTenant;
+  const u = document.getElementById('tenantModalUser');
+  if (u) u.textContent = CURRENT_USER.name;
+  renderTenantList();
+  showModal('tenantModal');
+}
+function closeTenantModal() { closeModal('tenantModal'); pendingTenant = null; }
+function renderTenantList() {
+  const box = document.getElementById('tenantList');
+  if (!box) return;
+  box.innerHTML = CURRENT_USER.tenants.map(code => {
+    const t = TENANTS[code];
+    const sel = code === pendingTenant;
+    return '<div class="tenant-card' + (sel ? ' selected' : '') + '" onclick="pickTenant(\'' + code + '\')">'
+      + '<span class="tenant-dot ' + t.dot + '" style="width:10px;height:10px"></span>'
+      + '<div><div class="tc-name">' + t.name + (t.tag ? ' <span class="tenant-tag">' + t.tag + '</span>' : '') + '</div>'
+      + '<div class="tc-desc">' + t.desc + '</div></div>'
+      + '<span class="tc-check">✓</span></div>';
+  }).join('');
+}
+function pickTenant(code) { pendingTenant = code; renderTenantList(); }
+function confirmTenant() {
+  if (!pendingTenant) { showToast('请选择租户', 'error'); return; }
+  const code = pendingTenant;
+  closeModal('tenantModal');
+  pendingTenant = null;
+  applyTenant(code, true);
+}
+
+// 应用租户：更新顶栏 + 重渲染菜单 + 跳转首页
+function applyTenant(code, toast) {
+  const t = TENANTS[code];
+  if (!t) return;
+  currentTenant = code;
+  document.getElementById('currentTenant').textContent = t.name;
+  document.getElementById('tenantDot').className = 'tenant-dot ' + t.dot;
+  const logo = document.getElementById('logoText');
+  if (logo) logo.textContent = t.name + '管理后台';
+  renderSidebar(code);
+  navigate(tenantHome(code));
+  if (toast) showToast('已切换到「' + t.name + '」', 'success');
+}
+// 兼容旧调用
+function switchTenant(code) { applyTenant(code, true); }
 
 // Modal
 function showModal(id) { document.getElementById(id).classList.add('show'); }
@@ -1800,13 +1915,6 @@ function showToast(msg, type) {
   toast.className = 'toast show ' + (type || '');
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
-
-// Close dropdown on outside click
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.tenant-badge')) {
-    document.getElementById('tenantDropdown').classList.remove('show');
-  }
-});
 
 // Close modal on overlay click
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
@@ -2688,6 +2796,13 @@ function deleteTeacher(id) {
 
 // 启动时渲染人物列表
 renderTeacherTable();
+
+/* ===== 租户初始化：渲染当前租户菜单，并按账号租户权限弹窗选择 ===== */
+renderSidebar(currentTenant);
+navigate(tenantHome(currentTenant));
+if (CURRENT_USER.tenants.length > 1) {
+  openTenantModal();
+}
 </script>
 
 </body>
