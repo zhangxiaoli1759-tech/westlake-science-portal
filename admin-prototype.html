@@ -1117,6 +1117,287 @@ tr:hover td { background: #fafafa; }
 
       <!-- 新增 / 编辑 表单：已改为页面内弹窗（见 #astroModal） -->
     </div>
+<!-- ====== 化学系新增页面（5 个） ====== -->
+    <!-- ===== 化学系新增页面：教育教学(首页) / 使命与价值观 / 治理架构 / 科学研究 / 教育教学 ===== -->
+
+    <!-- Page: 教育教学（化学系 · 首页，单页配置，无列表） -->
+    <div class="content-page" id="page-chem-teaching">
+      <div class="breadcrumb">首页 / <span>教育教学</span></div>
+      <div class="page-header"><h2>教育教学</h2><p>配置教育教学页面：基本信息 + 「类型 / 详情链接」模块（支持增加多个）</p></div>
+      <div class="card">
+        <div class="card-header">
+          <h3>页面配置</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-teaching','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-teaching','en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="section-title">基本信息</div>
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>标题：</label>
+              <input class="form-input" value="教育教学">
+            </div>
+            <div class="form-field">
+              <label class="form-label">内容介绍：</label>
+              <input class="form-input" value="教育教学简介">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">电脑端图片：</label>
+              <div>
+                <label class="upload-area" style="width:150px;height:105px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1085px*760px　大小：不能超过2MB　最多上传一份</div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">手机端图片：</label>
+              <div>
+                <label class="upload-area" style="width:130px;height:96px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：375px*277px　大小：不能超过2MB　最多上传一份</div>
+              </div>
+            </div>
+          </div>
+          <hr class="form-divider">
+          <div class="section-title">教育教学</div>
+          <div id="chem-teaching-modules">
+            <div class="module-box">
+              <button class="link-action danger module-remove" onclick="removeChemTeachingModule(this)">删除</button>
+              <div class="form-column">
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>类型：</label>
+                  <input class="form-input" value="本科生教育" placeholder="请输入类型">
+                </div>
+                <div class="form-field align-top">
+                  <label class="form-label"><span class="required">*</span>详情链接：</label>
+                  <div>
+                    <input class="form-input" value="/undergraduate_education" placeholder="请输入详情链接">
+                    <div class="upload-hint">注意：如果跳转站内链接，请维护相对地址。例如网页地址'https://science.westlake.edu.cn/kxyj/achievements/'，链接只需要填写'/kxyj/achievements/'</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="add-module-btn" onclick="addChemTeachingModule()">+ 点击支持增加多个模块</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 使命与价值观（化学系简介） -->
+    <div class="content-page" id="page-chem-mission">
+      <div class="breadcrumb">首页 / 化学系简介 / <span>使命与价值观</span></div>
+      <div class="page-header"><h2>使命与价值观</h2><p>编辑使命与价值观页面内容，支持图文与数据展示</p></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>基本信息</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-mission','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-mission','en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>标题：</label>
+              <input class="form-input" value="西湖大学化学系">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>介绍：</label>
+              <textarea class="form-textarea" style="min-height:96px">化学系以“探索物质世界、创造未来分子”为使命，聚焦合成化学、催化、化学生物学、能源材料等前沿方向，致力于培养具有国际视野与创新能力的一流化学人才。</textarea>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>电脑端封面：</label>
+              <div>
+                <label class="upload-area" style="width:170px;height:100px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>手机端封面：</label>
+              <div>
+                <label class="upload-area" style="width:140px;height:80px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：600px*280px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">视频：</label>
+              <div>
+                <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">📁 视频上传<input type="file" accept="video/*" hidden></label>
+                <div class="upload-hint">格式：mp4、avi、mov、wmv、flv　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>数据信息</h3>
+          <div class="toolbar" style="margin:0 0 0 auto;flex-wrap:nowrap">
+            <span class="form-label" style="margin:0">提示语</span>
+            <input class="form-input" style="width:220px" value="数据截至：2025年10月">
+            <button class="btn btn-primary" onclick="showToast('提示语已保存','success')">保存</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+            <button class="btn btn-primary" onclick="openChemMissionRowForm('data','create')">新增</button>
+          </div>
+          <table data-kind="data">
+            <thead><tr><th>标题</th><th>数据</th><th>排序</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>教师</td><td>54</td><td>19</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>博士生</td><td>252</td><td>20</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>博士后研究员</td><td>64</td><td>23</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>独立实验室、科研机构和平台</td><td>75+</td><td>23</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 4 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>内容信息</h3></div>
+        <div class="card-body">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+            <button class="btn btn-primary" onclick="openChemMissionRowForm('content','create')">新增</button>
+          </div>
+          <table data-kind="content">
+            <thead><tr><th>标题</th><th>排序</th><th>介绍</th><th>了解更多</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>高水平、国际化师资队伍</td><td>2</td><td>实行独立实验室制度，以及与国际接轨的...</td><td>/faculty/all</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>培养具有全球竞争力的学术人才</td><td>3</td><td>致力于培养具有强烈社会责任、扎实学术...</td><td>/graduate_studies</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>专注开创性的基础科研</td><td>4</td><td>致力于开创性、有影响力的基础科学研究...</td><td>/research_highlights</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 3 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 治理架构（化学系简介） -->
+    <div class="content-page" id="page-chem-governance">
+      <div class="breadcrumb">首页 / 化学系简介 / <span>治理架构</span></div>
+      <div class="page-header"><h2>治理架构</h2><p>管理化学系各委员会与治理机构信息</p></div>
+      <div class="card">
+        <div class="card-header">
+          <h3>委员会列表</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemGovLang('zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setChemGovLang('en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="openChemGovernanceForm('create')">新增</button>
+          <button class="btn btn-outline" style="margin-left:10px" onclick="showToast('排序模式（演示）','success')">排序</button>
+        </div>
+        <div class="card-body">
+          <div class="toolbar">
+            <select class="form-select" style="width:150px"><option>请选择类型</option><option>党委会</option><option>院级委员会</option></select>
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入委员会名称"></div>
+            <button class="btn btn-primary">🔍 查询</button>
+            <button class="btn btn-outline">↻ 重置</button>
+          </div>
+          <table>
+            <thead><tr><th>委员会名称</th><th>类型</th><th>语言</th><th>排序</th><th>发布状态</th><th>创建时间</th><th>创建人</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>委员会</td><td>-</td><td>中文</td><td>2</td><td>已发布</td><td>2025-03-17 19:58:35</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>委员会</td><td>党委会</td><td>中文</td><td>3</td><td>未发布</td><td>2025-08-18 14:16:04</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>委员1会</td><td>院级委员会</td><td>中文</td><td>3</td><td>已发布</td><td>2025-03-26 23:09:10</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>委员会</td><td>-</td><td>中文</td><td>4</td><td>未发布</td><td>2025-03-17 19:58:57</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>奖学金评审委员会</td><td>党委会</td><td>中文</td><td>5</td><td>未发布</td><td>2025-07-24 11:50:48</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>测试</td><td>党委会</td><td>中文</td><td>6</td><td>未发布</td><td>2025-07-21 15:54:06</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>测试</td><td>党委会</td><td>中文</td><td>7</td><td>未发布</td><td>2025-07-01 10:13:20</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>学术委员会</td><td>院级委员会</td><td>中文</td><td>8</td><td>已发布</td><td>2025-03-17 19:58:59</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>10</td><td>已发布</td><td>2025-06-23 16:09:00</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>11</td><td>已发布</td><td>2025-06-23 16:08:20</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 31 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 科学研究（化学系） -->
+    <div class="content-page" id="page-chem-science">
+      <div class="breadcrumb">首页 / <span>科学研究</span></div>
+      <div class="page-header"><h2>科学研究</h2><p>管理研究方向与领域教授信息</p></div>
+      <div class="card">
+        <div class="card-header">
+          <h3>研究领域列表</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemScienceLang('zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setChemScienceLang('en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="openChemResearchForm('create')">新建研究领域</button>
+        </div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入研究领域"></div>
+            <select class="form-select" style="width:150px"><option>请选择状态</option><option>已发布</option><option>未发布</option></select>
+            <button class="btn btn-primary">🔍 查询</button>
+            <button class="btn btn-outline">↻ 重置</button>
+          </div>
+          <table>
+            <thead><tr><th>排序</th><th>研究领域</th><th>语言</th><th>教授信息</th><th>状态</th><th>最新发布时间</th><th>创建时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>25</td><td>有机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('有机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:33</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>23</td><td>物理化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('物理化学')">2</button></td><td>已发布</td><td>2025-08-19 17:12:45</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>22</td><td>化学生物学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('化学生物学')">0</button></td><td>已发布</td><td>2025-08-21 15:12:08</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>21</td><td>无机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('无机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:51</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>20</td><td>分析化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('分析化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:58</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>19</td><td>高分子化学与物理</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('高分子化学与物理')">0</button></td><td>已发布</td><td>2025-01-06 15:22:41</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 6 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">30 条/页</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 教育教学（化学系 · 顶层列表） -->
+    <div class="content-page" id="page-chem-edu">
+      <div class="breadcrumb">首页 / <span>教育教学</span></div>
+      <div class="page-header"><h2>教育教学</h2><p>管理教育教学内容（支持中英文）</p></div>
+      <div class="card">
+        <div class="card-header">
+          <h3>教育教学列表</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemEduLang('zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setChemEduLang('en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="openChemEduForm('create')">新增教育教学</button>
+        </div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入标题"></div>
+            <select class="form-select" style="width:150px"><option>请选择类型</option><option>本科生</option><option>研究生</option><option>短期项目</option></select>
+            <button class="btn btn-primary">🔍 查询</button>
+            <button class="btn btn-outline">↻ 重置</button>
+            <button class="link-action">展开 ⌄</button>
+          </div>
+          <table>
+            <thead><tr><th>序号</th><th>标题</th><th>语言</th><th>类型</th><th>发布状态</th><th>点击数</th><th>最新发布时间</th><th>发布时间</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>化学系本科生培养方案</td><td>中文</td><td>本科生</td><td>已发布</td><td>12</td><td>2026-09-17 09:54:03</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>2</td><td>化学系研究生课程体系</td><td>中文</td><td>研究生</td><td>已发布</td><td>8</td><td>2026-09-15 10:10:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>3</td><td>化学实验教学中心介绍</td><td>中文</td><td>本科生</td><td>已发布</td><td>5</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>4</td><td>本科生科研训练计划</td><td>中文</td><td>本科生</td><td>已发布</td><td>3</td><td>2026-09-14 18:41:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>5</td><td>研究生学术写作课程</td><td>中文</td><td>研究生</td><td>未发布</td><td>0</td><td>2026-09-15 11:09:00</td><td>2026-09-07</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>6</td><td>暑期学校与短期项目</td><td>中文</td><td>短期项目</td><td>已发布</td><td>0</td><td>2026-09-17 10:10:41</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>7</td><td>化学系 2027 年推免与培养衔接</td><td>中文</td><td>研究生</td><td>已发布</td><td>0</td><td>2026-09-17 09:54:12</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>8</td><td>教育教学测试用</td><td>中文</td><td>本科生</td><td>已发布</td><td>4</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+            </tbody>
+          </table>
+          <div class="pagination"><span>共 15 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
+        </div>
+      </div>
+    </div>
+
+
+
+<!-- ====== 化学系新增：使命与价值观 行编辑弹窗 ====== -->
+
   </main>
 </div>
 
@@ -1416,286 +1697,6 @@ tr:hover td { background: #fafafa; }
 </div>
 
 
-<!-- ====== 化学系新增页面（5 个） ====== -->
-    <!-- ===== 化学系新增页面：教育教学(首页) / 使命与价值观 / 治理架构 / 科学研究 / 教育教学 ===== -->
-
-    <!-- Page: 教育教学（化学系 · 首页，单页配置，无列表） -->
-    <div class="content-page" id="page-chem-teaching">
-      <div class="breadcrumb">首页 / <span>教育教学</span></div>
-      <div class="page-header"><h2>教育教学</h2><p>配置教育教学页面：基本信息 + 「类型 / 详情链接」模块（支持增加多个）</p></div>
-      <div class="card">
-        <div class="card-header">
-          <h3>页面配置</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-teaching','zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-teaching','en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
-        </div>
-        <div class="card-body">
-          <div class="section-title">基本信息</div>
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>标题：</label>
-              <input class="form-input" value="教育教学">
-            </div>
-            <div class="form-field">
-              <label class="form-label">内容介绍：</label>
-              <input class="form-input" value="教育教学简介">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">电脑端图片：</label>
-              <div>
-                <label class="upload-area" style="width:150px;height:105px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1085px*760px　大小：不能超过2MB　最多上传一份</div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">手机端图片：</label>
-              <div>
-                <label class="upload-area" style="width:130px;height:96px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：375px*277px　大小：不能超过2MB　最多上传一份</div>
-              </div>
-            </div>
-          </div>
-          <hr class="form-divider">
-          <div class="section-title">教育教学</div>
-          <div id="chem-teaching-modules">
-            <div class="module-box">
-              <button class="link-action danger module-remove" onclick="removeChemTeachingModule(this)">删除</button>
-              <div class="form-column">
-                <div class="form-field">
-                  <label class="form-label"><span class="required">*</span>类型：</label>
-                  <input class="form-input" value="本科生教育" placeholder="请输入类型">
-                </div>
-                <div class="form-field align-top">
-                  <label class="form-label"><span class="required">*</span>详情链接：</label>
-                  <div>
-                    <input class="form-input" value="/undergraduate_education" placeholder="请输入详情链接">
-                    <div class="upload-hint">注意：如果跳转站内链接，请维护相对地址。例如网页地址'https://science.westlake.edu.cn/kxyj/achievements/'，链接只需要填写'/kxyj/achievements/'</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="add-module-btn" onclick="addChemTeachingModule()">+ 点击支持增加多个模块</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Page: 使命与价值观（化学系简介） -->
-    <div class="content-page" id="page-chem-mission">
-      <div class="breadcrumb">首页 / 化学系简介 / <span>使命与价值观</span></div>
-      <div class="page-header"><h2>使命与价值观</h2><p>编辑使命与价值观页面内容，支持图文与数据展示</p></div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>基本信息</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-mission','zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-mission','en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
-        </div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>标题：</label>
-              <input class="form-input" value="西湖大学化学系">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>介绍：</label>
-              <textarea class="form-textarea" style="min-height:96px">化学系以“探索物质世界、创造未来分子”为使命，聚焦合成化学、催化、化学生物学、能源材料等前沿方向，致力于培养具有国际视野与创新能力的一流化学人才。</textarea>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>电脑端封面：</label>
-              <div>
-                <label class="upload-area" style="width:170px;height:100px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>手机端封面：</label>
-              <div>
-                <label class="upload-area" style="width:140px;height:80px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：600px*280px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">视频：</label>
-              <div>
-                <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">📁 视频上传<input type="file" accept="video/*" hidden></label>
-                <div class="upload-hint">格式：mp4、avi、mov、wmv、flv　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header">
-          <h3>数据信息</h3>
-          <div class="toolbar" style="margin:0 0 0 auto;flex-wrap:nowrap">
-            <span class="form-label" style="margin:0">提示语</span>
-            <input class="form-input" style="width:220px" value="数据截至：2025年10月">
-            <button class="btn btn-primary" onclick="showToast('提示语已保存','success')">保存</button>
-          </div>
-        </div>
-        <div class="card-body">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-            <button class="btn btn-primary" onclick="openChemMissionRowForm('data','create')">新增</button>
-          </div>
-          <table data-kind="data">
-            <thead><tr><th>标题</th><th>数据</th><th>排序</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>教师</td><td>54</td><td>19</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>博士生</td><td>252</td><td>20</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>博士后研究员</td><td>64</td><td>23</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>独立实验室、科研机构和平台</td><td>75+</td><td>23</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 4 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><h3>内容信息</h3></div>
-        <div class="card-body">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-            <button class="btn btn-primary" onclick="openChemMissionRowForm('content','create')">新增</button>
-          </div>
-          <table data-kind="content">
-            <thead><tr><th>标题</th><th>排序</th><th>介绍</th><th>了解更多</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>高水平、国际化师资队伍</td><td>2</td><td>实行独立实验室制度，以及与国际接轨的...</td><td>/faculty/all</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>培养具有全球竞争力的学术人才</td><td>3</td><td>致力于培养具有强烈社会责任、扎实学术...</td><td>/graduate_studies</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>专注开创性的基础科研</td><td>4</td><td>致力于开创性、有影响力的基础科学研究...</td><td>/research_highlights</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 3 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Page: 治理架构（化学系简介） -->
-    <div class="content-page" id="page-chem-governance">
-      <div class="breadcrumb">首页 / 化学系简介 / <span>治理架构</span></div>
-      <div class="page-header"><h2>治理架构</h2><p>管理化学系各委员会与治理机构信息</p></div>
-      <div class="card">
-        <div class="card-header">
-          <h3>委员会列表</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemGovLang('zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemGovLang('en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="openChemGovernanceForm('create')">新增</button>
-          <button class="btn btn-outline" style="margin-left:10px" onclick="showToast('排序模式（演示）','success')">排序</button>
-        </div>
-        <div class="card-body">
-          <div class="toolbar">
-            <select class="form-select" style="width:150px"><option>请选择类型</option><option>党委会</option><option>院级委员会</option></select>
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入委员会名称"></div>
-            <button class="btn btn-primary">🔍 查询</button>
-            <button class="btn btn-outline">↻ 重置</button>
-          </div>
-          <table>
-            <thead><tr><th>委员会名称</th><th>类型</th><th>语言</th><th>排序</th><th>发布状态</th><th>创建时间</th><th>创建人</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>委员会</td><td>-</td><td>中文</td><td>2</td><td>已发布</td><td>2025-03-17 19:58:35</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>委员会</td><td>党委会</td><td>中文</td><td>3</td><td>未发布</td><td>2025-08-18 14:16:04</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>委员1会</td><td>院级委员会</td><td>中文</td><td>3</td><td>已发布</td><td>2025-03-26 23:09:10</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>委员会</td><td>-</td><td>中文</td><td>4</td><td>未发布</td><td>2025-03-17 19:58:57</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>奖学金评审委员会</td><td>党委会</td><td>中文</td><td>5</td><td>未发布</td><td>2025-07-24 11:50:48</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>测试</td><td>党委会</td><td>中文</td><td>6</td><td>未发布</td><td>2025-07-21 15:54:06</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>测试</td><td>党委会</td><td>中文</td><td>7</td><td>未发布</td><td>2025-07-01 10:13:20</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>学术委员会</td><td>院级委员会</td><td>中文</td><td>8</td><td>已发布</td><td>2025-03-17 19:58:59</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>10</td><td>已发布</td><td>2025-06-23 16:09:00</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>11</td><td>已发布</td><td>2025-06-23 16:08:20</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 31 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Page: 科学研究（化学系） -->
-    <div class="content-page" id="page-chem-science">
-      <div class="breadcrumb">首页 / <span>科学研究</span></div>
-      <div class="page-header"><h2>科学研究</h2><p>管理研究方向与领域教授信息</p></div>
-      <div class="card">
-        <div class="card-header">
-          <h3>研究领域列表</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemScienceLang('zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemScienceLang('en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="openChemResearchForm('create')">新建研究领域</button>
-        </div>
-        <div class="card-body">
-          <div class="toolbar">
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入研究领域"></div>
-            <select class="form-select" style="width:150px"><option>请选择状态</option><option>已发布</option><option>未发布</option></select>
-            <button class="btn btn-primary">🔍 查询</button>
-            <button class="btn btn-outline">↻ 重置</button>
-          </div>
-          <table>
-            <thead><tr><th>排序</th><th>研究领域</th><th>语言</th><th>教授信息</th><th>状态</th><th>最新发布时间</th><th>创建时间</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>25</td><td>有机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('有机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:33</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>23</td><td>物理化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('物理化学')">2</button></td><td>已发布</td><td>2025-08-19 17:12:45</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>22</td><td>化学生物学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('化学生物学')">0</button></td><td>已发布</td><td>2025-08-21 15:12:08</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>21</td><td>无机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('无机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:51</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>20</td><td>分析化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('分析化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:58</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>19</td><td>高分子化学与物理</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('高分子化学与物理')">0</button></td><td>已发布</td><td>2025-01-06 15:22:41</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 6 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">30 条/页</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Page: 教育教学（化学系 · 顶层列表） -->
-    <div class="content-page" id="page-chem-edu">
-      <div class="breadcrumb">首页 / <span>教育教学</span></div>
-      <div class="page-header"><h2>教育教学</h2><p>管理教育教学内容（支持中英文）</p></div>
-      <div class="card">
-        <div class="card-header">
-          <h3>教育教学列表</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemEduLang('zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemEduLang('en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="openChemEduForm('create')">新增教育教学</button>
-        </div>
-        <div class="card-body">
-          <div class="toolbar">
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入标题"></div>
-            <select class="form-select" style="width:150px"><option>请选择类型</option><option>本科生</option><option>研究生</option><option>短期项目</option></select>
-            <button class="btn btn-primary">🔍 查询</button>
-            <button class="btn btn-outline">↻ 重置</button>
-            <button class="link-action">展开 ⌄</button>
-          </div>
-          <table>
-            <thead><tr><th>序号</th><th>标题</th><th>语言</th><th>类型</th><th>发布状态</th><th>点击数</th><th>最新发布时间</th><th>发布时间</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>化学系本科生培养方案</td><td>中文</td><td>本科生</td><td>已发布</td><td>12</td><td>2026-09-17 09:54:03</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>2</td><td>化学系研究生课程体系</td><td>中文</td><td>研究生</td><td>已发布</td><td>8</td><td>2026-09-15 10:10:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>3</td><td>化学实验教学中心介绍</td><td>中文</td><td>本科生</td><td>已发布</td><td>5</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>4</td><td>本科生科研训练计划</td><td>中文</td><td>本科生</td><td>已发布</td><td>3</td><td>2026-09-14 18:41:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>5</td><td>研究生学术写作课程</td><td>中文</td><td>研究生</td><td>未发布</td><td>0</td><td>2026-09-15 11:09:00</td><td>2026-09-07</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>6</td><td>暑期学校与短期项目</td><td>中文</td><td>短期项目</td><td>已发布</td><td>0</td><td>2026-09-17 10:10:41</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>7</td><td>化学系 2027 年推免与培养衔接</td><td>中文</td><td>研究生</td><td>已发布</td><td>0</td><td>2026-09-17 09:54:12</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>8</td><td>教育教学测试用</td><td>中文</td><td>本科生</td><td>已发布</td><td>4</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 15 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
-        </div>
-      </div>
-    </div>
-
-
-
-<!-- ====== 化学系新增：使命与价值观 行编辑弹窗 ====== -->
 <div class="modal-overlay" id="chemMissionRowModal">
   <div class="modal" style="width:640px">
     <div class="modal-header">
