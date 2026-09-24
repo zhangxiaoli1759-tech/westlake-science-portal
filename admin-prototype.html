@@ -412,14 +412,22 @@ tr:hover td { background: #fafafa; }
 /* 列表内纯文字单元格（无 tag 底色）：状态 / 语言 / 类型 */
 .cell-text, .dl-status, .dl-lang { font-size: 13px; color: var(--text); }
 
-/* 中文 / 英文 切换 tab（资料下载用） */
-.lang-tab {
-  height: 32px; padding: 0 16px; background: #fff; border: none;
-  font-size: 13px; color: var(--text-light); cursor: pointer;
-  border-right: 1px solid var(--border);
+/* 中文 / 英文 切换 tab（全站统一：下划线样式，参照设计稿） */
+.lang-tabs {
+  display: inline-flex; align-items: center; gap: 28px;
+  border: none !important; border-radius: 0 !important; overflow: visible !important;
 }
-.lang-tab:last-child { border-right: none; }
-.lang-tab.active { background: var(--primary); color: #fff; }
+.lang-tab {
+  height: 34px; padding: 0; background: transparent; border: none; border-radius: 0;
+  font-size: 14px; color: var(--text-muted); cursor: pointer; font-family: inherit;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color .15s, border-color .15s;
+}
+.lang-tab:hover { color: var(--primary); }
+.lang-tab.active { background: transparent; color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+/* 列表页筛选栏内的语言 tab（保证与右侧筛选项基线对齐） */
+.card-body > .toolbar .lang-tabs,
+.card-body > div .lang-tabs { flex: none; }
 
 /* 人物列表：身份筛选 tabs */
 .teacher-tabs {
@@ -650,7 +658,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="xBKQsBFMMF6jYvxWTFt8qN">首页 / 内容管理 / <span data-page-node-id="UzEDzldccnbJEZOQ6VqrIt">Banner管理</span></div>
       <div class="page-header" data-page-node-id="xXsTULRuCd07LT5ccoVRYp"><h2 data-page-node-id="2zgKuzFN3FfWO0eyHAIayJ">Banner管理</h2><p data-page-node-id="sZ7B8Ea4EV0jaNoQZaV1MA">管理官网首页轮播图，支持多设备尺寸</p></div>
       <div class="card" data-page-node-id="NyCksiH2wBEnVDW5f9rnP9">
-        <div class="card-header" data-page-node-id="0bjoiNUhDVIQaPhfRtexFR"><h3 data-page-node-id="gZB5b1acilUVbqM0rqlEyi">Banner列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="mB68OB1NIDFb1MuivXk2C1">+ 新增Banner</button></div>
+        <div class="card-header" data-page-node-id="0bjoiNUhDVIQaPhfRtexFR"><h3 data-page-node-id="gZB5b1acilUVbqM0rqlEyi">Banner列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-banner','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-banner','en')">英文</button></div><button class="btn btn-primary" onclick="openPageBannerForm('create')" data-page-node-id="mB68OB1NIDFb1MuivXk2C1">+ 新增Banner</button></div>
         <div class="card-body" data-page-node-id="oiY4UTpnhr4AtvgNhHWJ8r">
           <table data-page-node-id="x7nJCaSHBHiCLrA4mj4HrD">
             <thead data-page-node-id="EyJOQNs7i5nGokAWFT0Qt0"><tr data-page-node-id="Vuq0MBrZ9ndvI4jSqeGrCA"><th style="width:160px" data-page-node-id="cASh7iVsq3psZGl3O2EIY2">预览</th><th data-page-node-id="sSRodFRUEEMgiEN7ogLI2D">标题</th><th data-page-node-id="Kweq6yNwuRiCAK6RhgEdaI">跳转链接</th><th data-page-node-id="jukjx2yaPGwaZIKWVQZoEI">适用设备</th><th data-page-node-id="BHH8G1F1IH8fTMlLsqBFhF">排序</th><th data-page-node-id="zVWkiapDJaCbjHYzD9a7Jx">状态</th><th data-page-node-id="F4qWyDB3igecUBAgPb9HDG">操作</th></tr></thead>
@@ -669,7 +677,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="C8HCLdlvduLdS6iRLru5nv">首页 / 内容管理 / <span data-page-node-id="OnISYcbKoys6ZVm5oUeA7N">学科介绍</span></div>
       <div class="page-header" data-page-node-id="2dBN1gqzlmhgJDZn9EjAHN"><h2 data-page-node-id="NC5oq3IJmG70DTYh9m1B8r">学科介绍</h2><p data-page-node-id="QYZRS1PLAFj5A78K3KR8FD">管理学院各学科方向介绍内容，支持富文本编辑</p></div>
       <div class="card" data-page-node-id="L64JvW7CcLZcW9WI9tb5BK">
-        <div class="card-header" data-page-node-id="UP2E1bnQ4c7dd8YpoadAHs"><h3 data-page-node-id="YwE73lldW1fJHpuC5jNWSy">学科列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="lFw9iSJS7yJyoMRRijGIBg">+ 新增学科</button></div>
+        <div class="card-header" data-page-node-id="UP2E1bnQ4c7dd8YpoadAHs"><h3 data-page-node-id="YwE73lldW1fJHpuC5jNWSy">学科列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-subjects','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-subjects','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-subjects','create')" data-page-node-id="lFw9iSJS7yJyoMRRijGIBg">+ 新增学科</button></div>
         <div class="card-body" data-page-node-id="LkaSL4OVwEW3AO7t9mMBVm">
           <table data-page-node-id="xQ2BvOEfjG40Kn2GEQ3aZb">
             <thead data-page-node-id="eCYT59zwHn0BHM4Q5CWAEz"><tr data-page-node-id="f40yT2O3o9qfDyMf96k86G"><th data-page-node-id="LpEFHpRDSIvitU9PZJKcMZ">学科名称</th><th data-page-node-id="En6U7xfIdkuAl3z9sEyju4">所属院系</th><th data-page-node-id="TEtFoGv5N7QKrleGsdmi7e">简介</th><th data-page-node-id="xzA7kCW34wNPXJnLI1YP2F">状态</th><th data-page-node-id="PhjotbUxXAswITWictKc0V">更新时间</th><th data-page-node-id="JDJ6zNqzAskJjxe1xHUCSA">操作</th></tr></thead>
@@ -692,6 +700,10 @@ tr:hover td { background: #fafafa; }
         <div class="card-header" data-page-node-id="JhKlyu39kBHIuDpnR5Jkbm"><h3 data-page-node-id="ko9aYdY9ZR1HOtVE8j7x7K">教师列表</h3><button class="btn btn-primary" onclick="openFaculty('create')" data-page-node-id="skwS62jEOkkxfC8duBSeA0">+ 新增教师</button></div>
         <div class="card-body" data-page-node-id="3T6HQMDhoVFMtWEQzyy4vK">
           <div class="toolbar" data-page-node-id="DNNDIkTRAAxrQ7T3b3caG2">
+            <div class="lang-tabs">
+              <button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-faculty','zh')">中文</button>
+              <button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-faculty','en')">英文</button>
+            </div>
             <div class="search-box" data-page-node-id="BawMWHpfpBp1whYhhlMqp0"><span class="search-icon" data-page-node-id="Gn5nvC50jZc13nhGlrAtFC">🔍</span><input type="text" placeholder="搜索教师姓名..." data-page-node-id="et1pDAwe26OW7hJWAEY0EP"></div>
             <select class="form-select" style="width:140px" data-page-node-id="13VLrgDZTe6hw8bgRPDKRU"><option data-page-node-id="RruEsTPOiUqAiuIoPG4Pok">全部职称</option><option data-page-node-id="s9o3LLlKXTWPmb22APxeju">教授</option><option data-page-node-id="W6aPMk9cqWbFPlFSfoWou2">副教授</option><option data-page-node-id="ZfAX34Mil3SQ2yduHpClX2">助理教授</option><option data-page-node-id="6V3G6ITC7ms6nsN6yh2IL9">讲师</option></select>
             <select class="form-select" style="width:140px" data-page-node-id="Kg9HCbN8iFvGCNMsHjFdLa"><option data-page-node-id="HzTYOKRcbWdKmsG2TybfvW">全部院系</option><option data-page-node-id="3E0YVp9j4G8wfvxminzLcv">理学院</option><option data-page-node-id="1cEAtOymF3P1UFl2BgtitY">天文系</option><option data-page-node-id="15egZKdfGFEjPuNsYFzGAc">化学系</option></select>
@@ -715,7 +727,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="varbhclEqpzSAtoovJGCua">首页 / 内容管理 / <span data-page-node-id="Dlasa7PDILj5V6DSOZ8b9T">招生信息</span></div>
       <div class="page-header" data-page-node-id="b8vkQwNlj4CK023o1C5UhL"><h2 data-page-node-id="brNgSLfCFyKKxMVtY9AFaK">招生信息</h2><p data-page-node-id="3xDvINieBTqanzswGG5mNR">管理招生简章、专业目录、常见问题等内容</p></div>
       <div class="card" data-page-node-id="oYzKDCvG1cDpGodM0hQm4z">
-        <div class="card-header" data-page-node-id="IwOv4eyVX9wbimMNpUxtRj"><h3 data-page-node-id="PuKxI2ffpAE3v3DCA0Ggbk">招生内容列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="34eF08lKSDb5wmTSIIYN1p">+ 新增内容</button></div>
+        <div class="card-header" data-page-node-id="IwOv4eyVX9wbimMNpUxtRj"><h3 data-page-node-id="PuKxI2ffpAE3v3DCA0Ggbk">招生内容列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-admissions','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-admissions','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-admissions','create')" data-page-node-id="34eF08lKSDb5wmTSIIYN1p">+ 新增内容</button></div>
         <div class="card-body" data-page-node-id="YPDXYRPdRaCjU1hYnf0rx5">
           <table data-page-node-id="7OwL3FrHA5FbIfOvmIwjBI">
             <thead data-page-node-id="BYPNeVVAl6u8UAYcGTLrXn"><tr data-page-node-id="TP9sTHRFBsKOrmtyUNbcB5"><th data-page-node-id="DaUAEXdB1yKLRpcu0RFLG8">标题</th><th data-page-node-id="PXmoEUllH2F1pV2d8d20zG">分类</th><th data-page-node-id="CGQjSAyV4g2DDMEIQHjjem">适用年份</th><th data-page-node-id="zpbBUdT4CbLYEeVrE97cRb">状态</th><th data-page-node-id="PSMknCs29h6HsfDCTDKfWP">更新时间</th><th data-page-node-id="U2EF9YXoWnvB7aAVMQsmnH">操作</th></tr></thead>
@@ -735,7 +747,10 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="GWEIH81DlzvbdqpWcqb0GU">首页 / 学院概况 / <span data-page-node-id="aF2vBtmonoZHrzrwBgKfA8">学院介绍</span></div>
       <div class="page-header" data-page-node-id="wObO7pbbEgNuccNt8vhPNB"><h2 data-page-node-id="YlveyJAPCp2vlB71gp7yj7">学院介绍</h2><p data-page-node-id="wdQqlRRAC0VVQsoIyM3aWg">编辑学院介绍页面内容，支持图文混排</p></div>
       <div class="card" data-page-node-id="C2ygLPH333SZKM7BPYVaCs">
-        <div class="card-header" data-page-node-id="LKgOEDSUMpS8hpIE8BjVoe"><h3 data-page-node-id="9fAlDj0ejroTWLEbRpf3Zt">页面内容</h3><button class="btn btn-primary" onclick="showToast('内容已保存','success')" data-page-node-id="I6f0UwE6TL1zx3w8Emkzn8">保存</button></div>
+        <div class="card-header" data-page-node-id="LKgOEDSUMpS8hpIE8BjVoe"><h3 data-page-node-id="9fAlDj0ejroTWLEbRpf3Zt">页面内容</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-about-college','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-about-college','en')">英文</button>
+          </div><button class="btn btn-primary" onclick="showToast('内容已保存','success')" data-page-node-id="I6f0UwE6TL1zx3w8Emkzn8">保存</button></div>
         <div class="card-body" data-page-node-id="SLVAs0Bv7Fbg9TuAKCbPML">
           <div class="form-group" data-page-node-id="P4mcrH8NUOvRoOjGB47Chs"><label class="form-label" data-page-node-id="mXXwiBNRwdczo3zLkCgNDA">页面标题</label><input class="form-input" value="西湖大学理学院" data-page-node-id="LyQ0sNGyHWEdi4HPNBoB7C"></div>
           <div class="form-group" data-page-node-id="u4u26dfiAnJt3W05u7XuOC"><label class="form-label" data-page-node-id="GVhSUL2jEV5x5WUuZBiUvR">副标题</label><input class="form-input" value="格物致知，求是创新" data-page-node-id="nDIpXwUIEgWH98j5VI361W"></div>
@@ -749,8 +764,14 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="XaC0hGFQ3PIIwyQK01eNRE">首页 / 学院概况 / <span data-page-node-id="ACGvm7CM4WlM1dIGp3Hh5e">科系介绍</span></div>
       <div class="page-header" data-page-node-id="moTcffbGZXwPyAK9WnWz5j"><h2 data-page-node-id="aHA7DvSCz6eEVcFmJffnE8">科系介绍</h2><p data-page-node-id="88RRWpl2YSQw9832gCVRZg">管理各科系/研究所介绍内容</p></div>
       <div class="card" data-page-node-id="U88xQQeU7D8qCPGQSqrLa0">
-        <div class="card-header" data-page-node-id="GqAI6P7tMKbAXKnKJokTwY"><h3 data-page-node-id="ndOtv4rkW8qrVacinDaWbD">科系列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="QOoZ3UHhSlFHv6wOWhypvl">+ 新增科系</button></div>
+        <div class="card-header" data-page-node-id="GqAI6P7tMKbAXKnKJokTwY"><h3 data-page-node-id="ndOtv4rkW8qrVacinDaWbD">科系列表</h3><button class="btn btn-primary" onclick="openContentForm('page-about-depts','create')" data-page-node-id="QOoZ3UHhSlFHv6wOWhypvl">+ 新增科系</button></div>
         <div class="card-body" data-page-node-id="FtEoXpeM14phTzNu9HfC2O">
+          <div class="toolbar" data-page-node-id="deptToolbar1">
+            <div class="lang-tabs">
+              <button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-about-depts','zh')">中文</button>
+              <button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-about-depts','en')">英文</button>
+            </div>
+          </div>
           <table data-page-node-id="NEpUZ9Z6d8tWXVqWMlWAh3">
             <thead data-page-node-id="mb9G8v8D7CAFDs436GPzt1"><tr data-page-node-id="GSw8Gp9eXD0T4uyPxaBIya"><th data-page-node-id="iYEQckxkDnkUlEFkr70g1f">科系名称</th><th data-page-node-id="EenfNHENRpD2pBJb1CgVL0">所属租户</th><th data-page-node-id="e5nOIxFSvZ0eUJFJuxLBcW">负责人</th><th data-page-node-id="4gdT9RPXwD6zN6k5NVcyBY">状态</th><th data-page-node-id="a1QfPnxUNAOXto3DvdAYwP">更新时间</th><th data-page-node-id="SbnK5yBhtwPxVp2tHjGBxm">操作</th></tr></thead>
             <tbody data-page-node-id="8dkcsJrJGK1lpoLwKaQQVG">
@@ -769,7 +790,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="FDtTppJDqGjQlGBhbxAD8l">首页 / 学院概况 / <span data-page-node-id="U92GzdQguEFYBzFTXD2GXW">学院生活</span></div>
       <div class="page-header" data-page-node-id="AxaHo4TwFUirKT9XUIlOSp"><h2 data-page-node-id="Yp1pEC1MQENEtlHzgT1ghg">学院生活</h2><p data-page-node-id="hkY1iEBZ1ttJFStGTgrFrz">管理校园生活相关内容，如图片集、学生活动风采等</p></div>
       <div class="card" data-page-node-id="OrpuJmp4lvFkIFVuEIsr3P">
-        <div class="card-header" data-page-node-id="TwEGE8tU9r3B0oHerDr9T8"><h3 data-page-node-id="E9BFjmC30a1mk7nxlNCHnL">内容列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="lH2piI2pDFB8wTcLGsFowu">+ 新增内容</button></div>
+        <div class="card-header" data-page-node-id="TwEGE8tU9r3B0oHerDr9T8"><h3 data-page-node-id="E9BFjmC30a1mk7nxlNCHnL">内容列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-about-life','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-about-life','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-about-life','create')" data-page-node-id="lH2piI2pDFB8wTcLGsFowu">+ 新增内容</button></div>
         <div class="card-body" data-page-node-id="DarlSMfx0VuqAWFjxUYRGC">
           <table data-page-node-id="UQ1o8rdxb1Ji0rRk1U0NBk">
             <thead data-page-node-id="0aZfPumXbrhfacuIeVpVHw"><tr data-page-node-id="JdqEWJeTF4eyJQFwKQuCUW"><th data-page-node-id="4dr5e25UC2z67DGWXomPWq">标题</th><th data-page-node-id="o0V2mm69NFo4OzCkrr8wB9">类型</th><th data-page-node-id="IyxZ9pWL0NmuEsoZhExOb3">封面</th><th data-page-node-id="ywNv2rHEJDJ4I8f3FTHSJc">状态</th><th data-page-node-id="tAh7Is055JShwEtzdYvxQA">更新时间</th><th data-page-node-id="gBnwG8z5UWbV2bmu5YqDQG">操作</th></tr></thead>
@@ -788,7 +809,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="XNVsKYL6cZ1I5OdBkwbH42">首页 / 学院概况 / <span data-page-node-id="PDMubloKDIaGzmYTun2OYu">联系我们</span></div>
       <div class="page-header" data-page-node-id="PRn70aSYDYoUq98L5ptjiC"><h2 data-page-node-id="CZjnk3Ij2TMMUgaFHXMBHY">联系我们</h2><p data-page-node-id="pjFMFnXzPuouCUIr8dEBLl">编辑各院系的联系信息（地址、电话、邮箱、地图等）</p></div>
       <div class="card" data-page-node-id="trRaO00p0TcNbvQCOkjJRo">
-        <div class="card-header" data-page-node-id="dyQqD8q3hLBUWjTEhjz1wf"><h3 data-page-node-id="on7UtgV4BDelVAB94OeXUz">联系信息</h3><button class="btn btn-primary" onclick="showToast('内容已保存','success')" data-page-node-id="xHGVnt4AnWLlAq0DNYQakz">保存</button></div>
+        <div class="card-header" data-page-node-id="dyQqD8q3hLBUWjTEhjz1wf"><h3 data-page-node-id="on7UtgV4BDelVAB94OeXUz">联系信息</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-about-contact','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-about-contact','en')">英文</button></div><button class="btn btn-primary" onclick="showToast('内容已保存','success')" data-page-node-id="xHGVnt4AnWLlAq0DNYQakz">保存</button></div>
         <div class="card-body" data-page-node-id="H7xRALmXOCCmubRSYpXOnb">
           <div class="form-group" data-page-node-id="y6OpsWAHlE8RrBw3dYSHhC"><label class="form-label" data-page-node-id="1e1eJAcqZc8OPbbJ6IFaN5">地址</label><input class="form-input" value="浙江省杭州市西湖区云栖小镇石龙山街18号" data-page-node-id="lLx2o3vT6v0MAF3YrSxTKj"></div>
           <div class="form-row" data-page-node-id="eBUI6LZ3qF2tpFHGE0qBQk">
@@ -813,7 +834,7 @@ tr:hover td { background: #fafafa; }
         <div class="card-body" style="padding-top:0" data-page-node-id="sKXC0TKGo1AoKJXbCFAgFm">
           <div class="toolbar" style="justify-content:space-between; flex-wrap:wrap; margin-bottom:0; padding-bottom:12px; border-bottom:1px solid var(--border)" data-page-node-id="45vzb6ohZYCLFSiFiJwpTO">
             <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" data-page-node-id="1Ab7NQSIlGZWpAw7ni7tej">
-              <div class="lang-tabs" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden" data-page-node-id="AKrQTP7dGLzzB0UaL7FcbG">
+              <div class="lang-tabs" data-page-node-id="AKrQTP7dGLzzB0UaL7FcbG">
                 <button class="lang-tab active" data-lang="zh" onclick="setTeacherLangTab('zh')" data-page-node-id="otfjzyMIhy4U63fqAxHltH">中文</button>
                 <button class="lang-tab" data-lang="en" onclick="setTeacherLangTab('en')" data-page-node-id="C02NBDN0hUEysxXuJPQeWD">英文</button>
               </div>
@@ -860,7 +881,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="qtUjlFxl9RHzsaFmjRg2bG">首页 / 新闻活动 / <span data-page-node-id="fdaHAsvsjMumSXTpkriv3G">新闻动态</span></div>
       <div class="page-header" data-page-node-id="BO8F2ui7Opo4eSndIhiXy2"><h2 data-page-node-id="xw3Z5NFFcN7wnXECATT3wK">新闻动态</h2><p data-page-node-id="warU1z39PFkSD0wTD1TCFO">管理新闻内容，支持下发至天文系、化学系</p></div>
       <div class="card" data-page-node-id="n7RzS6MQ1w48Sy8xBWluFw">
-        <div class="card-header" data-page-node-id="e1fN4IURK31Y410MIv7G9X"><h3 data-page-node-id="doO2TxLeeajYdZl3uAt0Dx">新闻列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="WsmZj1BNGBWbGglfAdyHfz">+ 新增新闻</button></div>
+        <div class="card-header" data-page-node-id="e1fN4IURK31Y410MIv7G9X"><h3 data-page-node-id="doO2TxLeeajYdZl3uAt0Dx">新闻列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-news','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-news','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-news','create')" data-page-node-id="WsmZj1BNGBWbGglfAdyHfz">+ 新增新闻</button></div>
         <div class="card-body" data-page-node-id="fvEzJGtRr8CCnZHlbPa5Oz">
           <div class="toolbar" data-page-node-id="5ryZ8KEvRiNQu4DyoiHknv">
             <div class="search-box" data-page-node-id="Q09HjWMvsbiUKCDO3rTgld"><span class="search-icon" data-page-node-id="h2AnvqLbnPcrn6IWsA9yUB">🔍</span><input type="text" placeholder="搜索新闻标题..." data-page-node-id="GPbnVN4CfqVNW6UmrFAn4m"></div>
@@ -884,7 +905,7 @@ tr:hover td { background: #fafafa; }
       <div class="breadcrumb" data-page-node-id="4rTgK8PTWtr3nJLKVHuENi">首页 / 新闻活动 / <span data-page-node-id="lZLDkbqDG8fDBJbNrnJxJH">活动信息</span></div>
       <div class="page-header" data-page-node-id="PsRAUyfe6pA5ZkIIUHtpZf"><h2 data-page-node-id="9o7bsf4AlAWsB7Cb6Lv2lI">活动信息</h2><p data-page-node-id="dsc7maKpPJOqxN1quwEWHn">管理学术讲座、校园活动，支持下发至天文系、化学系</p></div>
       <div class="card" data-page-node-id="8FKmjfvOFjKmdBK7fUpX9L">
-        <div class="card-header" data-page-node-id="4dWzwvJKhdyc1BHgulQxWs"><h3 data-page-node-id="D4gC2e8kkAec3ug9zVlhmr">活动列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="CyVSf9UG6u5vS7bDIGDpMX">+ 新增活动</button></div>
+        <div class="card-header" data-page-node-id="4dWzwvJKhdyc1BHgulQxWs"><h3 data-page-node-id="D4gC2e8kkAec3ug9zVlhmr">活动列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-events','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-events','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-events','create')" data-page-node-id="CyVSf9UG6u5vS7bDIGDpMX">+ 新增活动</button></div>
         <div class="card-body" data-page-node-id="UQiFFu05Z5yykc3gEBQUag">
           <table data-page-node-id="a4QkxmrQDS3EQAlFLwFEvI">
             <thead data-page-node-id="2oCHQPHG7jhLb1vYbwDI6d"><tr data-page-node-id="Mhi9mR006v2HFOxg2WXQYN"><th data-page-node-id="esL4Le5GyNO8TFVFJbnZH7">活动名称</th><th data-page-node-id="yO5kCI4uIicxUXTQv6oDcW">类型</th><th data-page-node-id="uHbKQ8w9wGFAbtY6EGCOIA">活动时间</th><th data-page-node-id="j5VYGwHAJpCfM4wuu6PgJF">下发目标</th><th data-page-node-id="CI11aSB7g3m4eDhniVyFwL">状态</th><th data-page-node-id="32P4W4Gm2DI6JhEbEYfaF9">操作</th></tr></thead>
@@ -973,7 +994,7 @@ tr:hover td { background: #fafafa; }
       <!-- 筛选工具栏（中文 / 英文 tab + 标题搜索 + 查询 / 重置） -->
       <div class="card" data-page-node-id="OdsrAJ1w3SXe1YTChsLL6t">
         <div class="card-body" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap" data-page-node-id="RSuAYE7CSBRgd0RNnERWc0">
-          <div class="lang-tabs" id="dlLangTabs" style="display:inline-flex;border:1px solid var(--border);border-radius:6px;overflow:hidden" data-page-node-id="IfhyXcwlB079lPmSUgXlHc">
+          <div class="lang-tabs" id="dlLangTabs" data-page-node-id="IfhyXcwlB079lPmSUgXlHc">
             <button type="button" class="lang-tab active" data-lang="zh" onclick="setDlLangTab('zh')" data-page-node-id="z6JCxlHbAUrCxovDv3ujyp">中文</button>
             <button type="button" class="lang-tab"        data-lang="en" onclick="setDlLangTab('en')" data-page-node-id="vQI8iUTbsVzDN3Gqc9gr7G">英文</button>
           </div>
@@ -1086,94 +1107,7 @@ tr:hover td { background: #fafafa; }
         </div>
       </div>
 
-      <!-- 新增 / 编辑 表单视图 -->
-      <div id="astroFormView" style="display:none">
-        <div class="breadcrumb">首页 / <span>天文小影</span> / <span>新建</span></div>
-        <div class="page-header"><h2 id="astroFormTitle" style="border-bottom:2px solid var(--primary);display:inline-block;padding-bottom:8px">新建天文小影</h2></div>
-        <div class="card">
-          <div class="card-body" style="padding:24px">
-            <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>语言：</label>
-              <div class="radio-group">
-                <label><input type="radio" name="astro-lang" value="zh" checked> 中文</label>
-                <label><input type="radio" name="astro-lang" value="en"> English</label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>标题：</label>
-              <input class="form-input" id="astro-title" placeholder="请输入标题" style="max-width:520px">
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>类型：</label>
-              <div class="radio-group">
-                <label><input type="radio" name="astro-type" value="astro_clip" checked> 天文小影</label>
-                <label><input type="radio" name="astro-type" value="astro_now"> 天文此刻</label>
-                <label><input type="radio" name="astro-type" value="campus_life"> 校园生活</label>
-              </div>
-            </div>
-            <div id="astro-now-fields" class="form-column" style="display:none">
-              <div class="form-field">
-                <label class="form-label"><span class="required">*</span>活动类型：</label>
-                <div class="radio-group">
-                  <label><input type="checkbox" name="astro-act-type" value="academic"> 学术活动</label>
-                  <label><input type="checkbox" name="astro-act-type" value="teacher_student"> 师生活动</label>
-                  <label><input type="checkbox" name="astro-act-type" value="summer"> 暑假活动</label>
-                  <label><input type="checkbox" name="astro-act-type" value="exchange"> 交流活动</label>
-                </div>
-              </div>
-              <div id="astro-series-term-fields" class="form-column" style="display:none">
-                <div class="form-field">
-                  <label class="form-label"><span class="required">*</span>所属系列：</label>
-                  <div class="radio-group">
-                    <label><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
-                    <label><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
-                  </div>
-                </div>
-                <div class="form-field">
-                  <label class="form-label"><span class="required">*</span>所属年份：</label>
-                  <select class="form-input" id="astro-year" style="width:160px"></select>
-                </div>
-                <div class="form-field">
-                  <label class="form-label"><span class="required">*</span>所属学期：</label>
-                  <div class="radio-group">
-                    <label><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
-                    <label><input type="radio" name="astro-term" value="autumn"> 秋季学期</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>视频封面：</label>
-              <div>
-                <label class="upload-area" id="astro-cover-upload" style="width:200px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">
-                  <span class="upload-icon">🖼️</span>
-                  <span>图片上传</span>
-                  <input type="file" accept="image/*" hidden>
-                </label>
-                <div style="margin-top:8px;color:#999;font-size:12px;line-height:1.6">格式：JPG,JPEG,PNG,PNEG　尺寸：390px*240px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>视频：</label>
-              <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">
-                📁 视频上传
-                <input type="file" accept="video/*" hidden>
-              </label>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>发布时间：</label>
-              <input type="date" class="form-input" id="astro-publish-time" value="2026-09-03" style="width:200px">
-            </div>
-            </div>
-          </div>
-          <div class="card-footer" style="padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:8px">
-            <button class="btn btn-outline" onclick="showAstroList()">取消</button>
-            <button class="btn btn-primary" onclick="saveAstroClip()">保存</button>
-          </div>
-        </div>
-      </div>
-
+      <!-- 新增 / 编辑 表单：已改为页面内弹窗（见 #astroModal） -->
     </div>
   </main>
 </div>
@@ -1425,7 +1359,7 @@ tr:hover td { background: #fafafa; }
               <button type="button" title="下划线" onclick="editorCmd('underline')" data-page-node-id="jio8sfu7MnwqLAWrclizhM"><u data-page-node-id="1KBwNDb4GBQJpdZIjxOEKc">U</u></button>
               <button type="button" title="删除线" onclick="editorCmd('strikeThrough')" data-page-node-id="mVvEuZzWbZuFe08fKnfyj1"><s data-page-node-id="jxinF4jtgFMn1eSMC5Xyrz">S</s></button>
               <span class="tb-sep" data-page-node-id="EfxEGTpPWhLuVSaWvBJIzU"></span>
-              <button type="button" title="图片" onclick="alert('演示模式：图片上传未启用')" data-page-node-id="QzNYqCf53F5IubYfHCGpjo">🖼</button>
+              <button type="button" title="图片" onclick="showToast('演示模式：图片上传未启用','error')" data-page-node-id="QzNYqCf53F5IubYfHCGpjo">🖼</button>
               <button type="button" title="链接" onclick="editorCmd('createLink','https://')" data-page-node-id="nC37a3qqS1VIX3Wkg4lhS6">🔗</button>
               <button type="button" title="有序列表" onclick="editorCmd('insertOrderedList')" data-page-node-id="qvz62MjCIQDhEozoNB42uK">1.</button>
               <button type="button" title="引用" onclick="editorCmd('formatBlock','BLOCKQUOTE')" data-page-node-id="ql9rern4JZU5Bqclww9ADw">"</button>
@@ -1623,6 +1557,207 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
     <div class="modal-footer" id="downloadFooter" data-page-node-id="a3zue68fu8u0UZj1jbji3Z"></div>
+  </div>
+</div>
+
+<!-- ====== Banner管理：新增 / 编辑弹窗（在页面内打开，参照设计稿） ====== -->
+<div class="modal-overlay" id="pageBannerModal">
+  <div class="modal" style="width:880px">
+    <div class="modal-header">
+      <h3 id="pageBannerTitle">编辑 Banner</h3>
+      <button class="modal-close" onclick="closeModal('pageBannerModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:22px 28px 4px">
+      <div class="form-column">
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>语言：</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="pb-lang" value="zh" checked> 中文</label>
+            <label class="radio-item"><input type="radio" name="pb-lang" value="en"> 英文</label>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>Banner名称：</label>
+          <input class="form-input" id="pb-title" placeholder="请输入Banner名称">
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label"><span class="required">*</span>Web端图片：</label>
+          <div>
+            <label class="upload-area" id="pb-web-upload" style="width:180px;height:100px">
+              <span>图片上传</span>
+              <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+            </label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG、GIF 尺寸：1920px*900px 大小：不能超过2MB 最多上传一份；</div>
+          </div>
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label"><span class="required">*</span>phone端图片：</label>
+          <div>
+            <label class="upload-area" id="pb-phone-upload" style="width:180px;height:100px">
+              <span>图片上传</span>
+              <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+            </label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG、GIF 尺寸：750px*480px 大小：不能超过2MB 最多上传一份；</div>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>详情链接：</label>
+          <div>
+            <input class="form-input" id="pb-link" placeholder="请输入详情链接">
+            <div class="upload-hint" style="margin-top:6px">注意：如果跳转站内链接，请维护相对地址。例如网页地址'https://science.westlake.edu.cn/kxyj/achievements/'，链接只需要填写'/kxyj/achievements/'</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:flex-start">
+      <button class="btn btn-outline" onclick="closeModal('pageBannerModal')">取消</button>
+      <button class="btn btn-primary" onclick="savePageBanner()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 通用：内容新增 / 编辑弹窗（学科 / 招生信息 / 科系 / 学院生活 / 新闻 / 活动，均在页面内打开） ====== -->
+<div class="modal-overlay" id="contentModal">
+  <div class="modal" style="width:880px">
+    <div class="modal-header">
+      <h3 id="contentModalTitle">新增内容</h3>
+      <button class="modal-close" onclick="closeModal('contentModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:22px 28px 4px">
+      <div class="form-column" id="contentForm">
+        <div class="form-field">
+          <label class="form-label"><span class="required">*</span>语言：</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="ct-lang" value="zh" checked> 中文</label>
+            <label class="radio-item"><input type="radio" name="ct-lang" value="en"> 英文</label>
+          </div>
+        </div>
+        <div class="form-field">
+          <label class="form-label" id="ct-title-label"><span class="required">*</span>标题：</label>
+          <input class="form-input" id="ct-title" placeholder="请输入标题">
+        </div>
+        <div class="form-field">
+          <label class="form-label" id="ct-cat-label">分类：</label>
+          <select class="form-select" id="ct-cat"></select>
+        </div>
+        <div class="form-field align-top" id="ct-cover-field">
+          <label class="form-label" id="ct-cover-label">封面：</label>
+          <div>
+            <label class="upload-area" id="ct-cover-upload" style="width:160px;height:100px">
+              <span>图片上传</span>
+              <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none">
+            </label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG 尺寸：建议 16:9 大小：不能超过2MB 最多上传一份；</div>
+          </div>
+        </div>
+        <div class="form-field" id="ct-extra-field">
+          <label class="form-label" id="ct-extra-label">简介：</label>
+          <input class="form-input" id="ct-extra" placeholder="请输入简介">
+        </div>
+        <div class="form-field">
+          <label class="form-label" id="ct-time-label"><span class="required">*</span>发布时间：</label>
+          <input class="form-input" type="text" id="ct-time" placeholder="请选择发布时间" style="width:200px" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'">
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label">内容：</label>
+          <textarea class="form-textarea" id="ct-content" placeholder="请输入内容" style="min-height:140px"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:flex-start">
+      <button class="btn btn-outline" onclick="closeModal('contentModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveContentForm()">保存</button>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 天文小影：新增 / 编辑弹窗（在页面内打开） ====== -->
+<div class="modal-overlay" id="astroModal">
+  <div class="modal" style="width:900px">
+    <div class="modal-header">
+      <h3 id="astroFormTitle">新建天文小影</h3>
+      <button class="modal-close" onclick="closeModal('astroModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:22px 28px 4px">
+            <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="astro-lang" value="zh" checked> 中文</label>
+                <label class="radio-item"><input type="radio" name="astro-lang" value="en"> English</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>标题：</label>
+              <input class="form-input" id="astro-title" placeholder="请输入标题" style="max-width:520px">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>类型：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="astro-type" value="astro_clip" checked> 天文小影</label>
+                <label class="radio-item"><input type="radio" name="astro-type" value="astro_now"> 天文此刻</label>
+                <label class="radio-item"><input type="radio" name="astro-type" value="campus_life"> 校园生活</label>
+              </div>
+            </div>
+            <div id="astro-now-fields" class="form-column" style="display:none">
+              <div class="form-field">
+                <label class="form-label"><span class="required">*</span>活动类型：</label>
+                <div class="radio-group">
+                  <label class="radio-item"><input type="checkbox" name="astro-act-type" value="academic"> 学术活动</label>
+                  <label class="radio-item"><input type="checkbox" name="astro-act-type" value="teacher_student"> 师生活动</label>
+                  <label class="radio-item"><input type="checkbox" name="astro-act-type" value="summer"> 暑假活动</label>
+                  <label class="radio-item"><input type="checkbox" name="astro-act-type" value="exchange"> 交流活动</label>
+                </div>
+              </div>
+              <div id="astro-series-term-fields" class="form-column" style="display:none">
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属系列：</label>
+                  <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="astro-series" value="colloquium" checked> Colloquium 系列讲座</label>
+                    <label class="radio-item"><input type="radio" name="astro-series" value="seminar"> Seminar 系列讲座</label>
+                  </div>
+                </div>
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属年份：</label>
+                  <select class="form-input" id="astro-year" style="width:160px"></select>
+                </div>
+                <div class="form-field">
+                  <label class="form-label"><span class="required">*</span>所属学期：</label>
+                  <div class="radio-group">
+                    <label class="radio-item"><input type="radio" name="astro-term" value="spring" checked> 春季学期</label>
+                    <label class="radio-item"><input type="radio" name="astro-term" value="autumn"> 秋季学期</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>视频封面：</label>
+              <div>
+                <label class="upload-area" id="astro-cover-upload" style="width:200px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer">
+                  <span class="upload-icon">🖼️</span>
+                  <span>图片上传</span>
+                  <input type="file" accept="image/*" hidden>
+                </label>
+                <div style="margin-top:8px;color:#999;font-size:12px;line-height:1.6">格式：JPG,JPEG,PNG,PNEG　尺寸：390px*240px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>视频：</label>
+              <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">
+                📁 视频上传
+                <input type="file" accept="video/*" hidden>
+              </label>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>发布时间：</label>
+              <input type="date" class="form-input" id="astro-publish-time" value="2026-09-03" style="width:200px">
+            </div>
+            </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('astroModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveAstroClip()">保存</button>
+    </div>
   </div>
 </div>
 
@@ -2000,8 +2135,6 @@ function resetAstro() {
 }
 
 function openAstroForm(mode, id) {
-  document.getElementById('astroListView').style.display = 'none';
-  document.getElementById('astroFormView').style.display = 'block';
   document.getElementById('astro-title').value = '';
   document.querySelector('input[name="astro-lang"][value="zh"]').checked = true;
   document.querySelector('input[name="astro-type"][value="astro_clip"]').checked = true;
@@ -2040,6 +2173,7 @@ function openAstroForm(mode, id) {
     formTitleEl.textContent = '新建天文小影';
   }
   toggleAstroNow();
+  showModal('astroModal');
 }
 
 // 类型联动：选「天文此刻」显示活动类型等字段；活动类型含「学术活动」才显示所属系列/学期
@@ -2057,8 +2191,7 @@ function updateSeriesTermVisibility() {
 }
 
 function showAstroList() {
-  document.getElementById('astroFormView').style.display = 'none';
-  document.getElementById('astroListView').style.display = 'block';
+  closeModal('astroModal');
   renderAstroTable();
 }
 
@@ -2792,17 +2925,343 @@ function toggleTeacherPublish(id) {
 function deleteTeacher(id) {
   const item = TEACHER_LIST.find(t => t.id === id);
   if (!item) return;
-  if (!confirm('确定删除「' + item.name + '」吗？此操作不可撤销。')) return;
-  const idx = TEACHER_LIST.findIndex(t => t.id === id);
-  if (idx > -1) TEACHER_LIST.splice(idx, 1);
-  renderTeacherTable();
-  showToast('人物已删除', 'success');
+  openConfirm('确认删除', '确定要删除「' + item.name + '」吗？此操作不可撤销。', function() {
+    const idx = TEACHER_LIST.findIndex(t => t.id === id);
+    if (idx > -1) TEACHER_LIST.splice(idx, 1);
+    renderTeacherTable();
+    showToast('人物已删除', 'success');
+  });
 }
 
 // 启动时渲染人物列表
 renderTeacherTable();
 
+/* ===== 全站中英文配置：列表页 tab + 弹窗语言切换 ===== */
+// 每个页面的当前语言（默认中文）
+const PAGE_LANG = {};
+// 单页配置型页面（学院介绍/联系我们）：中英文内容各存一份
+const FORM_LANG_CACHE = {};
+// 由 JS 渲染的列表页（自身按语言过滤，不参与静态行标记）
+const JS_RENDERED_PAGES = ['page-teacher-list', 'page-recruitment', 'page-downloads', 'page-astro-video'];
+
+// 英文演示数据：切换到「英文」时注入静态列表（数组长度 = 列数-1，最后一列「操作」沿用中文行）
+const EN_ROW_SPECS = {
+  'page-banner': [
+    ['<div style="width:140px;height:60px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">2026 Admissions</div>',
+     'Westlake 2026 Admissions', '/en/admissions/2026', '<span class="tag tag-info">PC</span>', '1', '<span class="tag tag-success">启用</span>'],
+  ],
+  'page-subjects': [
+    ['Physics', '理学院', 'Condensed matter physics, quantum information, optics...', '<span class="tag tag-success">已发布</span>', '2026-08-05'],
+  ],
+  'page-faculty': [
+    ['Prof. Zhang', '<span class="tag tag-danger">教授</span>', 'Condensed Matter Physics', '理学院', '1', '<span class="tag tag-success">展示</span>'],
+  ],
+  'page-admissions': [
+    ['2026 Doctoral Admission Guide', '<span class="tag tag-info">招生简章</span>', '2026', '<span class="tag tag-success">已发布</span>', '2026-07-15'],
+  ],
+  'page-about-depts': [
+    ['Department of Physics', '理学院', 'Prof. Zhang', '<span class="tag tag-success">已发布</span>', '2026-08-01'],
+  ],
+  'page-about-life': [
+    ['2026 Spring Sports Meeting', '<span class="tag tag-info">活动风采</span>', '📷 12', '<span class="tag tag-success">已发布</span>', '2026-04-20'],
+  ],
+  'page-news': [
+    ['Westlake Research Featured on Nature Cover', '<span class="tag tag-info">科研动态</span>', '<span class="tag tag-danger">理学院+天文系+化学系</span>', '<span class="tag tag-success">已发布</span>', '2026-08-10'],
+  ],
+  'page-events': [
+    ['Frontiers of Quantum Computing', '<span class="tag tag-info">学术讲座</span>', '2026-08-20 14:00', '<span class="tag tag-danger">理学院+天文系+化学系</span>', '<span class="tag tag-success">已发布</span>'],
+  ],
+};
+
+// 同步语言 tab 的高亮态
+function syncLangTabs(pageId) {
+  const lang = PAGE_LANG[pageId] || 'zh';
+  document.querySelectorAll('#' + pageId + ' .lang-tab').forEach(b => {
+    b.classList.toggle('active', (b.dataset.lang || 'zh') === lang);
+  });
+}
+
+// 切换列表页语言
+function setPageLang(pageId, lang) {
+  PAGE_LANG[pageId] = lang;
+  syncLangTabs(pageId);
+  applyPageLangFilter(pageId);
+}
+
+// 首次切到英文时，注入英文演示行
+function ensureEnRows(page) {
+  const spec = EN_ROW_SPECS[page.id];
+  if (!spec || page.dataset.enReady === '1') return;
+  const tbody = page.querySelector('tbody');
+  if (!tbody) return;
+  const tmpl = tbody.querySelector('tr[data-lang="zh"]') || tbody.querySelector('tr');
+  if (!tmpl) return;
+  const cut = spec[0].length;
+  spec.forEach(vals => {
+    const tr = document.createElement('tr');
+    tr.dataset.lang = 'en';
+    vals.forEach(html => {
+      const td = document.createElement('td');
+      td.innerHTML = html;
+      tr.appendChild(td);
+    });
+    for (let i = cut; i < tmpl.children.length; i++) {
+      const td = document.createElement('td');
+      td.className = tmpl.children[i].className;
+      td.innerHTML = tmpl.children[i].innerHTML;
+      tr.appendChild(td);
+    }
+    tbody.appendChild(tr);
+    bindRowActions(tr, page.id);
+  });
+  page.dataset.enReady = '1';
+}
+
+// 按语言过滤静态列表行
+function applyPageLangFilter(pageId) {
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  const lang = PAGE_LANG[pageId] || 'zh';
+  if (lang === 'en') ensureEnRows(page);
+  let visible = 0;
+  page.querySelectorAll('tbody tr[data-lang]').forEach(tr => {
+    const show = tr.dataset.lang === lang;
+    tr.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  const pag = page.querySelector('.pagination');
+  if (pag) {
+    const span = pag.querySelector('span');
+    if (span && /共\s*\d+\s*条/.test(span.textContent)) span.textContent = '共 ' + visible + ' 条';
+  }
+}
+
+// 标记静态表格行（默认中文）
+function initStaticLangRows() {
+  document.querySelectorAll('.content-page').forEach(page => {
+    PAGE_LANG[page.id] = PAGE_LANG[page.id] || 'zh';
+    if (JS_RENDERED_PAGES.indexOf(page.id) > -1) return;
+    page.querySelectorAll('tbody tr').forEach(tr => { if (!tr.dataset.lang) tr.dataset.lang = 'zh'; });
+  });
+}
+
+// 单页配置型页面（学院介绍 / 联系我们）：中英文内容分别填写
+function setFormLang(pageId, lang) {
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  const prev = PAGE_LANG[pageId] || 'zh';
+  if (prev === lang) return;
+  const fields = Array.from(page.querySelectorAll('.card-body input.form-input, .card-body textarea.form-textarea'));
+  FORM_LANG_CACHE[pageId] = FORM_LANG_CACHE[pageId] || {};
+  FORM_LANG_CACHE[pageId][prev] = fields.map(f => f.value);
+  PAGE_LANG[pageId] = lang;
+  syncLangTabs(pageId);
+  const cached = FORM_LANG_CACHE[pageId][lang];
+  fields.forEach((f, i) => { f.value = cached ? (cached[i] || '') : ''; });
+  showToast(lang === 'en' ? '已切换到「英文内容」，可独立维护英文版本' : '已切换到「中文内容」', 'success');
+}
+
+/* ===== 通用：列表页新增 / 编辑弹窗（页面内打开，弹窗内可切换中英文） ===== */
+const CONTENT_MODAL_CFG = {
+  'page-subjects':    { name: '学科',     titleLabel: '学科名称', catLabel: '所属院系', cats: ['理学院', '天文系', '化学系'], cover: false,
+                        extra: { label: '简介', placeholder: '请输入学科简介' }, cols: { title: 0, cat: 1, extra: 2, time: 4 } },
+  'page-admissions':  { name: '招生内容', titleLabel: '标题',     catLabel: '分类',     cats: ['招生简章', '专业目录', '常见问题', '通知公告'], cover: true,
+                        extra: { label: '适用年份', placeholder: '请输入适用年份' }, cols: { title: 0, cat: 1, extra: 2, time: 4 } },
+  'page-about-depts': { name: '科系',     titleLabel: '科系名称', catLabel: '所属租户', cats: ['理学院', '天文系', '化学系'], cover: false,
+                        extra: { label: '负责人', placeholder: '请输入负责人' }, cols: { title: 0, cat: 1, extra: 2, time: 4 } },
+  'page-about-life':  { name: '内容',     titleLabel: '标题',     catLabel: '类型',     cats: ['活动风采', '校园风光', '学生活动'], cover: true,
+                        extra: { label: '封面说明', placeholder: '如：📷 12张' }, cols: { title: 0, cat: 1, extra: 2, time: 4 } },
+  'page-news':        { name: '新闻',     titleLabel: '新闻标题', catLabel: '分类',     cats: ['科研动态', '学院新闻', '通知公告'], cover: true,
+                        extra: { label: '下发目标', placeholder: '如：理学院+天文系+化学系' }, cols: { title: 0, cat: 1, extra: 2, time: 4 } },
+  'page-events':      { name: '活动',     titleLabel: '活动名称', catLabel: '类型',     cats: ['学术讲座', '学术会议', '校园活动'], cover: false,
+                        extra: null, cols: { title: 0, cat: 1, time: 2 } },
+};
+
+let contentCtx = null;
+
+function cellText(tr, idx) {
+  if (idx == null || !tr.children[idx]) return '';
+  const box = document.createElement('div');
+  box.innerHTML = tr.children[idx].innerHTML;
+  return (box.textContent || '').trim();
+}
+
+function openContentForm(pageId, mode, tr) {
+  const cfg = CONTENT_MODAL_CFG[pageId];
+  if (!cfg) return;
+  contentCtx = { pageId: pageId, mode: mode, tr: tr || null };
+  document.getElementById('contentModalTitle').textContent = (mode === 'edit' ? '编辑' : '新增') + cfg.name;
+  document.getElementById('ct-title-label').innerHTML = '<span class="required">*</span>' + cfg.titleLabel + '：';
+  document.getElementById('ct-title').placeholder = '请输入' + cfg.titleLabel;
+  document.getElementById('ct-cat-label').textContent = cfg.catLabel + '：';
+  document.getElementById('ct-cat').innerHTML = cfg.cats.map(c => '<option>' + c + '</option>').join('');
+  document.getElementById('ct-cover-field').style.display = cfg.cover ? '' : 'none';
+  const exField = document.getElementById('ct-extra-field');
+  if (cfg.extra) {
+    exField.style.display = '';
+    document.getElementById('ct-extra-label').textContent = cfg.extra.label + '：';
+    document.getElementById('ct-extra').placeholder = cfg.extra.placeholder || '';
+  } else {
+    exField.style.display = 'none';
+  }
+  document.getElementById('ct-time-label').innerHTML = '<span class="required">*</span>发布时间：';
+
+  // 重置
+  document.getElementById('ct-title').value = '';
+  document.getElementById('ct-extra').value = '';
+  document.getElementById('ct-content').value = '';
+  const timeEl = document.getElementById('ct-time');
+  timeEl.value = '';
+  timeEl.type = 'text';
+  const zh = document.querySelector('input[name="ct-lang"][value="zh"]');
+  if (zh) zh.checked = true;
+
+  // 编辑回填
+  if (tr) {
+    document.getElementById('ct-title').value = cellText(tr, cfg.cols.title);
+    const cat = cellText(tr, cfg.cols.cat);
+    if (cfg.cats.indexOf(cat) > -1) document.getElementById('ct-cat').value = cat;
+    if (cfg.extra) document.getElementById('ct-extra').value = cellText(tr, cfg.cols.extra);
+    const m = cellText(tr, cfg.cols.time).match(/\d{4}-\d{2}-\d{2}/);
+    if (m) { timeEl.value = m[0]; timeEl.type = 'date'; }
+    const langRadio = document.querySelector('input[name="ct-lang"][value="' + (tr.dataset.lang || 'zh') + '"]');
+    if (langRadio) langRadio.checked = true;
+  }
+  showModal('contentModal');
+}
+
+function saveContentForm() {
+  if (!contentCtx) return;
+  const cfg = CONTENT_MODAL_CFG[contentCtx.pageId];
+  const page = document.getElementById(contentCtx.pageId);
+  const title = document.getElementById('ct-title').value.trim();
+  if (!title) { showToast('请输入' + cfg.titleLabel, 'error'); return; }
+  const timeEl = document.getElementById('ct-time');
+  if (!timeEl.value) { showToast('请选择发布时间', 'error'); return; }
+  const lang = (document.querySelector('input[name="ct-lang"]:checked') || {}).value || 'zh';
+  const cat = document.getElementById('ct-cat').value;
+  const extra = cfg.extra ? document.getElementById('ct-extra').value.trim() : '';
+  const time = timeEl.value;
+
+  let tr;
+  if (contentCtx.mode === 'edit' && contentCtx.tr) {
+    tr = contentCtx.tr;
+    tr.children[cfg.cols.title].textContent = title;
+    tr.children[cfg.cols.cat].innerHTML = '<span class="tag tag-info">' + cat + '</span>';
+    if (cfg.extra && cfg.cols.extra != null) tr.children[cfg.cols.extra].textContent = extra || '-';
+    tr.children[cfg.cols.time].textContent = time;
+  } else {
+    const tmpl = page.querySelector('tbody tr');
+    if (!tmpl) return;
+    tr = tmpl.cloneNode(true);
+    tr.removeAttribute('data-page-node-id');
+    tr.children[cfg.cols.title].textContent = title;
+    tr.children[cfg.cols.cat].innerHTML = '<span class="tag tag-info">' + cat + '</span>';
+    if (cfg.extra && cfg.cols.extra != null) tr.children[cfg.cols.extra].textContent = extra || '-';
+    tr.children[cfg.cols.time].textContent = time;
+    page.querySelector('tbody').appendChild(tr);
+  }
+  tr.dataset.lang = lang;
+  tr.dataset.actionsBound = '0';
+  bindRowActions(tr, contentCtx.pageId);
+  applyPageLangFilter(contentCtx.pageId);
+  closeModal('contentModal');
+  showToast((contentCtx.mode === 'edit' ? '保存成功' : cfg.name + '创建成功'), 'success');
+}
+
+function deleteContentRow(pageId, tr) {
+  const name = cellText(tr, 0) || '该条记录';
+  openConfirm('确认删除', '确定要删除「' + name + '」吗？删除后不可恢复。', function () {
+    tr.remove();
+    applyPageLangFilter(pageId);
+    showToast('删除成功', 'success');
+  });
+}
+
+// Banner管理：新增 / 编辑弹窗
+let pbCtx = null;
+function openPageBannerForm(mode, tr) {
+  pbCtx = { mode: mode, tr: tr || null };
+  document.getElementById('pageBannerTitle').textContent = (mode === 'edit' ? '编辑 Banner' : '新增 Banner');
+  document.getElementById('pb-title').value = tr ? cellText(tr, 1) : '';
+  document.getElementById('pb-link').value = tr ? cellText(tr, 2) : '';
+  document.querySelectorAll('input[name="pb-lang"]').forEach(r => {
+    r.checked = r.value === ((tr && tr.dataset.lang) || 'zh');
+  });
+  showModal('pageBannerModal');
+}
+
+function savePageBanner() {
+  const title = document.getElementById('pb-title').value.trim();
+  if (!title) { showToast('请输入Banner名称', 'error'); return; }
+  const link = document.getElementById('pb-link').value.trim();
+  if (!link) { showToast('请输入详情链接', 'error'); return; }
+  const lang = (document.querySelector('input[name="pb-lang"]:checked') || {}).value || 'zh';
+  const page = document.getElementById('page-banner');
+  let tr;
+  if (pbCtx && pbCtx.mode === 'edit' && pbCtx.tr) {
+    tr = pbCtx.tr;
+    tr.children[1].textContent = title;
+    tr.children[2].textContent = link;
+    tr.children[0].innerHTML = '<div style="width:140px;height:60px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">' + title + '</div>';
+  } else {
+    const tmpl = page.querySelector('tbody tr');
+    if (!tmpl) return;
+    tr = tmpl.cloneNode(true);
+    tr.removeAttribute('data-page-node-id');
+    tr.children[0].innerHTML = '<div style="width:140px;height:60px;background:linear-gradient(135deg,#1a3a5c,#2a5a8c);border-radius:6px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px">' + title + '</div>';
+    tr.children[1].textContent = title;
+    tr.children[2].textContent = link;
+    tr.children[3].innerHTML = '<span class="tag tag-info">PC</span>';
+    tr.children[4].textContent = String(page.querySelectorAll('tbody tr').length);
+    tr.children[5].innerHTML = '<span class="tag tag-success">启用</span>';
+    page.querySelector('tbody').appendChild(tr);
+  }
+  tr.dataset.lang = lang;
+  tr.dataset.actionsBound = '0';
+  bindRowActions(tr, 'page-banner');
+  applyPageLangFilter('page-banner');
+  closeModal('pageBannerModal');
+  showToast('Banner 已保存', 'success');
+}
+
+// 静态列表行操作按钮 → 统一改为页面内弹窗
+function bindRowActions(tr, pageId) {
+  if (!tr || tr.dataset.actionsBound === '1') return;
+  const td = tr.querySelector('td.actions') || tr.lastElementChild;
+  if (!td) return;
+  Array.from(td.querySelectorAll('button, .link-action')).forEach(btn => {
+    const label = btn.textContent.trim();
+    if (label === '编辑') {
+      btn.onclick = function () {
+        if (pageId === 'page-banner') openPageBannerForm('edit', tr);
+        else if (CONTENT_MODAL_CFG[pageId]) openContentForm(pageId, 'edit', tr);
+      };
+    } else if (label === '删除') {
+      btn.onclick = function () { deleteContentRow(pageId, tr); };
+    } else if (['发布', '取消发布', '撤回', '预览', '上移', '下移', '禁用', '启用'].indexOf(label) > -1) {
+      btn.onclick = function () {
+        const nm = cellText(tr, 0) || cellText(tr, 1);
+        showToast('「' + nm + '」' + label + '（演示）', 'success');
+      };
+    }
+  });
+  tr.dataset.actionsBound = '1';
+}
+
+function bindStaticRowActions() {
+  Object.keys(CONTENT_MODAL_CFG).forEach(pageId => {
+    const page = document.getElementById(pageId);
+    if (!page) return;
+    page.querySelectorAll('tbody tr').forEach(tr => bindRowActions(tr, pageId));
+  });
+  const bannerPage = document.getElementById('page-banner');
+  if (bannerPage) bannerPage.querySelectorAll('tbody tr').forEach(tr => bindRowActions(tr, 'page-banner'));
+}
+
 /* ===== 租户初始化：渲染当前租户菜单，并按账号租户权限弹窗选择 ===== */
+initStaticLangRows();
+bindStaticRowActions();
 renderSidebar(currentTenant);
 navigate(tenantHome(currentTenant));
 if (CURRENT_USER.tenants.length > 1) {
