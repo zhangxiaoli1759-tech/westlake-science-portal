@@ -1744,20 +1744,24 @@ const TENANT_MENUS = {
   chem: {
     home: 'banner',
     menus: [
-      { label: '内容管理', icon: '📝', children: [
-        { label: 'Banner', icon: '🖼', page: 'banner' },
-        { label: 'Faculty', icon: '👥', page: 'faculty' },
-        { label: 'Tutor', icon: '👨‍🏫', page: 'teacher-list' },
-        { label: 'Graduate', icon: '🎓', page: 'chem-graduate' },
-        { label: 'Research', icon: '🔬', page: 'chem-research' },
-        { label: 'News', icon: '📢', page: 'news' },
-        { label: 'Events', icon: '🎉', page: 'events' },
-        { label: 'Publication', icon: '📄', page: 'chem-publication' },
-        { label: '菜单设置', icon: '📋', page: 'chem-menu-settings' },
-        { label: '页眉页脚', icon: '🧩', page: 'chem-header-footer' }
+      { label: '首页', icon: '🏠', children: [
+        { label: 'Banner管理', icon: '🖼', page: 'banner' },
+        { label: '科学研究展示', icon: '🔬', page: 'chem-research-show' },
+        { label: '教育教学', icon: '📐', page: 'chem-teaching' }
       ] },
-      { label: '研究管理', icon: '🔬', children: [
-        { label: '关于', icon: 'ℹ️', page: 'chem-about' }
+      { label: '化学系简介', icon: '🧪', children: [
+        { label: '使命与价值观', icon: '🎯', page: 'chem-mission' },
+        { label: '治理架构', icon: '🏛', page: 'chem-governance' },
+        { label: '招贤纳士', icon: '💼', page: 'chem-join' }
+      ] },
+      { label: '教师队伍', icon: '👨‍🏫', page: 'faculty' },
+      { label: '科学研究', icon: '🔬', page: 'chem-science' },
+      { label: '教育教学', icon: '📐', page: 'chem-edu' },
+      { label: '招生信息', icon: '🎓', children: [
+        { label: '招生动态', icon: '📢', page: 'admissions' },
+        { label: '宣讲信息', icon: '📣', page: 'chem-adm-talk' },
+        { label: '报考须知', icon: '📋', page: 'chem-adm-guide' },
+        { label: '常见问题', icon: '❓', page: 'chem-adm-faq' }
       ] },
       { label: '系统管理', icon: '⚙️', children: [
         { label: '用户管理', icon: '👤', page: 'users' },
@@ -1774,8 +1778,9 @@ const PLACEHOLDER_PAGES = {
   'science-research': '科学研究', 'admission-info': '招生信息', 'jobs': '人才招聘', 'global-settings': '全局设置',
   'astro-about': '关于', 'astro-people': '人物管理', 'astro-research': '研究管理', 'astro-career': '职业管理',
   'astro-types': '类型配置', 'astro-menu-settings': '菜单设置', 'astro-recycle': '回收站',
-  'chem-graduate': 'Graduate', 'chem-research': 'Research', 'chem-publication': 'Publication',
-  'chem-menu-settings': '菜单设置', 'chem-header-footer': '页眉页脚', 'chem-about': '关于'
+  'chem-research-show': '科学研究展示', 'chem-teaching': '教育教学', 'chem-mission': '使命与价值观',
+  'chem-governance': '治理架构', 'chem-join': '招贤纳士', 'chem-science': '科学研究',
+  'chem-edu': '教育教学', 'chem-adm-talk': '宣讲信息', 'chem-adm-guide': '报考须知', 'chem-adm-faq': '常见问题'
 };
 
 let currentTenant = 'science';
