@@ -1700,36 +1700,124 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系）· 短期项目 -->
+        <!-- Page: 教育教学（化学系）· 短期项目 -->
     <div class="content-page" id="page-chem-edu-short">
       <div class="breadcrumb">首页 / 教育教学 / <span>短期项目</span></div>
       <div class="page-header"><h2>短期项目</h2></div>
+
+      <!-- 1. 夏令营 -->
       <div class="card">
-        <div class="card-header">
-          <h3>短期项目列表</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemEduLang('page-chem-edu-short','zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemEduLang('page-chem-edu-short','en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="openChemEduForm('create', null, 'page-chem-edu-short')">新增短期项目</button>
-        </div>
+        <div class="card-header"><h3>夏令营</h3></div>
         <div class="card-body">
-          <div class="toolbar">
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入标题"></div>
-            <button class="btn btn-primary">🔍 查询</button>
-            <button class="btn btn-outline">↻ 重置</button>
-            <button class="link-action">展开 ⌄</button>
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="csh-lang" value="zh" checked onchange="setChemEduShortLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="csh-lang" value="en" onchange="setChemEduShortLang('en')"> 英文</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="csh-b1-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="csh-b1-content" style="min-height:120px" placeholder="请输入板块内容"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接文本：</label>
+              <input class="form-input" id="csh-b1-linktext" placeholder="如：了解更多">
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接地址：</label>
+              <input class="form-input" id="csh-b1-linkurl" placeholder="请输入链接地址">
+            </div>
           </div>
-          <table>
-            <thead><tr><th>序号</th><th>标题</th><th>语言</th><th>发布状态</th><th>点击数</th><th>最新发布时间</th><th>发布时间</th><th>操作</th></tr></thead>
-            <tbody></tbody>
-          </table>
-          <div class="pagination"><span>共 0 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
         </div>
+      </div>
+
+      <!-- 2. 暑期科研实习项目 -->
+      <div class="card">
+        <div class="card-header"><h3>暑期科研实习项目</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="csh-b2-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="csh-b2-content" style="min-height:120px" placeholder="请输入板块内容"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接文本：</label>
+              <input class="form-input" id="csh-b2-linktext" placeholder="如：了解更多">
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接地址：</label>
+              <input class="form-input" id="csh-b2-linkurl" placeholder="请输入链接地址">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 访问学生 -->
+      <div class="card">
+        <div class="card-header"><h3>访问学生</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="csh-b3-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="csh-b3-content" style="min-height:120px" placeholder="请输入板块内容"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接文本：</label>
+              <input class="form-input" id="csh-b3-linktext" placeholder="如：了解更多">
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接地址：</label>
+              <input class="form-input" id="csh-b3-linkurl" placeholder="请输入链接地址">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 国际暑期学校 -->
+      <div class="card">
+        <div class="card-header"><h3>国际暑期学校</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="csh-b4-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="csh-b4-content" style="min-height:120px" placeholder="请输入板块内容"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接文本：</label>
+              <input class="form-input" id="csh-b4-linktext" placeholder="如：了解更多">
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接地址：</label>
+              <input class="form-input" id="csh-b4-linkurl" placeholder="请输入链接地址">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:6px 0 2px">
+        <button class="btn btn-primary" onclick="saveChemEduShort()">保存</button>
       </div>
     </div>
 
-<!-- ====== 化学系新增：使命与价值观 行编辑弹窗 ====== -->
+ 行编辑弹窗 ====== -->
 
 
     <!-- Page: 招贤纳士（化学系）单页配置 -->
@@ -2490,61 +2578,8 @@ tr:hover td { background: #fafafa; }
   </div>
 </div>
 
-<!-- ====== 化学系新增：教育教学（顶层）新增/编辑弹窗 ====== -->
-<div class="modal-overlay" id="chemEduModal">
-  <div class="modal" style="width:880px">
-    <div class="modal-header">
-      <h3 id="chemEduModalTitle">新增教育教学</h3>
-      <button class="modal-close" onclick="closeModal('chemEduModal')">✕</button>
-    </div>
-    <div class="modal-body" style="padding:22px 28px 4px">
-      <div class="form-column">
-        <div class="form-field">
-          <label class="form-label"><span class="required">*</span>语言：</label>
-          <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="ce-lang" value="zh" checked> 中文</label>
-            <label class="radio-item"><input type="radio" name="ce-lang" value="en"> 英文</label>
-          </div>
-        </div>
-        <div class="form-field"><label class="form-label"><span class="required">*</span>标题：</label><input class="form-input" id="ce-title" placeholder="请输入标题"></div>
-        <div class="form-field align-top"><label class="form-label">简介：</label>
-          <div><textarea class="form-textarea" id="ce-intro" maxlength="200" placeholder="请输入简介"></textarea>
-            <div class="upload-hint">长度 0-200 个字符</div>
-          </div>
-        </div>
-        <div class="form-field align-top">
-          <label class="form-label"><span class="required">*</span>Web端图片：</label>
-          <div>
-            <label class="upload-area" style="width:180px;height:100px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-            <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1085px*760px　大小：不能超过2MB　最多上传一份；</div>
-          </div>
-        </div>
-        <div class="form-field"><label class="form-label">发布时间：</label><input class="form-input" id="ce-time" type="text" placeholder="请选择发布时间" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></div>
-        <div class="form-field">
-          <label class="form-label"><span class="required">*</span>内容类型：</label>
-          <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="ce-ctype" value="link" checked onchange="chemEduToggleContent()"> 自定义（外链）</label>
-            <label class="radio-item"><input type="radio" name="ce-ctype" value="rich" onchange="chemEduToggleContent()"> 富文本</label>
-          </div>
-        </div>
-        <div class="form-field align-top" id="ce-link-field"><label class="form-label"><span class="required">*</span>外链地址：</label>
-          <div><input class="form-input" id="ce-link" placeholder="请输入外链地址">
-            <div class="upload-hint">注意：站内链接请维护相对地址，例如「/kxyj/achievements/」</div>
-          </div>
-        </div>
-        <div class="form-field align-top" id="ce-rich-field" style="display:none"><label class="form-label"><span class="required">*</span>富文本内容：</label>
-          <textarea class="form-textarea" id="ce-rich" style="min-height:120px" placeholder="请输入内容"></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer" style="justify-content:flex-start">
-      <button class="btn btn-outline" onclick="closeModal('chemEduModal')">取消</button>
-      <button class="btn btn-primary" onclick="saveChemEduForm()">保存</button>
-    </div>
-  </div>
-</div>
 
-<!-- ====== 租户选择弹窗（登录后按角色权限选择） ====== -->
+（登录后按角色权限选择） ====== -->
 <div class="modal-overlay" id="tenantModal">
   <div class="modal tenant-modal">
     <div class="modal-header">
@@ -4349,6 +4384,15 @@ const SHELL_EN = {
   '申请材料': 'Application Materials',
   '薪酬与资助': 'Salary & Funding',
   '联系方式': 'Contact',
+  // 短期项目卡片标题
+  '夏令营': 'Summer Camp',
+  '暑期科研实习项目': 'Summer Research Internship',
+  '访问学生': 'Visiting Students',
+  '国际暑期学校': 'International Summer School',
+  // 短期项目占位符
+  '请输入板块内容': 'Enter section content',
+  '请输入链接地址': 'Enter link URL',
+  '如：了解更多': 'e.g. Learn more'
 };
 const SHELL_OPT_EN = {
   '全部职称': 'All Titles',
@@ -5009,114 +5053,91 @@ function chemProfAdd(){
 function chemProfDelete(i){ if (!chemProfCtx) return; chemProfData(chemProfCtx.field).splice(i, 1); renderChemProf(); showToast('已删除', 'success'); }
 
 /* --- 5. 教育教学（化学系）四个培养类型子页：列表（中英文）+ 新增/编辑弹窗 --- */
-const CHEM_EDU_PAGES = {
-  'page-chem-edu-short':   { type:'短期项目', typeEn:'Short-term',    name:'短期项目',   nameEn:'Short-term Programs' }
-};
-const CHEM_EDU_LANG = {};
-const CHEM_EDU_DATA = {
-  'page-chem-edu-short': {
-    zh: [
-      { title:'暑期学校与短期项目', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
-      { title:'国际交流短期研修项目', pub:false, hits:0, latest:'2026-09-12 15:33:20', pubdate:'2026-09-11' }
-    ],
-    en: [
-      { title:'Summer School and Short-term Programs', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
-      { title:'International Short-term Exchange Program', pub:false, hits:0, latest:'2026-09-12 15:33:20', pubdate:'2026-09-11' }
-    ]
+const CHEM_EDU_SHORT = {
+  lang: 'zh',
+  zh: {
+    b1Title: '夏令营',
+    b1Content: '理学院每年暑期举办“西湖大学理学院夏令营”。夏令营一般招收营员100名左右，主要活动包括与讲席教授面对面、学术讲座、与PI零距离交流互动、与在校博士生师兄师姐交流、参观实验室及科研平台、体验杭州学习生活大环境、优秀夏令营营员选拔等。营员全程参与各项夏令营活动后，将获得“西湖大学理学院夏令营”结业证书，表现优异者将获得夏令营“优秀营员”荣誉证书。',
+    b1LinkText: '了解更多',
+    b1LinkUrl: 'https://www.westlake.edu.cn/admissions/summer_sessions/domestic_graduate_student_summer_camp/index.html',
+    b2Title: '暑期科研实习项目',
+    b2Content: '每年暑假，理学院的实验室将对外开放实习岗位，实习期一般为七月至八月（共4周）。实习期间，学生可在选定的实验室参与实习，具体的实习计划由各实验室导师及学生一起制定。除了完成实习计划外，实习生也可参与例如“WeMeet”、“WeSalon”、西湖名师论坛、专题学术讲座报告、Happy Hour等学校和学院的各类活动，加深对学校发展、学科建设、科研进展、校园文化等各个层面的认识和了解。',
+    b2LinkText: '了解更多',
+    b2LinkUrl: 'https://www.westlake.edu.cn/admissions/summer_sessions/summer_internship/index.html',
+    b3Title: '访问学生',
+    b3Content: '理学院课题组接收访问学生申请，并为访问学生提供一定的访问期间的生活保障。访问学生入校后需在遵守学校及学院的相关规定的前提下在课题组内进行科研工作。',
+    b3LinkText: '了解更多',
+    b3LinkUrl: 'https://www.westlake.edu.cn/news_events/westlakenews/zsdt/202011/t20201126_7429.shtml',
+    b4Title: '国际暑期学校',
+    b4Content: '化学系在夏季开设国际暑期学校，招收来自世界各地的对化学充满热情的在读本科生和硕士生。化学系将邀请多位享有国内外学术声誉的顶尖学者，和西湖大学本校教师一起开设多门全英文授课的高水平学术讲座课，让学生不仅深入了解学科理论与实践，并且可以获知领域研究热点和发展前沿。项目完成后，学生将获得课程证书和成绩单。优秀的应往届硕士生、具有推免资格的国内本科生，将有机会优先被我校博士项目录取并获得相关奖学金。',
+    b4LinkText: '',
+    b4LinkUrl: ''
   },
+  en: {
+    b1Title: 'Summer Camp',
+    b1Content: 'The School of Science holds the "Westlake University School of Science Summer Camp" every summer, generally recruiting about 100 campers. Major activities include face-to-face meetings with chair professors, academic lectures, close interactions with PIs, exchanges with current PhD students, visits to laboratories and research platforms, experiencing the learning and living environment of Hangzhou, and selection of outstanding campers. After full participation, campers will receive a certificate of completion of the "Westlake University School of Science Summer Camp", and outstanding campers will receive the "Outstanding Camper" honorary certificate.',
+    b1LinkText: 'Learn more',
+    b1LinkUrl: 'https://www.westlake.edu.cn/admissions/summer_sessions/domestic_graduate_student_summer_camp/index.html',
+    b2Title: 'Summer Research Internship',
+    b2Content: 'Every summer, laboratories of the School of Science open internship positions. The internship period is generally from July to August (4 weeks in total). During the internship, students can participate in the selected laboratory, and the specific internship plan is developed by the laboratory supervisor and the student together. In addition to completing the internship plan, interns can also participate in various school and college activities such as "WeMeet", "WeSalon", Westlake Distinguished Scholar Forum, special academic lectures, and Happy Hour, to deepen their understanding of school development, discipline construction, research progress, and campus culture.',
+    b2LinkText: 'Learn more',
+    b2LinkUrl: 'https://www.westlake.edu.cn/admissions/summer_sessions/summer_internship/index.html',
+    b3Title: 'Visiting Students',
+    b3Content: 'Research groups of the School of Science accept applications from visiting students and provide certain living support during the visit. After entering the university, visiting students should conduct research work within the research group under the premise of complying with the relevant regulations of the university and the school.',
+    b3LinkText: 'Learn more',
+    b3LinkUrl: 'https://www.westlake.edu.cn/news_events/westlakenews/zsdt/202011/t20201126_7429.shtml',
+    b4Title: 'International Summer School',
+    b4Content: 'The Department of Chemistry offers an International Summer School in summer, recruiting enthusiastic undergraduate and master’s students from around the world. The department invites renowned scholars with high academic reputation at home and abroad, together with Westlake University faculty, to offer multiple high-level academic lecture courses taught entirely in English, enabling students to gain in-depth understanding of disciplinary theory and practice as well as the research frontiers and developments. Upon completion, students will receive a course certificate and transcript. Outstanding master’s graduates (pending or current) and domestic undergraduates with recommendation (tuimian) eligibility will have the opportunity to be prioritized for admission to our PhD program and receive relevant scholarships.',
+    b4LinkText: '',
+    b4LinkUrl: ''
+  }
 };
-function setChemEduLang(pageId, lang){
-  CHEM_EDU_LANG[pageId] = lang;
-  PAGE_LANG[pageId] = lang;
-  syncLangTabs(pageId);
-  applyTableHeaders(pageId, lang);
-  renderChemEduList(pageId);
+function cshEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cshVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function cshSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
+const CSH_FIELDS = ['b1','b2','b3','b4'];
+function readChemEduShort(){
+  const d = {};
+  CSH_FIELDS.forEach(function(k){
+    d[k+'Title'] = cshVal('csh-'+k+'-title');
+    d[k+'Content'] = cshVal('csh-'+k+'-content');
+    d[k+'LinkText'] = cshVal('csh-'+k+'-linktext');
+    d[k+'LinkUrl'] = cshVal('csh-'+k+'-linkurl');
+  });
+  return d;
 }
-function renderChemEduList(pageId){
-  const d = CHEM_EDU_DATA[pageId];
-  const page = document.getElementById(pageId);
-  if (!d || !page) return;
-  const lang = CHEM_EDU_LANG[pageId] || 'zh', rows = d[lang];
-  const tbody = page.querySelector('table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = rows.map(function(r, i){
-    const label = r.pub ? (lang === 'en' ? 'Published' : '已发布') : (lang === 'en' ? 'Unpublished' : '未发布');
-    const toggle = '<button class="link-action" onclick="chemEduToggle(\'' + pageId + '\',' + i + ')">' + (r.pub ? (lang === 'en' ? 'Unpublish' : '取消发布') : (lang === 'en' ? 'Publish' : '发布')) + '</button>';
-    return '<tr data-lang="' + lang + '"><td>' + (i + 1) + '</td><td>' + chemEsc(r.title) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td>' + label + '</td><td>' + r.hits + '</td><td>' + r.latest + '</td><td>' + r.pubdate + '</td><td class="actions">' + toggle + '<button class="link-action" onclick="openChemEduForm(\'edit\',' + i + ',\'' + pageId + '\')">' + (lang === 'en' ? 'Edit' : '编辑') + '</button><button class="link-action danger" onclick="chemEduDelete(\'' + pageId + '\',' + i + ')">' + (lang === 'en' ? 'Delete' : '删除') + '</button></td></tr>';
-  }).join('');
-  const span = page.querySelector('.pagination span');
-  if (span) span.textContent = (lang === 'en' ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
-}
-function chemEduToggle(pageId, i){
-  const d = CHEM_EDU_DATA[pageId];
-  if (!d) return;
-  const lang = CHEM_EDU_LANG[pageId] || 'zh';
-  d[lang][i].pub = !d[lang][i].pub;
-  renderChemEduList(pageId);
-}
-function chemEduDelete(pageId, i){
-  openConfirm('确认删除', '确定要删除该条内容吗？', function(){
-    const d = CHEM_EDU_DATA[pageId];
-    const lang = CHEM_EDU_LANG[pageId] || 'zh';
-    d[lang].splice(i, 1);
-    renderChemEduList(pageId);
-    showToast('已删除', 'success');
+function fillChemEduShort(d){
+  CSH_FIELDS.forEach(function(k){
+    cshSet('csh-'+k+'-title', d[k+'Title']);
+    cshSet('csh-'+k+'-content', d[k+'Content']);
+    cshSet('csh-'+k+'-linktext', d[k+'LinkText']);
+    cshSet('csh-'+k+'-linkurl', d[k+'LinkUrl']);
   });
 }
-function chemEduToggleContent(){
-  const ce = document.querySelector('input[name="ce-ctype"]:checked');
-  const isRich = ce && ce.value === 'rich';
-  const lf = document.getElementById('ce-link-field');
-  const rf = document.getElementById('ce-rich-field');
-  if (lf) lf.style.display = isRich ? 'none' : '';
-  if (rf) rf.style.display = isRich ? '' : 'none';
+function setChemEduShortLang(lang){
+  if (CHEM_EDU_SHORT[CHEM_EDU_SHORT.lang]) CHEM_EDU_SHORT[CHEM_EDU_SHORT.lang] = readChemEduShort();
+  CHEM_EDU_SHORT.lang = lang;
+  fillChemEduShort(CHEM_EDU_SHORT[lang]);
+  const page = document.getElementById('page-chem-edu-short');
+  if (page) page.querySelectorAll('input[name="csh-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
+  applyShellI18n('page-chem-edu-short', lang);
 }
-let chemEduCtx = null;
-function openChemEduForm(mode, idx, pageId){
-  pageId = pageId || 'page-chem-edu-short';
-  const cfg = CHEM_EDU_PAGES[pageId] || {};
-  const lang = CHEM_EDU_LANG[pageId] || 'zh', en = lang === 'en';
-  const name = en ? (cfg.nameEn || cfg.typeEn || '') : (cfg.name || cfg.type || '');
-  chemEduCtx = { mode: mode, idx: (typeof idx === 'number' ? idx : -1), pageId: pageId };
-  const t = document.getElementById('chemEduModalTitle');
-  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit ' : '编辑') : (en ? 'Add ' : '新增')) + name;
-  document.querySelectorAll('input[name="ce-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
-  chemSetVal('ce-title', ''); chemSetVal('ce-intro', ''); chemSetVal('ce-time', ''); chemSetVal('ce-link', ''); chemSetVal('ce-rich', '');
-  const lr = document.querySelector('input[name="ce-ctype"][value="link"]');
-  if (lr) lr.checked = true;
-  chemEduToggleContent();
-  if (mode === 'edit') {
-    const d = CHEM_EDU_DATA[pageId];
-    if (d && d[lang] && d[lang][idx]) {
-      const r = d[lang][idx];
-      chemSetVal('ce-title', r.title);
-      chemSetVal('ce-time', r.pubdate);
-    }
+function saveChemEduShort(){
+  if (CHEM_EDU_SHORT[CHEM_EDU_SHORT.lang]) CHEM_EDU_SHORT[CHEM_EDU_SHORT.lang] = readChemEduShort();
+  const lang = CHEM_EDU_SHORT.lang, en = lang === 'en', d = CHEM_EDU_SHORT[lang];
+  for (let i=0;i<CSH_FIELDS.length;i++){
+    const k = CSH_FIELDS[i];
+    if (!d[k+'Title'])   { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+    if (!d[k+'Content']) { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
   }
-  showModal('chemEduModal');
+  showToast(en?'Saved successfully':'内容已保存', 'success');
 }
-function saveChemEduForm(){
-  if (!chemEduCtx) return;
-  const pageId = chemEduCtx.pageId;
-  const d = CHEM_EDU_DATA[pageId];
-  if (!d) return;
-  const lang = CHEM_EDU_LANG[pageId] || 'zh', en = lang === 'en';
-  const title = chemVal('ce-title');
-  if (!title){ showToast(en ? 'Please enter title' : '请输入标题', 'error'); return; }
-  const time = chemVal('ce-time');
-  const rows = d[lang];
-  const now = chemNow();
-  if (chemEduCtx.mode === 'edit' && rows[chemEduCtx.idx]){
-    rows[chemEduCtx.idx].title = title; rows[chemEduCtx.idx].latest = now;
-    rows[chemEduCtx.idx].pubdate = time || rows[chemEduCtx.idx].pubdate;
-    showToast(en ? 'Saved' : '保存成功', 'success');
-  } else {
-    rows.unshift({ title: title, pub: false, hits: 0, latest: now, pubdate: time || now.slice(0, 10) });
-    showToast(en ? 'Created' : '创建成功', 'success');
-  }
-  renderChemEduList(pageId);
-  closeModal('chemEduModal');
+function initChemEduShort(){
+  CHEM_EDU_SHORT.lang = 'zh'; PAGE_LANG['page-chem-edu-short'] = 'zh';
+  fillChemEduShort(CHEM_EDU_SHORT.zh);
 }
+
+
 
 /* --- 本科生培养：单页配置（无列表，对应客户端 /regular） --- */
 const CHEM_EDU_UG = {
@@ -5497,11 +5518,8 @@ function initChemPages(){
     CHEM_EDU_UG.lang = 'zh'; PAGE_LANG['page-chem-edu-ug'] = 'zh';
     fillChemEduUg(CHEM_EDU_UG.zh);
   }
-  ['page-chem-edu-short'].forEach(function(pid){
-    if (document.getElementById(pid)){
-      CHEM_EDU_LANG[pid] = 'zh'; PAGE_LANG[pid] = 'zh'; syncLangTabs(pid); renderChemEduList(pid);
-    }
-  });
+  // 短期项目：单页配置（不走列表渲染）
+  if (document.getElementById('page-chem-edu-short')) initChemEduShort();
   if (document.getElementById('page-chem-edu-pg')) initChemEduPg();
   if (document.getElementById('page-chem-edu-postdoc')) initChemEduPostdoc();
   if (document.getElementById('page-chem-center')){
