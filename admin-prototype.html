@@ -500,22 +500,12 @@ tr:hover td { background: #fafafa; }
 .logo-box:hover { border-color: var(--primary); }
 .logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .logo-box .logo-box-ph { font-size: 13px; color: var(--text-muted); }
-/* 本科生培养单页配置：科研训练条目子列表 */
-.cue-train-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-.cue-train-row .form-input { flex:1; }
-.cue-train-row .ti-credit, .cue-train-row .ti-grade { flex:none; }
-
-/* 研究生培养单页配置：相关链接 / 培养环节 / 专业课程 子列表 */
-.cpg-link-row, .cpg-stage-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-.cpg-link-row .form-input, .cpg-stage-row .form-input { flex:1; }
-.cpg-course-row { display:grid; grid-template-columns:130px 110px 130px 1fr 80px 56px; gap:10px; align-items:center; margin-bottom:10px; }
-.cpg-course-row .form-input, .cpg-course-row select { width:100%; box-sizing:border-box; }
-.cpg-course-row select { padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fff; color:inherit; }
-.cpg-course-head { font-size:12px; color:var(--text-muted); margin-bottom:8px; padding-left:2px; }
-/* 短期项目：板块可增删 + 单图上传 */
+/* 本科生项目 / 博士生项目 / 博士后项目：板块可增删 + 单图上传 */
 .csh-img-row { display: flex; align-items: center; gap: 12px; }
 .csh-sec-del { margin-left: auto; }
 .cpd-sec-del { margin-left: auto; }
+.cug-sec-del { margin-left: auto; }
+.cpg-sec-del { margin-left: auto; }
 .csh-add-wrap { padding: 2px 0 16px; }
 </style>
 </head>
@@ -1375,240 +1365,40 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系）· 本科生培养 -->
-    <!-- Page: 教育教学（化学系）· 本科生培养（单页配置，无列表） -->
+    <!-- Page: 教育教学（化学系）· 本科生项目（板块列表，可增删） -->
     <div class="content-page" id="page-chem-edu-ug">
-      <div class="breadcrumb">首页 / 教育教学 / <span>本科生培养</span></div>
-      <div class="page-header"><h2>本科生培养</h2></div>
+      <div class="breadcrumb">首页 / 教育教学 / <span>本科生项目</span></div>
+      <div class="page-header"><h2>本科生项目</h2></div>
 
-      <div class="card">
-        <div class="card-header"><h3>本科项目</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>语言：</label>
-              <div class="radio-group">
-                <label class="radio-item"><input type="radio" name="cue-lang" value="zh" checked onchange="setChemEduUgLang('zh')"> 中文</label>
-                <label class="radio-item"><input type="radio" name="cue-lang" value="en" onchange="setChemEduUgLang('en')"> 英文</label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cue-prog-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cue-prog-intro" style="min-height:150px" placeholder="请输入本科项目介绍"></textarea>
-            </div>
-          </div>
-        </div>
+      <!-- 板块列表：初始 1 个板块，可点击「增加板块+」动态添加（JS 渲染） -->
+      <div id="cug-secs"></div>
+
+      <div class="csh-add-wrap">
+        <button type="button" class="link-action danger cug-add-sec" onclick="chemEduUgAdd()">增加板块+</button>
       </div>
 
-      <div class="card">
-        <div class="card-header"><h3>课程设计</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cue-cur-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cue-cur-intro" style="min-height:130px" placeholder="请输入课程设计介绍"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><h3>课程列表</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>文档名称：</label>
-              <input class="form-input" id="cue-course-name" placeholder="请输入课程文档名称">
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>文档链接：</label>
-              <input class="form-input" id="cue-course-url" placeholder="请输入课程文档链接">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><h3>本科生科训</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field align-top">
-              <label class="form-label">板块简介：</label>
-              <textarea class="form-textarea" id="cue-train-intro" style="min-height:60px" placeholder="请输入科训板块简介"></textarea>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">科研训练条目：</label>
-              <div>
-                <div id="cue-train-list"></div>
-                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduUgAddTrain()">+ 新增条目</button>
-              </div>
-            </div>
-          </div>
-          <div style="padding:6px 0 2px">
-            <button class="btn btn-primary" onclick="saveChemEduUg()">保存</button>
-          </div>
-        </div>
+      <div style="padding:6px 0 2px">
+        <button class="btn btn-primary cug-save" onclick="saveChemEduUg()">保存</button>
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系）· 研究生培养 -->
+    <!-- Page: 教育教学（化学系）· 博士生项目（板块列表，可增删） -->
     <div class="content-page" id="page-chem-edu-pg">
-      <div class="breadcrumb">首页 / 教育教学 / <span>研究生培养</span></div>
-      <div class="page-header"><h2>研究生培养</h2></div>
+      <div class="breadcrumb">首页 / 教育教学 / <span>博士生项目</span></div>
+      <div class="page-header"><h2>博士生项目</h2></div>
 
-      <!-- 1. 研究生项目 -->
-      <div class="card">
-        <div class="card-header"><h3>研究生项目</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>语言：</label>
-              <div class="radio-group">
-                <label class="radio-item"><input type="radio" name="cpg-lang" value="zh" checked onchange="setChemEduPgLang('zh')"> 中文</label>
-                <label class="radio-item"><input type="radio" name="cpg-lang" value="en" onchange="setChemEduPgLang('en')"> 英文</label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-prog-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpg-prog-intro" style="min-height:170px" placeholder="请输入研究生项目介绍"></textarea>
-            </div>
-            <div class="form-field">
-              <label class="form-label">申请链接文本：</label>
-              <input class="form-input" id="cpg-apply-text" placeholder="如：点击此处申请">
-            </div>
-            <div class="form-field">
-              <label class="form-label">申请链接地址：</label>
-              <input class="form-input" id="cpg-apply-url" placeholder="请输入申请链接地址">
-            </div>
-          </div>
-        </div>
+      <!-- 板块列表：初始 2 个板块（研究生项目 / 招生与培养），可点击「增加板块+」动态添加（JS 渲染） -->
+      <div id="cpg-secs"></div>
+
+      <div class="csh-add-wrap">
+        <button type="button" class="link-action danger cpg-add-sec" onclick="chemEduPgAdd()">增加板块+</button>
       </div>
 
-      <!-- 2. 招生方式 -->
-      <div class="card">
-        <div class="card-header"><h3>招生方式</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-adm-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpg-adm-intro" style="min-height:120px" placeholder="请输入招生方式介绍"></textarea>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">相关链接：</label>
-              <div>
-                <div id="cpg-link-list"></div>
-                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddLink()">+ 新增链接</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. 基本学习年限和培养方式 -->
-      <div class="card">
-        <div class="card-header"><h3>基本学习年限和培养方式</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-mode-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field">
-              <label class="form-label">本科起点学制(年)：</label>
-              <input class="form-input" id="cpg-year-bachelor" style="width:160px" placeholder="如：5">
-            </div>
-            <div class="form-field">
-              <label class="form-label">硕士起点学制(年)：</label>
-              <input class="form-input" id="cpg-year-master" style="width:160px" placeholder="如：4">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpg-mode-intro" style="min-height:120px" placeholder="请输入培养方式介绍"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. 培养过程主要环节 -->
-      <div class="card">
-        <div class="card-header"><h3>培养过程主要环节</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-stage-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">培养环节：</label>
-              <div>
-                <div id="cpg-stage-list"></div>
-                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddStage()">+ 新增环节</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 5. 专业课程 -->
-      <div class="card">
-        <div class="card-header"><h3>专业课程</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-course-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">课程表：</label>
-              <div>
-                <div class="cpg-course-head">课程类别 / 必修·选修 / 课程代码 / 课程名称 / 学分</div>
-                <div id="cpg-course-list"></div>
-                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddCourse()">+ 新增课程</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 6. 学术培养与毕业发展 -->
-      <div class="card">
-        <div class="card-header"><h3>学术培养与毕业发展</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpg-dev-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpg-dev-intro" style="min-height:140px" placeholder="请输入学术培养与毕业发展介绍"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div style="text-align:right;margin:18px 0">
-        <button type="button" class="btn btn-primary" onclick="saveChemEduPg()">保存</button>
+      <div style="padding:6px 0 2px">
+        <button class="btn btn-primary cpg-save" onclick="saveChemEduPg()">保存</button>
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系）· 博士后项目 -->
     <!-- Page: 教育教学（化学系）· 博士后项目 -->
     <div class="content-page" id="page-chem-edu-postdoc">
       <div class="breadcrumb">首页 / 教育教学 / <span>博士后项目</span></div>
@@ -2897,8 +2687,8 @@ const TENANT_MENUS = {
         { label: '中心与设施', icon: '🏛', page: 'chem-center' }
       ] },
       { label: '教育教学', icon: '📐', children: [
-        { label: '本科生培养', icon: '🎓', page: 'chem-edu-ug' },
-        { label: '研究生培养', icon: '🎓', page: 'chem-edu-pg' },
+        { label: '本科生项目', icon: '🎓', page: 'chem-edu-ug' },
+        { label: '博士生项目', icon: '🎓', page: 'chem-edu-pg' },
         { label: '博士后项目', icon: '🎓', page: 'chem-edu-postdoc' },
         { label: '短期项目', icon: '🗓', page: 'chem-edu-short' }
       ] },
@@ -2927,7 +2717,7 @@ const PLACEHOLDER_PAGES = {
   'chem-research-show': '科学研究展示', 'chem-teaching': '教育教学', 'chem-mission': '使命与价值观',
   'chem-governance': '治理委员会', 'chem-join': '招贤纳士', 'chem-science': '研究领域',
   'chem-center': '中心与设施',
-  'chem-edu-ug': '本科生培养', 'chem-edu-pg': '研究生培养', 'chem-edu-postdoc': '博士后项目', 'chem-edu-short': '短期项目', 'chem-adm-talk': '宣讲信息', 'chem-adm-guide': '报考须知', 'chem-adm-faq': '常见问题'
+  'chem-edu-ug': '本科生项目', 'chem-edu-pg': '博士生项目', 'chem-edu-postdoc': '博士后项目', 'chem-edu-short': '短期项目', 'chem-adm-talk': '宣讲信息', 'chem-adm-guide': '报考须知', 'chem-adm-faq': '常见问题'
 };
 
 let currentTenant = 'science';
@@ -4054,6 +3844,8 @@ const SHELL_EN = {
   '研究领域': 'Research Fields',
   '本科生培养': 'Undergraduate Training',
   '研究生培养': 'Graduate Training',
+  '本科生项目': 'Undergraduate Program',
+  '博士生项目': 'Doctoral Program',
   '博士后项目': 'Postdoctoral Program',
   '短期项目': 'Short-term Programs',
   '招贤纳士': 'Careers',
@@ -5015,270 +4807,294 @@ function initChemEduShort(){
 }
 
 
-/* --- 本科生培养：单页配置（无列表，对应客户端 /regular） --- */
+/* --- 本科生项目：板块列表（可增删，对应客户端 /regular） --- */
 const CHEM_EDU_UG = {
   lang: 'zh',
-  zh: {
-    progTitle: '化学专业本科项目',
-    progIntro: '化学是对变化的研究。作为国家战略性基础学科和创造新物质的学科，化学对推动生命和医学科学、材料与制造科学等领域交叉发展有着强有力的支撑作用，对国民经济和社会的可持续发展具有不可替代的作用。\n\n西湖大学化学专业旨在通过一流的课程和触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。在化学学科的核心内容，即合成化学、物理和理论化学、生物化学和材料化学的基础上，西湖大学还注重跨学科的联系，特别是与物理学科、生物医学科学的交叉。',
-    curTitle: '化学专业课程设计',
-    curIntro: '化学专业课程设计旨在教授学生化学实验的技艺和严谨的科学概念框架，这些是化学家们在原子和分子水平上理解、预测和操纵物质所需要的知识基础。化学的核心课程将围绕化学的主要分支学科来组织，并辅以必修的数学和物理课程。除了深入的核心培训外，还为学生提供了广泛多样的选修课和可选择的高级课程。这些选修课旨在让学生探索自己的兴趣，同时在相关科学学科中运用化学的概念和思维方法。',
-    courseName: '化学系本科生课程介绍',
-    courseUrl: 'https://chem.westlake.edu.cn/%E5%8C%96%E5%AD%A6%E7%B3%BB%E6%9C%AC%E7%A7%91%E7%94%9F%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D.pdf',
-    trainIntro: '化学专业为本科生提供了丰富的科研实训机会，包括但不限于：',
-    trainItems: [
-      { name:'科研训练I', credit:'1学分', grade:'1年级/冬' },
-      { name:'科研训练II', credit:'1学分', grade:'1年级/夏' },
-      { name:'科研训练III', credit:'2学分', grade:'2年级/冬' },
-      { name:'科研训练IV', credit:'2学分', grade:'2年级/夏' },
-      { name:'科研训练V', credit:'2学分', grade:'3年级/冬-夏' },
-      { name:'交叉学科前沿专题', credit:'1学分', grade:'2-4年级' },
-      { name:'专业认识实习', credit:'1学分', grade:'2年级/夏' },
-      { name:'毕业设计（论文）', credit:'8学分', grade:'4年级' }
-    ]
-  },
-  en: {
-    progTitle: 'Undergraduate Program in Chemistry',
-    progIntro: 'Chemistry is the study of change. As a national strategic fundamental discipline and the science of creating new substances, chemistry provides strong support for the interdisciplinary development of life and medical sciences, materials and manufacturing sciences, and plays an irreplaceable role in the sustainable development of the national economy and society.\n\nThe Undergraduate Program in Chemistry at Westlake University aims to equip students with a broad knowledge base and solid innovative research capabilities through first-class courses and research practice at the frontier of the discipline, cultivating top-notch innovative talents for the future. Building on the core of chemistry — synthetic chemistry, physical and theoretical chemistry, biochemistry and materials chemistry — Westlake University also emphasizes interdisciplinary connections, especially with physics and biomedical sciences.',
-    curTitle: 'Chemistry Curriculum Design',
-    curIntro: 'The chemistry curriculum is designed to teach students the craft of chemical experimentation and a rigorous conceptual framework, which are the knowledge foundations chemists need to understand, predict and manipulate matter at the atomic and molecular level. The core courses are organized around the main branches of chemistry, supplemented by required mathematics and physics courses. Beyond the in-depth core training, a wide variety of electives and advanced courses are offered for students to explore their interests while applying chemical concepts and ways of thinking in related scientific disciplines.',
-    courseName: 'Undergraduate Course Introduction (Chemistry)',
-    courseUrl: 'https://chem.westlake.edu.cn/%E5%8C%96%E5%AD%A6%E7%B3%BB%E6%9C%AC%E7%A7%91%E7%94%9F%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D.pdf',
-    trainIntro: 'The Department offers rich research training opportunities for undergraduates, including but not limited to:',
-    trainItems: [
-      { name:'Research Training I', credit:'1 credit', grade:'Grade 1 / Winter' },
-      { name:'Research Training II', credit:'1 credit', grade:'Grade 1 / Summer' },
-      { name:'Research Training III', credit:'2 credits', grade:'Grade 2 / Winter' },
-      { name:'Research Training IV', credit:'2 credits', grade:'Grade 2 / Summer' },
-      { name:'Research Training V', credit:'2 credits', grade:'Grade 3 / Winter–Summer' },
-      { name:'Frontiers of Interdisciplinary Topics', credit:'1 credit', grade:'Grades 2–4' },
-      { name:'Professional Internship', credit:'1 credit', grade:'Grade 2 / Summer' },
-      { name:'Graduation Design (Thesis)', credit:'8 credits', grade:'Grade 4' }
-    ]
-  }
+  nextId: 2,
+  addSeq: 0,
+  secs: [
+    { id: 1,
+      zh: {
+        title: '化学专业本科项目',
+        content: '<p>化学是对变化的研究。作为国家战略性基础学科和创造新物质的学科，化学对推动生命和医学科学、材料与制造科学等领域交叉发展有着强有力的支撑作用，对国民经济和社会的可持续发展具有不可替代的作用。</p><p>西湖大学化学专业旨在通过一流的课程和触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。在化学学科的核心内容，即合成化学、物理和理论化学、生物化学和材料化学的基础上，西湖大学还注重跨学科的联系，特别是与物理学科、生物医学科学的交叉。</p>'
+      },
+      en: {
+        title: 'Undergraduate Program in Chemistry',
+        content: '<p>Chemistry is the study of change. As a national strategic fundamental discipline and the science of creating new substances, chemistry provides strong support for the interdisciplinary development of life and medical sciences, materials and manufacturing sciences, and plays an irreplaceable role in the sustainable development of the national economy and society.</p><p>The Undergraduate Program in Chemistry at Westlake University aims to equip students with a broad knowledge base and solid innovative research capabilities through first-class courses and research practice at the frontier of the discipline, cultivating top-notch innovative talents for the future. Building on the core of chemistry \u2014 synthetic chemistry, physical and theoretical chemistry, biochemistry and materials chemistry \u2014 Westlake University also emphasizes interdisciplinary connections, especially with physics and biomedical sciences.</p>'
+      }
+    }
+  ]
 };
 function cueEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function cueVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
-function cueSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
-function chemEduUgAddTrain(it){
-  it = it || { name:'', credit:'', grade:'' };
-  const row = document.createElement('div');
-  row.className = 'cue-train-row';
-  row.innerHTML =
-    '<input class="form-input ti-name" placeholder="请输入名称" value="'+cueEsc(it.name)+'">' +
-    '<input class="form-input ti-credit" style="width:120px" placeholder="学分" value="'+cueEsc(it.credit)+'">' +
-    '<input class="form-input ti-grade" style="width:150px" placeholder="年级/学期" value="'+cueEsc(it.grade)+'">' +
-    '<button type="button" class="link-action danger" onclick="chemEduUgRemoveTrain(this)">删除</button>';
-  document.getElementById('cue-train-list').appendChild(row);
+// DOM -> 数据（渲染前调用，富文本读 innerHTML）
+function cugReadDom(){
+  const lang = CHEM_EDU_UG.lang;
+  CHEM_EDU_UG.secs.forEach(function(sec, i){
+    const d = sec[lang];
+    const t = document.getElementById('cug-title-' + i);
+    const c = document.getElementById('cug-content-' + i);
+    if (t) d.title = t.value.trim();
+    if (c) d.content = c.innerHTML;
+  });
 }
-function chemEduUgRemoveTrain(btn){ const r=btn.closest('.cue-train-row'); if(r) r.remove(); }
-function readChemEduUg(){
-  return {
-    progTitle: cueVal('cue-prog-title'),
-    progIntro: cueVal('cue-prog-intro'),
-    curTitle: cueVal('cue-cur-title'),
-    curIntro: cueVal('cue-cur-intro'),
-    courseName: cueVal('cue-course-name'),
-    courseUrl: cueVal('cue-course-url'),
-    trainIntro: cueVal('cue-train-intro'),
-    trainItems: Array.from(document.querySelectorAll('#cue-train-list .cue-train-row')).map(function(r){
-      return { name: r.querySelector('.ti-name').value.trim(), credit: r.querySelector('.ti-credit').value.trim(), grade: r.querySelector('.ti-grade').value.trim() };
-    })
-  };
+// 语言切换为整页级别，只出现在第一个板块
+function cugLangFieldHtml(i){
+  if (i !== 0) return '';
+  const lang = CHEM_EDU_UG.lang;
+  return '<div class="form-field"><label class="form-label"><span class="required">*</span>语言：</label>' +
+    '<div class="radio-group">' +
+      '<label class="radio-item"><input type="radio" name="cug-lang" value="zh"' + (lang === 'zh' ? ' checked' : '') + ' onchange="setChemEduUgLang(\'zh\')"> 中文</label>' +
+      '<label class="radio-item"><input type="radio" name="cug-lang" value="en"' + (lang === 'en' ? ' checked' : '') + ' onchange="setChemEduUgLang(\'en\')"> 英文</label>' +
+    '</div></div>';
 }
-function fillChemEduUg(d){
-  cueSet('cue-prog-title', d.progTitle);
-  cueSet('cue-prog-intro', d.progIntro);
-  cueSet('cue-cur-title', d.curTitle);
-  cueSet('cue-cur-intro', d.curIntro);
-  cueSet('cue-course-name', d.courseName);
-  cueSet('cue-course-url', d.courseUrl);
-  cueSet('cue-train-intro', d.trainIntro);
-  const list = document.getElementById('cue-train-list');
-  list.innerHTML = '';
-  (d.trainItems||[]).forEach(function(it){ chemEduUgAddTrain(it); });
+// 卡片头兜底文案：新增板块显示「板块N / Section N」
+function cugAutoLabel(sec, i){
+  const en = CHEM_EDU_UG.lang === 'en';
+  if (sec && sec.n) return (en ? 'Section ' : '板块') + sec.n;
+  return (en ? 'Section ' : '板块 ') + (i + 1);
+}
+function cugCardHtml(sec, i){
+  const d = sec[CHEM_EDU_UG.lang];
+  const delBtn = CHEM_EDU_UG.secs.length > 1
+    ? '<button type="button" class="link-action danger cug-sec-del" onclick="chemEduUgDel(' + i + ')">删除</button>' : '';
+  return '<div class="card" data-cug-sec="' + i + '">' +
+    '<div class="card-header"><h3 class="cug-sec-h" data-noi18n="1">' + cueEsc(d.title || cugAutoLabel(sec, i)) + '</h3>' + delBtn + '</div>' +
+    '<div class="card-body"><div class="form-column">' +
+      cugLangFieldHtml(i) +
+      '<div class="form-field"><label class="form-label"><span class="required">*</span>板块标题：</label><input class="form-input" id="cug-title-' + i + '" value="' + cueEsc(d.title) + '" placeholder="请输入板块标题" oninput="cugSyncHead(' + i + ')"></div>' +
+      '<div class="form-field align-top"><label class="form-label"><span class="required">*</span>板块内容：</label>' + rtEditorHtml('cug-content-' + i, d.content) + '</div>' +
+    '</div></div></div>';
+}
+function renderChemEduUg(){
+  const box = document.getElementById('cug-secs');
+  if (!box) return;
+  box.innerHTML = CHEM_EDU_UG.secs.map(cugCardHtml).join('');
+  applyShellI18n('page-chem-edu-ug', CHEM_EDU_UG.lang);
+}
+function cugSyncHead(i){
+  const el = document.getElementById('cug-title-' + i);
+  const page = document.getElementById('page-chem-edu-ug');
+  if (!el || !page) return;
+  const h = page.querySelector('[data-cug-sec="' + i + '"] .cug-sec-h');
+  if (h) h.textContent = el.value.trim() || cugAutoLabel(CHEM_EDU_UG.secs[i], i);
+}
+function chemEduUgAdd(){
+  cugReadDom();
+  const en = CHEM_EDU_UG.lang === 'en';
+  const blank = function(){ return { title:'', content:'' }; };
+  CHEM_EDU_UG.addSeq = (CHEM_EDU_UG.addSeq || 0) + 1;
+  CHEM_EDU_UG.secs.push({ id: CHEM_EDU_UG.nextId++, n: CHEM_EDU_UG.addSeq, zh: blank(), en: blank() });
+  renderChemEduUg();
+  const page = document.getElementById('page-chem-edu-ug');
+  const last = page && page.querySelector('[data-cug-sec="' + (CHEM_EDU_UG.secs.length - 1) + '"]');
+  if (last && last.scrollIntoView) last.scrollIntoView({ behavior:'smooth', block:'center' });
+  showToast(en ? 'Section added' : '已增加一个板块', 'success');
+}
+function chemEduUgDel(i){
+  const en = CHEM_EDU_UG.lang === 'en';
+  if (CHEM_EDU_UG.secs.length <= 1){ showToast(en ? 'At least one section is required' : '至少保留一个板块', 'error'); return; }
+  openConfirm('确认删除', en ? 'Delete this section?' : '确定要删除该板块吗？', function(){
+    cugReadDom();
+    CHEM_EDU_UG.secs.splice(i, 1);
+    renderChemEduUg();
+    showToast(en ? 'Deleted' : '已删除', 'success');
+  });
 }
 function setChemEduUgLang(lang){
-  if (CHEM_EDU_UG[CHEM_EDU_UG.lang]) CHEM_EDU_UG[CHEM_EDU_UG.lang] = readChemEduUg();  // 保存当前语言内容
+  if (lang !== CHEM_EDU_UG.lang) cugReadDom();
   CHEM_EDU_UG.lang = lang;
-  fillChemEduUg(CHEM_EDU_UG[lang]);
-  const page = document.getElementById('page-chem-edu-ug');
-  if (page) page.querySelectorAll('input[name="cue-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
-  applyShellI18n('page-chem-edu-ug', lang);
+  PAGE_LANG['page-chem-edu-ug'] = lang;
+  renderChemEduUg();
 }
 function saveChemEduUg(){
-  if (CHEM_EDU_UG[CHEM_EDU_UG.lang]) CHEM_EDU_UG[CHEM_EDU_UG.lang] = readChemEduUg();  // 同步当前语言内容
+  cugReadDom();
   const lang = CHEM_EDU_UG.lang, en = lang === 'en';
-  const d = CHEM_EDU_UG[lang];
-  if (!d.progTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.progIntro)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  if (!d.courseName) { showToast(en?'Please enter document name':'请输入文档名称', 'error'); return; }
-  if (!d.courseUrl)  { showToast(en?'Please enter document link':'请输入文档链接', 'error'); return; }
-  showToast(en?'Saved successfully':'内容已保存', 'success');
+  for (let i = 0; i < CHEM_EDU_UG.secs.length; i++){
+    const d = CHEM_EDU_UG.secs[i][lang];
+    if (!d.title){ showToast(en ? 'Please enter section title' : '请输入板块标题', 'error'); return; }
+    if (!d.content.replace(/<[^>]*>/g, '').trim()){ showToast(en ? 'Please enter section content' : '请输入板块内容', 'error'); return; }
+  }
+  showToast(en ? 'Saved successfully' : '内容已保存', 'success');
+}
+function initChemEduUg(){
+  CHEM_EDU_UG.lang = 'zh'; PAGE_LANG['page-chem-edu-ug'] = 'zh';
+  CHEM_EDU_UG.nextId = CHEM_EDU_UG.secs.length + 1;
+  renderChemEduUg();
 }
 
-/* --- 研究生培养：单页配置（无列表，对应客户端 /academics） --- */
+/* --- 博士生项目：板块列表（可增删，对应客户端 /academics） --- */
 const CHEM_EDU_PG = {
   lang: 'zh',
-  zh: {
-    progTitle: '研究生项目',
-    progIntro: '西湖大学化学学科建立于2018年，2023年获批为一级学科博士学位授权点。学科面向全球招收博士研究生，通过一流的课程以及触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。\n\n学科实行独立实验室（PI）制度，开展催化与合成、化学生物学、材料化学、理论与计算化学、实验物理化学等领域的研究，聚焦人类能源环境挑战关键问题，在仿生催化领域建立了世界顶尖学者领军团队，在发现和提高催化活性和选择性方面国际领先。西湖大学目前已经构建了完善的博士研究生奖助体系，除了国家奖学金、学业奖学金、国家助学金等资助体系外，学校还专门设立了西湖大学助学金和社会奖助学金，让每一位博士研究生都能够专注学业、潜心科研。',
-    applyText: '点击此处申请',
-    applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&',
-    admTitle: '招生方式',
-    admIntro: '化学学科（0703）按照一级学科独立招收培养博士研究生，通过“申请—考核”制选拔全日制非定向博士研究生，招生方式分为直接攻博、普通招考两类。',
-    links: [
-      { text: '招生信息', url: 'https://chem.westlake.edu.cn/admissions/0' },
-      { text: '化学系', url: 'https://chem.westlake.edu.cn/' },
-      { text: '理学院', url: 'https://science.westlake.edu.cn/index.shtml' },
-      { text: '西湖大学', url: 'https://www.westlake.edu.cn/' }
-    ],
-    modeTitle: '基本学习年限和培养方式',
-    yearBachelor: '5',
-    yearMaster: '4',
-    modeIntro: '化学专业博士研究生教育采用定导招生培养模式，本科起点博士研究生学制为5年，硕士起点博士研究生学制为4年。博士研究生导师是博士研究生培养的第一责任人，按照因材施教和个性化培养理念，积极参与制定执行博士研究生培养计划；指导博士研究生确定研究方向，深入开展研究；定期与博士研究生沟通交流，合理安排研究项目的时间节点。',
-    stageTitle: '培养过程主要环节',
-    stages: ['课程学习', '开题报告', '学术交流', '资格考试', '论文进展报告', '教学实践', '研究计划', '毕业答辩'],
-    courseTitle: '专业课程',
-    courses: [
-      { cat: '专业课', type: '必修', code: 'CHEM5019', name: '无机化学表征方法', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5020', name: '分子结构与反应机理', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5021', name: '化学生物学', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5022', name: '有机合成反应和策略', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5023', name: '金属有机化学', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5024', name: '分子光谱学与群论基础', credit: '3.0' },
-      { cat: '专业课', type: '必修', code: 'CHEM5025', name: '量子化学', credit: '3.0' },
-      { cat: '专业课', type: '选修', code: 'CHEM5026', name: '纳米材料导论', credit: '3.0' },
-      { cat: '专业课', type: '选修', code: 'CHEM5029', name: '天然产物合成', credit: '3.0' },
-      { cat: '专业课', type: '选修', code: 'CHEM5031', name: '高等无机化学II：金属酶与仿生催化', credit: '3.0' }
-    ],
-    devTitle: '学术培养与毕业发展',
-    devIntro: '学科支持每个学生参加国际会议或国际交流计划，广泛开展国内外学术交流，拓展国际视野；设立优秀博士毕业生发展基金，鼓励优秀博士毕业生到顶尖高校、研究机构开展博士后科研工作；鼓励学科交叉和自由探索，部分学生已获得国家自然科学基金青年学生基础研究项目（博士研究生）资助。截至2024年8月31日，化学系有毕业生34人，初次就业率为97.1%。'
-  },
-  en: {
-    progTitle: 'Graduate Programs',
-    progIntro: 'The Discipline of Chemistry at Westlake University was established in 2018 and was approved as a first-level authorized doctoral degree program in 2023. The department recruits PhD students globally. Through first-class courses and research practice at the frontier of the discipline, students acquire a broad knowledge base and solid innovative research capabilities, cultivating top-notch innovative talents for the future.\n\nThe department adopts an independent laboratory (PI) system, conducting research in catalysis and synthesis, chemical biology, materials chemistry, theoretical and computational chemistry, and experimental physical chemistry, focusing on key challenges in human energy and the environment. Westlake University has built a comprehensive financial aid system for PhD students, including national scholarships, academic scholarships and national stipends, as well as the Westlake University scholarship and social scholarships, enabling every PhD student to focus on study and research.',
-    applyText: 'Click here to apply',
-    applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&',
-    admTitle: 'Admissions',
-    admIntro: 'The Discipline of Chemistry (0703) recruits and trains PhD students independently as a first-level discipline. Full-time non-directed PhD students are selected through an "application–assessment" system, with two admission routes: direct doctoral admission and the regular examination.',
-    links: [
-      { text: 'Admissions Info', url: 'https://chem.westlake.edu.cn/admissions/0' },
-      { text: 'Department of Chemistry', url: 'https://chem.westlake.edu.cn/' },
-      { text: 'School of Science', url: 'https://science.westlake.edu.cn/index.shtml' },
-      { text: 'Westlake University', url: 'https://www.westlake.edu.cn/' }
-    ],
-    modeTitle: 'Duration of Study and Training Mode',
-    yearBachelor: '5',
-    yearMaster: '4',
-    modeIntro: 'Doctoral education in Chemistry adopts a fixed-advisor training model. The duration is 5 years for students entering with a bachelor’s degree and 4 years for those entering with a master’s degree. The doctoral advisor is the primary responsible person for the student’s training, actively participating in the formulation and execution of the training plan according to the principles of individualized cultivation.',
-    stageTitle: 'Main Stages of the Training Process',
-    stages: ['Coursework', 'Proposal Defense', 'Academic Exchange', 'Qualifying Examination', 'Thesis Progress Report', 'Teaching Practice', 'Research Plan', 'Graduation Defense'],
-    courseTitle: 'Courses',
-    courses: [
-      { cat: 'Major', type: '必修', code: 'CHEM5019', name: 'Inorganic Chemistry Characterization Methods', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5020', name: 'Molecular Structure and Reaction Mechanisms', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5021', name: 'Chemical Biology', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5022', name: 'Organic Synthesis Reactions and Strategies', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5023', name: 'Organometallic Chemistry', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5024', name: 'Molecular Spectroscopy and Group Theory Fundamentals', credit: '3.0' },
-      { cat: 'Major', type: '必修', code: 'CHEM5025', name: 'Quantum Chemistry', credit: '3.0' },
-      { cat: 'Major', type: '选修', code: 'CHEM5026', name: 'Introduction to Nanomaterials', credit: '3.0' },
-      { cat: 'Major', type: '选修', code: 'CHEM5029', name: 'Natural Product Synthesis', credit: '3.0' },
-      { cat: 'Major', type: '选修', code: 'CHEM5031', name: 'Advanced Inorganic Chemistry II: Metalloenzymes and Biomimetic Catalysis', credit: '3.0' }
-    ],
-    devTitle: 'Academic Training and Career Development',
-    devIntro: 'The department supports every student to participate in international conferences or exchange programs, conducting extensive academic exchanges at home and abroad to broaden international perspectives; it has established a development fund for outstanding doctoral graduates, encouraging them to pursue postdoctoral research at top universities and institutions. As of August 31, 2024, the Department of Chemistry has 34 graduates, with an initial employment rate of 97.1%.'
-  }
+  nextId: 3,
+  addSeq: 0,
+  secs: [
+    { id: 1,
+      zh: {
+        title: '研究生项目',
+        content: '<p>西湖大学化学学科建立于2018年，2023年获批为一级学科博士学位授权点。学科面向全球招收博士研究生，通过一流的课程以及触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。</p><p>学科实行独立实验室（PI）制度，开展催化与合成、化学生物学、材料化学、理论与计算化学、实验物理化学等领域的研究，聚焦人类能源环境挑战关键问题，在仿生催化领域建立了世界顶尖学者领军团队，在发现和提高催化活性和选择性方面国际领先。西湖大学目前已经构建了完善的博士研究生奖助体系，除了国家奖学金、学业奖学金、国家助学金等资助体系外，学校还专门设立了西湖大学助学金和社会奖助学金，让每一位博士研究生都能够专注学业、潜心科研。</p>',
+        imgName: '', imgUrl: '',
+        applyText: '点击此处申请',
+        applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&'
+      },
+      en: {
+        title: 'Graduate Programs',
+        content: '<p>The Discipline of Chemistry at Westlake University was established in 2018 and was approved as a first-level authorized doctoral degree program in 2023. The department recruits PhD students globally. Through first-class courses and research practice at the frontier of the discipline, students acquire a broad knowledge base and solid innovative research capabilities, cultivating top-notch innovative talents for the future.</p><p>The department adopts an independent laboratory (PI) system, conducting research in catalysis and synthesis, chemical biology, materials chemistry, theoretical and computational chemistry, and experimental physical chemistry, focusing on key challenges in human energy and the environment. Westlake University has built a comprehensive financial aid system for PhD students, including national scholarships, academic scholarships and national stipends, as well as the Westlake University scholarship and social scholarships, enabling every PhD student to focus on study and research.</p>',
+        imgName: '', imgUrl: '',
+        applyText: 'Click here to apply',
+        applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&'
+      }
+    },
+    { id: 2,
+      zh: {
+        title: '招生与培养',
+        content: '<p><strong>招生方式</strong></p><p>化学学科（0703）按照一级学科独立招收培养博士研究生，通过“申请—考核”制选拔全日制非定向博士研究生，招生方式分为直接攻博、普通招考两类。</p><p><strong>基本学习年限和培养方式</strong></p><p>化学专业博士研究生教育采用定导招生培养模式，本科起点博士研究生学制为5年，硕士起点博士研究生学制为4年。博士研究生导师是博士研究生培养的第一责任人，按照因材施教和个性化培养理念，积极参与制定执行博士研究生培养计划；指导博士研究生确定研究方向，深入开展研究；定期与博士研究生沟通交流，合理安排研究项目的时间节点。</p><p><strong>培养过程主要环节</strong></p><p>课程学习、开题报告、学术交流、资格考试、论文进展报告、教学实践、研究计划、毕业答辩。</p><p><strong>专业课程</strong></p><p>CHEM5019 无机化学表征方法（必修，3.0学分）；CHEM5020 分子结构与反应机理（必修，3.0学分）；CHEM5021 化学生物学（必修，3.0学分）；CHEM5022 有机合成反应和策略（必修，3.0学分）；CHEM5023 金属有机化学（必修，3.0学分）；CHEM5024 分子光谱学与群论基础（必修，3.0学分）；CHEM5025 量子化学（必修，3.0学分）；CHEM5026 纳米材料导论（选修，3.0学分）；CHEM5029 天然产物合成（选修，3.0学分）；CHEM5031 高等无机化学II：金属酶与仿生催化（选修，3.0学分）。</p><p><strong>学术培养与毕业发展</strong></p><p>学科支持每个学生参加国际会议或国际交流计划，广泛开展国内外学术交流，拓展国际视野；设立优秀博士毕业生发展基金，鼓励优秀博士毕业生到顶尖高校、研究机构开展博士后科研工作；鼓励学科交叉和自由探索，部分学生已获得国家自然科学基金青年学生基础研究项目（博士研究生）资助。截至2024年8月31日，化学系有毕业生34人，初次就业率为97.1%。</p>',
+        imgName: '', imgUrl: '', applyText: '', applyUrl: ''
+      },
+      en: {
+        title: 'Admissions & Training',
+        content: '<p><strong>Admissions</strong></p><p>The Discipline of Chemistry (0703) recruits and trains PhD students independently as a first-level discipline. Full-time non-directed PhD students are selected through an "application\u2013assessment" system, with two admission routes: direct doctoral admission and the regular examination.</p><p><strong>Duration of Study and Training Mode</strong></p><p>Doctoral education in Chemistry adopts a fixed-advisor training model. The duration is 5 years for students entering with a bachelor\u2019s degree and 4 years for those entering with a master\u2019s degree. The doctoral advisor is the primary responsible person for the student\u2019s training, actively participating in the formulation and execution of the training plan according to the principles of individualized cultivation.</p><p><strong>Main Stages of the Training Process</strong></p><p>Coursework, Proposal Defense, Academic Exchange, Qualifying Examination, Thesis Progress Report, Teaching Practice, Research Plan, Graduation Defense.</p><p><strong>Courses</strong></p><p>CHEM5019 Inorganic Chemistry Characterization Methods (Required, 3.0 credits); CHEM5020 Molecular Structure and Reaction Mechanisms (Required, 3.0 credits); CHEM5021 Chemical Biology (Required, 3.0 credits); CHEM5022 Organic Synthesis Reactions and Strategies (Required, 3.0 credits); CHEM5023 Organometallic Chemistry (Required, 3.0 credits); CHEM5024 Molecular Spectroscopy and Group Theory Fundamentals (Required, 3.0 credits); CHEM5025 Quantum Chemistry (Required, 3.0 credits); CHEM5026 Introduction to Nanomaterials (Elective, 3.0 credits); CHEM5029 Natural Product Synthesis (Elective, 3.0 credits); CHEM5031 Advanced Inorganic Chemistry II: Metalloenzymes and Biomimetic Catalysis (Elective, 3.0 credits).</p><p><strong>Academic Training and Career Development</strong></p><p>The department supports every student to participate in international conferences or exchange programs, conducting extensive academic exchanges at home and abroad to broaden international perspectives; it has established a development fund for outstanding doctoral graduates, encouraging them to pursue postdoctoral research at top universities and institutions. As of August 31, 2024, the Department of Chemistry has 34 graduates, with an initial employment rate of 97.1%.</p>',
+        imgName: '', imgUrl: '', applyText: '', applyUrl: ''
+      }
+    }
+  ]
 };
 function cpgEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function cpgVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
-function cpgSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
-function chemEduPgAddLink(it){
-  it = it || { text:'', url:'' };
-  const row = document.createElement('div');
-  row.className = 'cpg-link-row';
-  row.innerHTML =
-    '<input class="form-input" placeholder="链接文本" value="'+cpgEsc(it.text)+'">' +
-    '<input class="form-input" placeholder="链接地址" value="'+cpgEsc(it.url)+'">' +
-    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveLink(this)">删除</button>';
-  document.getElementById('cpg-link-list').appendChild(row);
+// DOM -> 数据（渲染前调用，富文本读 innerHTML）
+function cpgReadDom(){
+  const lang = CHEM_EDU_PG.lang;
+  CHEM_EDU_PG.secs.forEach(function(sec, i){
+    const d = sec[lang];
+    const t = document.getElementById('cpg-title-' + i);
+    const c = document.getElementById('cpg-content-' + i);
+    if (t) d.title = t.value.trim();
+    if (c) d.content = c.innerHTML;
+    const at = document.getElementById('cpg-applytext-' + i);
+    const au = document.getElementById('cpg-applyurl-' + i);
+    if (at) d.applyText = at.value.trim();
+    if (au) d.applyUrl = au.value.trim();
+  });
 }
-function chemEduPgRemoveLink(btn){ const r=btn.closest('.cpg-link-row'); if(r) r.remove(); }
-function chemEduPgAddStage(it){
-  it = it || '';
-  const row = document.createElement('div');
-  row.className = 'cpg-stage-row';
-  row.innerHTML =
-    '<input class="form-input" placeholder="环节名称" value="'+cpgEsc(it)+'">' +
-    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveStage(this)">删除</button>';
-  document.getElementById('cpg-stage-list').appendChild(row);
+// 语言切换为整页级别，只出现在第一个板块
+function cpgLangFieldHtml(i){
+  if (i !== 0) return '';
+  const lang = CHEM_EDU_PG.lang;
+  return '<div class="form-field"><label class="form-label"><span class="required">*</span>语言：</label>' +
+    '<div class="radio-group">' +
+      '<label class="radio-item"><input type="radio" name="cpg-lang" value="zh"' + (lang === 'zh' ? ' checked' : '') + ' onchange="setChemEduPgLang(\'zh\')"> 中文</label>' +
+      '<label class="radio-item"><input type="radio" name="cpg-lang" value="en"' + (lang === 'en' ? ' checked' : '') + ' onchange="setChemEduPgLang(\'en\')"> 英文</label>' +
+    '</div></div>';
 }
-function chemEduPgRemoveStage(btn){ const r=btn.closest('.cpg-stage-row'); if(r) r.remove(); }
-function chemEduPgAddCourse(it){
-  it = it || { cat:'', type:'必修', code:'', name:'', credit:'' };
-  const en = CHEM_EDU_PG && CHEM_EDU_PG.lang === 'en';
-  const t1 = en ? 'Required' : '必修', t2 = en ? 'Elective' : '选修';
-  const row = document.createElement('div');
-  row.className = 'cpg-course-row';
-  row.innerHTML =
-    '<input class="form-input" placeholder="课程类别" value="'+cpgEsc(it.cat)+'">' +
-    '<select class="form-input cpg-type"><option value="必修"'+((it.type||'必修')==='必修'?' selected':'')+'>'+t1+'</option><option value="选修"'+((it.type||'必修')==='选修'?' selected':'')+'>'+t2+'</option></select>' +
-    '<input class="form-input" placeholder="课程代码" value="'+cpgEsc(it.code)+'">' +
-    '<input class="form-input" placeholder="课程名称" value="'+cpgEsc(it.name)+'">' +
-    '<input class="form-input" placeholder="学分" value="'+cpgEsc(it.credit)+'">' +
-    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveCourse(this)">✕</button>';
-  document.getElementById('cpg-course-list').appendChild(row);
+// 单图上传（96x96，复用多图上传的缩略图样式）
+function cpgImgHtml(i){
+  const d = CHEM_EDU_PG.secs[i][CHEM_EDU_PG.lang];
+  if (d.imgUrl || d.imgName){
+    const inner = d.imgUrl ? '<img src="' + cpgEsc(d.imgUrl) + '" alt="' + cpgEsc(d.imgName) + '">' : '<div class="mu-ph">\uD83D\uDDBC</div>';
+    return '<div class="mu-item">' + inner + '<button type="button" class="mu-del" onclick="cpgDelImg(' + i + ')">\u2715</button></div>';
+  }
+  return '<label class="upload-area" style="width:96px;height:96px"><span>\uFF0B 图片上传</span>' +
+    '<input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none" onchange="cpgPickImg(this,' + i + ')"></label>';
 }
-function chemEduPgRemoveCourse(btn){ const r=btn.closest('.cpg-course-row'); if(r) r.remove(); }
-function readChemEduPg(){
-  return {
-    progTitle: cpgVal('cpg-prog-title'), progIntro: cpgVal('cpg-prog-intro'),
-    applyText: cpgVal('cpg-apply-text'), applyUrl: cpgVal('cpg-apply-url'),
-    admTitle: cpgVal('cpg-adm-title'), admIntro: cpgVal('cpg-adm-intro'),
-    links: Array.from(document.querySelectorAll('#cpg-link-list .cpg-link-row')).map(function(r){ return { text: r.children[0].value.trim(), url: r.children[1].value.trim() }; }),
-    modeTitle: cpgVal('cpg-mode-title'), yearBachelor: cpgVal('cpg-year-bachelor'), yearMaster: cpgVal('cpg-year-master'), modeIntro: cpgVal('cpg-mode-intro'),
-    stageTitle: cpgVal('cpg-stage-title'),
-    stages: Array.from(document.querySelectorAll('#cpg-stage-list .cpg-stage-row')).map(function(r){ return r.children[0].value.trim(); }),
-    courseTitle: cpgVal('cpg-course-title'),
-    courses: Array.from(document.querySelectorAll('#cpg-course-list .cpg-course-row')).map(function(r){
-      return { cat: r.children[0].value.trim(), type: r.querySelector('.cpg-type').value, code: r.children[2].value.trim(), name: r.children[3].value.trim(), credit: r.children[4].value.trim() };
-    }),
-    devTitle: cpgVal('cpg-dev-title'), devIntro: cpgVal('cpg-dev-intro')
-  };
+// 图片 / 申请链接：仅第一个板块（研究生项目）有
+function cpgExtraFieldsHtml(i){
+  if (i !== 0) return '';
+  const d = CHEM_EDU_PG.secs[i][CHEM_EDU_PG.lang];
+  return '<div class="form-field"><label class="form-label">图片：</label><div><div class="csh-img-row">' + cpgImgHtml(i) +
+      '</div><div class="upload-hint">格式：JPG、JPEG、PNG　大小：单张不能超过2MB　最多上传 1 张；</div></div></div>' +
+    '<div class="form-field"><label class="form-label">申请链接文本：</label><input class="form-input" id="cpg-applytext-' + i + '" value="' + cpgEsc(d.applyText) + '" placeholder="如：点击此处申请"></div>' +
+    '<div class="form-field"><label class="form-label">申请链接地址：</label><input class="form-input" id="cpg-applyurl-' + i + '" value="' + cpgEsc(d.applyUrl) + '" placeholder="请输入申请链接地址"></div>';
 }
-function fillChemEduPg(d){
-  cpgSet('cpg-prog-title', d.progTitle); cpgSet('cpg-prog-intro', d.progIntro);
-  cpgSet('cpg-apply-text', d.applyText); cpgSet('cpg-apply-url', d.applyUrl);
-  cpgSet('cpg-adm-title', d.admTitle); cpgSet('cpg-adm-intro', d.admIntro);
-  const ll = document.getElementById('cpg-link-list'); ll.innerHTML = ''; (d.links||[]).forEach(function(it){ chemEduPgAddLink(it); });
-  cpgSet('cpg-mode-title', d.modeTitle); cpgSet('cpg-year-bachelor', d.yearBachelor); cpgSet('cpg-year-master', d.yearMaster); cpgSet('cpg-mode-intro', d.modeIntro);
-  cpgSet('cpg-stage-title', d.stageTitle);
-  const sl = document.getElementById('cpg-stage-list'); sl.innerHTML = ''; (d.stages||[]).forEach(function(it){ chemEduPgAddStage(it); });
-  cpgSet('cpg-course-title', d.courseTitle);
-  const cl = document.getElementById('cpg-course-list'); cl.innerHTML = ''; (d.courses||[]).forEach(function(it){ chemEduPgAddCourse(it); });
-  cpgSet('cpg-dev-title', d.devTitle); cpgSet('cpg-dev-intro', d.devIntro);
+// 卡片头兜底文案：新增板块显示「板块N / Section N」
+function cpgAutoLabel(sec, i){
+  const en = CHEM_EDU_PG.lang === 'en';
+  if (sec && sec.n) return (en ? 'Section ' : '板块') + sec.n;
+  return (en ? 'Section ' : '板块 ') + (i + 1);
+}
+function cpgCardHtml(sec, i){
+  const d = sec[CHEM_EDU_PG.lang];
+  const delBtn = CHEM_EDU_PG.secs.length > 1
+    ? '<button type="button" class="link-action danger cpg-sec-del" onclick="chemEduPgDel(' + i + ')">删除</button>' : '';
+  return '<div class="card" data-cpg-sec="' + i + '">' +
+    '<div class="card-header"><h3 class="cpg-sec-h" data-noi18n="1">' + cpgEsc(d.title || cpgAutoLabel(sec, i)) + '</h3>' + delBtn + '</div>' +
+    '<div class="card-body"><div class="form-column">' +
+      cpgLangFieldHtml(i) +
+      '<div class="form-field"><label class="form-label"><span class="required">*</span>板块标题：</label><input class="form-input" id="cpg-title-' + i + '" value="' + cpgEsc(d.title) + '" placeholder="请输入板块标题" oninput="cpgSyncHead(' + i + ')"></div>' +
+      '<div class="form-field align-top"><label class="form-label"><span class="required">*</span>板块内容：</label>' + rtEditorHtml('cpg-content-' + i, d.content) + '</div>' +
+      cpgExtraFieldsHtml(i) +
+    '</div></div></div>';
+}
+function renderChemEduPg(){
+  const box = document.getElementById('cpg-secs');
+  if (!box) return;
+  box.innerHTML = CHEM_EDU_PG.secs.map(cpgCardHtml).join('');
+  applyShellI18n('page-chem-edu-pg', CHEM_EDU_PG.lang);
+}
+function cpgSyncHead(i){
+  const el = document.getElementById('cpg-title-' + i);
+  const page = document.getElementById('page-chem-edu-pg');
+  if (!el || !page) return;
+  const h = page.querySelector('[data-cpg-sec="' + i + '"] .cpg-sec-h');
+  if (h) h.textContent = el.value.trim() || cpgAutoLabel(CHEM_EDU_PG.secs[i], i);
+}
+function chemEduPgAdd(){
+  cpgReadDom();
+  const en = CHEM_EDU_PG.lang === 'en';
+  const blank = function(){ return { title:'', content:'', imgName:'', imgUrl:'', applyText:'', applyUrl:'' }; };
+  CHEM_EDU_PG.addSeq = (CHEM_EDU_PG.addSeq || 0) + 1;
+  CHEM_EDU_PG.secs.push({ id: CHEM_EDU_PG.nextId++, n: CHEM_EDU_PG.addSeq, zh: blank(), en: blank() });
+  renderChemEduPg();
+  const page = document.getElementById('page-chem-edu-pg');
+  const last = page && page.querySelector('[data-cpg-sec="' + (CHEM_EDU_PG.secs.length - 1) + '"]');
+  if (last && last.scrollIntoView) last.scrollIntoView({ behavior:'smooth', block:'center' });
+  showToast(en ? 'Section added' : '已增加一个板块', 'success');
+}
+function chemEduPgDel(i){
+  const en = CHEM_EDU_PG.lang === 'en';
+  if (CHEM_EDU_PG.secs.length <= 1){ showToast(en ? 'At least one section is required' : '至少保留一个板块', 'error'); return; }
+  openConfirm('确认删除', en ? 'Delete this section?' : '确定要删除该板块吗？', function(){
+    cpgReadDom();
+    CHEM_EDU_PG.secs.splice(i, 1);
+    renderChemEduPg();
+    showToast(en ? 'Deleted' : '已删除', 'success');
+  });
+}
+function cpgPickImg(input, i){
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const en = CHEM_EDU_PG.lang === 'en';
+  if (file.size > 2 * 1024 * 1024){ showToast(en ? 'Image size must be under 2MB' : '图片大小不能超过 2MB', 'error'); input.value = ''; return; }
+  cpgReadDom();
+  const d = CHEM_EDU_PG.secs[i][CHEM_EDU_PG.lang];
+  d.imgName = file.name; d.imgUrl = URL.createObjectURL(file);
+  renderChemEduPg();
+  showToast(en ? 'Image uploaded' : '图片上传成功', 'success');
+}
+function cpgDelImg(i){
+  cpgReadDom();
+  const d = CHEM_EDU_PG.secs[i][CHEM_EDU_PG.lang];
+  d.imgName = ''; d.imgUrl = '';
+  renderChemEduPg();
+  showToast(CHEM_EDU_PG.lang === 'en' ? 'Image removed' : '已移除图片', 'success');
 }
 function setChemEduPgLang(lang){
-  if (CHEM_EDU_PG[CHEM_EDU_PG.lang]) CHEM_EDU_PG[CHEM_EDU_PG.lang] = readChemEduPg();  // 保存当前语言内容
+  if (lang !== CHEM_EDU_PG.lang) cpgReadDom();
   CHEM_EDU_PG.lang = lang;
-  fillChemEduPg(CHEM_EDU_PG[lang]);
-  const page = document.getElementById('page-chem-edu-pg');
-  if (page) page.querySelectorAll('input[name="cpg-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
-  applyShellI18n('page-chem-edu-pg', lang);
+  PAGE_LANG['page-chem-edu-pg'] = lang;
+  renderChemEduPg();
 }
 function saveChemEduPg(){
-  if (CHEM_EDU_PG[CHEM_EDU_PG.lang]) CHEM_EDU_PG[CHEM_EDU_PG.lang] = readChemEduPg();  // 同步当前语言内容
-  const lang = CHEM_EDU_PG.lang, en = lang === 'en', d = CHEM_EDU_PG[lang];
-  if (!d.progTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.progIntro)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  if (!d.admTitle)   { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.admIntro)   { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  showToast(en?'Saved successfully':'内容已保存', 'success');
+  cpgReadDom();
+  const lang = CHEM_EDU_PG.lang, en = lang === 'en';
+  for (let i = 0; i < CHEM_EDU_PG.secs.length; i++){
+    const d = CHEM_EDU_PG.secs[i][lang];
+    if (!d.title){ showToast(en ? 'Please enter section title' : '请输入板块标题', 'error'); return; }
+    if (!d.content.replace(/<[^>]*>/g, '').trim()){ showToast(en ? 'Please enter section content' : '请输入板块内容', 'error'); return; }
+  }
+  showToast(en ? 'Saved successfully' : '内容已保存', 'success');
 }
 function initChemEduPg(){
   CHEM_EDU_PG.lang = 'zh'; PAGE_LANG['page-chem-edu-pg'] = 'zh';
-  fillChemEduPg(CHEM_EDU_PG.zh);
+  CHEM_EDU_PG.nextId = CHEM_EDU_PG.secs.length + 1;
+  renderChemEduPg();
 }
 
 /* --- 博士后项目：单页配置（无列表，对应客户端 /academic） --- */
@@ -5412,11 +5228,8 @@ function initChemPages(){
   if (document.getElementById('page-chem-science')){
     PAGE_LANG['page-chem-science'] = 'zh'; syncLangTabs('page-chem-science'); renderChemSci();
   }
-  // 本科生培养：单页配置（不走列表渲染）
-  if (document.getElementById('page-chem-edu-ug')){
-    CHEM_EDU_UG.lang = 'zh'; PAGE_LANG['page-chem-edu-ug'] = 'zh';
-    fillChemEduUg(CHEM_EDU_UG.zh);
-  }
+  // 本科生项目 / 博士生项目：板块列表（不走列表渲染）
+  if (document.getElementById('page-chem-edu-ug')) initChemEduUg();
   // 短期项目：单页配置（不走列表渲染）
   if (document.getElementById('page-chem-edu-short')) initChemEduShort();
   if (document.getElementById('page-chem-edu-pg')) initChemEduPg();
