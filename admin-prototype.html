@@ -1243,14 +1243,17 @@ tr:hover td { background: #fafafa; }
       <div class="card">
         <div class="card-header">
           <h3>基本信息</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-mission','zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-mission','en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+          <button class="btn btn-primary" style="margin-left:auto" onclick="showToast('内容已保存','success')">保存</button>
         </div>
         <div class="card-body">
           <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cm-lang" value="zh" checked onchange="setChemMissionLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cm-lang" value="en" onchange="setChemMissionLang('en')"> 英文</label>
+              </div>
+            </div>
             <div class="form-field">
               <label class="form-label"><span class="required">*</span>标题：</label>
               <input class="form-input" value="西湖大学化学系">
@@ -1828,14 +1831,17 @@ tr:hover td { background: #fafafa; }
       <div class="card">
         <div class="card-header">
           <h3>招聘信息</h3>
-          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-join','zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-join','en')">英文</button>
-          </div>
-          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+          <button class="btn btn-primary" style="margin-left:auto" onclick="showToast('内容已保存','success')">保存</button>
         </div>
         <div class="card-body">
           <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cj-lang" value="zh" checked onchange="setChemJoinLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cj-lang" value="en" onchange="setChemJoinLang('en')"> 英文</label>
+              </div>
+            </div>
             <div class="form-field">
               <label class="form-label"><span class="required">*</span>标题：</label>
               <input class="form-input" placeholder="请输入标题" value="加入我们">
@@ -2477,9 +2483,9 @@ tr:hover td { background: #fafafa; }
         <div class="form-field"><label class="form-label"><span class="required">*</span>名称：</label><input class="form-input" id="cg-name" placeholder="请输入名称"></div>
         <div class="form-field"><label class="form-label">负责人：</label><input class="form-input" id="cg-head" placeholder="请输入负责人"></div>
         <div class="form-field"><label class="form-label">负责人抬头：</label><input class="form-input" id="cg-headtitle" placeholder="请输入负责人抬头"></div>
-        <div class="form-field align-top"><label class="form-label">委员：</label>
+        <div class="form-field align-top"><label class="form-label">委员会成员：</label>
           <div><input class="form-input" id="cg-members" placeholder="请输入姓名">
-            <div class="upload-hint">多个委员请用中文逗号「，」或英文逗号「,」分隔</div>
+            <div class="upload-hint">多个委员会成员请用中文逗号「，」或英文逗号「,」分隔</div>
           </div>
         </div>
       </div>
@@ -5577,6 +5583,10 @@ function syncChemDeanLangRadio(lang) {
   if (!page) return;
   page.querySelectorAll('input[name="cd-lang"]').forEach(r => { r.checked = (r.value === lang); });
 }
+function setChemMissionLang(lang){ setFormLang('page-chem-mission', lang); syncCmLangRadio(lang); }
+function syncCmLangRadio(lang){ const p=document.getElementById('page-chem-mission'); if(p) p.querySelectorAll('input[name="cm-lang"]').forEach(r=>r.checked=(r.value===lang)); }
+function setChemJoinLang(lang){ setFormLang('page-chem-join', lang); syncCjLangRadio(lang); }
+function syncCjLangRadio(lang){ const p=document.getElementById('page-chem-join'); if(p) p.querySelectorAll('input[name="cj-lang"]').forEach(r=>r.checked=(r.value===lang)); }
 function saveChemDean() {
   const page = document.getElementById('page-chem-dean');
   if (!page) return;
