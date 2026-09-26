@@ -512,11 +512,10 @@ tr:hover td { background: #fafafa; }
 .cpg-course-row .form-input, .cpg-course-row select { width:100%; box-sizing:border-box; }
 .cpg-course-row select { padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fff; color:inherit; }
 .cpg-course-head { font-size:12px; color:var(--text-muted); margin-bottom:8px; padding-left:2px; }
-.cpd-mat-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
-.cpd-mat-row .form-input { flex:1; }
 /* 短期项目：板块可增删 + 单图上传 */
 .csh-img-row { display: flex; align-items: center; gap: 12px; }
 .csh-sec-del { margin-left: auto; }
+.cpd-sec-del { margin-left: auto; }
 .csh-add-wrap { padding: 2px 0 16px; }
 </style>
 </head>
@@ -1610,96 +1609,15 @@ tr:hover td { background: #fafafa; }
     </div>
 
     <!-- Page: 教育教学（化学系）· 博士后项目 -->
+    <!-- Page: 教育教学（化学系）· 博士后项目 -->
     <div class="content-page" id="page-chem-edu-postdoc">
       <div class="breadcrumb">首页 / 教育教学 / <span>博士后项目</span></div>
       <div class="page-header"><h2>博士后项目</h2></div>
 
-      <!-- 1. 项目简介 -->
-      <div class="card">
-        <div class="card-header"><h3>项目简介</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>语言：</label>
-              <div class="radio-group">
-                <label class="radio-item"><input type="radio" name="cpd-lang" value="zh" checked onchange="setChemEduPostdocLang('zh')"> 中文</label>
-                <label class="radio-item"><input type="radio" name="cpd-lang" value="en" onchange="setChemEduPostdocLang('en')"> 英文</label>
-              </div>
-            </div>
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpd-intro-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpd-intro-content" style="min-height:140px" placeholder="请输入项目简介"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
+      <div id="cpd-secs"></div>
 
-      <!-- 2. 申请材料 -->
-      <div class="card">
-        <div class="card-header"><h3>申请材料</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpd-mat-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">板块说明：</label>
-              <textarea class="form-textarea" id="cpd-mat-intro" style="min-height:56px" placeholder="如：申请人应提交以下材料："></textarea>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">材料清单：</label>
-              <div id="cpd-mat-list"></div>
-              <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPostdocAddMat()">+ 新增条目</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 3. 薪酬与资助 -->
-      <div class="card">
-        <div class="card-header"><h3>薪酬与资助</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpd-sal-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpd-sal-content" style="min-height:140px" placeholder="请输入薪酬与资助说明"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 4. 联系方式 -->
-      <div class="card">
-        <div class="card-header"><h3>联系方式</h3></div>
-        <div class="card-body">
-          <div class="form-column">
-            <div class="form-field">
-              <label class="form-label"><span class="required">*</span>板块标题：</label>
-              <input class="form-input" id="cpd-con-title" placeholder="请输入板块标题">
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>板块内容：</label>
-              <textarea class="form-textarea" id="cpd-con-content" style="min-height:80px" placeholder="请输入联系方式说明"></textarea>
-            </div>
-            <div class="form-field">
-              <label class="form-label">链接文本：</label>
-              <input class="form-input" id="cpd-con-linktext" placeholder="如：获取更详细的信息">
-            </div>
-            <div class="form-field">
-              <label class="form-label">链接地址：</label>
-              <input class="form-input" id="cpd-con-linkurl" placeholder="如：https://...">
-            </div>
-          </div>
-        </div>
+      <div class="csh-add-wrap">
+        <button type="button" class="link-action danger cpd-add-sec" onclick="chemEduPostdocAdd()">增加板块+</button>
       </div>
 
       <div style="padding:6px 0 2px">
@@ -1707,7 +1625,7 @@ tr:hover td { background: #fafafa; }
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系）· 短期项目 -->
+
     <div class="content-page" id="page-chem-edu-short">
       <div class="breadcrumb">首页 / 教育教学 / <span>短期项目</span></div>
       <div class="page-header"><h2>短期项目</h2></div>
@@ -5366,104 +5284,127 @@ function initChemEduPg(){
 /* --- 博士后项目：单页配置（无列表，对应客户端 /academic） --- */
 const CHEM_EDU_POSTDOC = {
   lang: 'zh',
-  zh: {
-    introTitle: '博士后项目',
-    introContent: '化学系的多元研究项目欢迎来自世界各地的博士后学者。若有意申请博士后职位，可以直接与感兴趣的教师联系。每位教师的联系信息都可以在我们的教师页面上找到。西湖大学化学系欢迎你的加入',
-    matTitle: '申请材料',
-    matIntro: '申请人应提交以下材料：',
-    materials: [
-      '个人简历（CV）',
-      '两位与申请人在同一研究领域的学者的推荐信',
-      '博士学位证书',
-      '尚未获得博士学位证书的申请人，应提供其学校出具的博士学位授予已获得批准的证明文件',
-      '获得海外（包括香港、台湾和澳门）博士学位的申请人，还应提供教育部留学服务中心出具的学历证书认证；外国人也可以提交在中国驻外大使馆和领事馆颁发的学位证书',
-      '护照（仅外国人）'
-    ],
-    salTitle: '薪酬与资助',
-    salContent: '该研究团队将根据所选候选人的资格和经验提供有竞争力的薪酬待遇。鼓励并支持有关项目和计划的申请。\n\n获得中国博士后科学基金会或浙江省博士后研究项目选派资助的博士后将有资格从杭州市政府获得同等金额的支持资金。\n\n在完成博士后研究后全职在杭州工作的博士后将有资格向杭州市政府申请40万元的津贴。',
-    conTitle: '联系方式',
-    conContent: '有关具体职位描述和要求，请联系您想申请的研究团队。',
-    conLinkText: '获取更详细的信息',
-    conLinkUrl: 'https://www.westlake.edu.cn/careers/OpenPositions/?keywords='
-  },
-  en: {
-    introTitle: 'Postdoctoral Program',
-    introContent: 'The diverse research programs of the Department of Chemistry welcome postdoctoral scholars from around the world. If you are interested in applying for a postdoctoral position, you may contact the faculty member whose research interests you. Contact information for each faculty member can be found on our Faculty page. The Department of Chemistry at Westlake University welcomes you to join us.',
-    matTitle: 'Application Materials',
-    matIntro: 'Applicants should submit the following materials:',
-    materials: [
-      'Curriculum Vitae (CV)',
-      'Recommendation letters from two scholars in the same research field as the applicant',
-      'Doctoral degree certificate',
-      'Applicants who have not yet obtained a doctoral degree certificate should provide a certification from their university confirming that the doctoral degree has been approved',
-      'Applicants with a doctoral degree obtained overseas (including Hong Kong, Taiwan and Macau) should also provide a credential verification from the Chinese Service Center for Scholarly Exchange; foreign nationals may submit the degree certificate issued by Chinese embassies or consulates abroad',
-      'Passport (foreign nationals only)'
-    ],
-    salTitle: 'Salary & Funding',
-    salContent: 'The research group will provide a competitive salary based on the candidate’s qualifications and experience, and encourages and supports applications for relevant projects and programs.\n\nPostdoctoral researchers who receive funding from the China Postdoctoral Science Foundation or the Zhejiang Provincial Postdoctoral Research Project Selection Program will be eligible for matching support funds from the Hangzhou Municipal Government.\n\nPostdoctoral researchers who work full-time in Hangzhou after completing their postdoctoral research will be eligible to apply to the Hangzhou Municipal Government for a subsidy of 400,000 RMB.',
-    conTitle: 'Contact',
-    conContent: 'For specific position descriptions and requirements, please contact the research group you wish to apply to.',
-    conLinkText: 'Click here for more information',
-    conLinkUrl: 'https://www.westlake.edu.cn/careers/OpenPositions/?keywords='
-  }
+  nextId: 2,
+  secs: [
+    { id:1,
+      zh:{ title:'博士后项目', content:'<p>化学系的多元研究项目欢迎来自世界各地的博士后学者。若有意申请博士后职位，可以直接与感兴趣的教师联系。每位教师的联系信息都可以在我们的教师页面上找到。西湖大学化学系欢迎你的加入</p>' },
+      en:{ title:'Postdoctoral Program', content:'<p>The diverse research programs of the Department of Chemistry welcome postdoctoral scholars from around the world. If you are interested in applying for a postdoctoral position, you may contact the faculty member whose research interests you. Contact information for each faculty member can be found on our Faculty page. The Department of Chemistry at Westlake University welcomes you to join us.</p>' }
+    }
+  ]
 };
 function cpdEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function cpdVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
-function cpdSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
-function chemEduPostdocAddMat(it){
-  it = it || '';
-  const row = document.createElement('div');
-  row.className = 'cpd-mat-row';
-  row.innerHTML =
-    '<input class="form-input" placeholder="请输入材料内容" value="'+cpdEsc(it)+'">' +
-    '<button type="button" class="link-action danger" onclick="chemEduPostdocRemoveMat(this)">删除</button>';
-  document.getElementById('cpd-mat-list').appendChild(row);
+// 富文本编辑器模板（每个板块独立一个 .rt-editor，工具栏按 closest 定位，无需 id）
+function rtEditorHtml(id, contentHtml){
+  return '<div class="rt-editor">' +
+    '<div class="rt-toolbar">' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'bold\',this)" title="加粗"><b>B</b></button>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'italic\',this)" title="斜体"><i>I</i></button>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'underline\',this)" title="下划线"><u>U</u></button>' +
+      '<span class="rt-sep"></span>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'insertUnorderedList\',this)">• 列表</button>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'insertOrderedList\',this)">1. 列表</button>' +
+      '<span class="rt-sep"></span>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtLink(this)">🔗 链接</button>' +
+      '<button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd(\'removeFormat\',this)">清除格式</button>' +
+    '</div>' +
+    '<div class="rt-linkbar" style="display:none">' +
+      '<input type="text" class="form-input rt-link-input" placeholder="请输入链接地址" style="flex:1">' +
+      '<button type="button" class="btn btn-primary" onmousedown="event.preventDefault()" onclick="rtLinkApply(this)">确定</button>' +
+      '<button type="button" class="btn btn-outline" onmousedown="event.preventDefault()" onclick="rtLinkCancel(this)">取消</button>' +
+    '</div>' +
+    '<div class="rt-content" contenteditable="true" data-placeholder="请输入板块内容" id="' + id + '">' + (contentHtml || '') + '</div>' +
+  '</div>';
 }
-function chemEduPostdocRemoveMat(btn){ const r=btn.closest('.cpd-mat-row'); if(r) r.remove(); }
-function readChemEduPostdoc(){
-  return {
-    introTitle: cpdVal('cpd-intro-title'), introContent: cpdVal('cpd-intro-content'),
-    matTitle: cpdVal('cpd-mat-title'), matIntro: cpdVal('cpd-mat-intro'),
-    materials: Array.from(document.querySelectorAll('#cpd-mat-list .cpd-mat-row')).map(function(r){ return r.children[0].value.trim(); }),
-    salTitle: cpdVal('cpd-sal-title'), salContent: cpdVal('cpd-sal-content'),
-    conTitle: cpdVal('cpd-con-title'), conContent: cpdVal('cpd-con-content'),
-    conLinkText: cpdVal('cpd-con-linktext'), conLinkUrl: cpdVal('cpd-con-linkurl')
-  };
+// DOM -> 数据（渲染前必须调用，富文本读 innerHTML）
+function cpdReadDom(){
+  const lang = CHEM_EDU_POSTDOC.lang;
+  CHEM_EDU_POSTDOC.secs.forEach(function(sec, i){
+    const d = sec[lang];
+    const t = document.getElementById('cpd-title-' + i);
+    const c = document.getElementById('cpd-content-' + i);
+    if (t) d.title = t.value.trim();
+    if (c) d.content = c.innerHTML;
+  });
 }
-function fillChemEduPostdoc(d){
-  cpdSet('cpd-intro-title', d.introTitle); cpdSet('cpd-intro-content', d.introContent);
-  cpdSet('cpd-mat-title', d.matTitle); cpdSet('cpd-mat-intro', d.matIntro);
-  const ml = document.getElementById('cpd-mat-list'); ml.innerHTML = ''; (d.materials||[]).forEach(function(it){ chemEduPostdocAddMat(it); });
-  cpdSet('cpd-sal-title', d.salTitle); cpdSet('cpd-sal-content', d.salContent);
-  cpdSet('cpd-con-title', d.conTitle); cpdSet('cpd-con-content', d.conContent);
-  cpdSet('cpd-con-linktext', d.conLinkText); cpdSet('cpd-con-linkurl', d.conLinkUrl);
+// 语言切换为整页级别，只出现在第一个板块
+function cpdLangFieldHtml(i){
+  if (i !== 0) return '';
+  const lang = CHEM_EDU_POSTDOC.lang;
+  return '<div class="form-field"><label class="form-label"><span class="required">*</span>语言：</label>' +
+    '<div class="radio-group">' +
+      '<label class="radio-item"><input type="radio" name="cpd-lang" value="zh"' + (lang === 'zh' ? ' checked' : '') + ' onchange="setChemEduPostdocLang(\'zh\')"> 中文</label>' +
+      '<label class="radio-item"><input type="radio" name="cpd-lang" value="en"' + (lang === 'en' ? ' checked' : '') + ' onchange="setChemEduPostdocLang(\'en\')"> 英文</label>' +
+    '</div></div>';
+}
+function cpdCardHtml(sec, i){
+  const d = sec[CHEM_EDU_POSTDOC.lang];
+  const delBtn = CHEM_EDU_POSTDOC.secs.length > 1
+    ? '<button type="button" class="link-action danger cpd-sec-del" onclick="chemEduPostdocDel(' + i + ')">删除</button>' : '';
+  return '<div class="card" data-cpd-sec="' + i + '">' +
+    '<div class="card-header"><h3 class="cpd-sec-h" data-noi18n="1">' + cpdEsc(d.title || ('板块 ' + (i + 1))) + '</h3>' + delBtn + '</div>' +
+    '<div class="card-body"><div class="form-column">' +
+      cpdLangFieldHtml(i) +
+      '<div class="form-field"><label class="form-label"><span class="required">*</span>板块标题：</label><input class="form-input" id="cpd-title-' + i + '" value="' + cpdEsc(d.title) + '" placeholder="请输入板块标题" oninput="cpdSyncHead(' + i + ')"></div>' +
+      '<div class="form-field align-top"><label class="form-label"><span class="required">*</span>板块内容：</label>' + rtEditorHtml('cpd-content-' + i, d.content) + '</div>' +
+    '</div></div></div>';
+}
+function renderChemEduPostdoc(){
+  const box = document.getElementById('cpd-secs');
+  if (!box) return;
+  box.innerHTML = CHEM_EDU_POSTDOC.secs.map(cpdCardHtml).join('');
+  applyShellI18n('page-chem-edu-postdoc', CHEM_EDU_POSTDOC.lang);
+}
+function cpdSyncHead(i){
+  const el = document.getElementById('cpd-title-' + i);
+  const page = document.getElementById('page-chem-edu-postdoc');
+  if (!el || !page) return;
+  const h = page.querySelector('[data-cpd-sec="' + i + '"] .cpd-sec-h');
+  if (h) h.textContent = el.value.trim() || ('板块 ' + (i + 1));
+}
+function chemEduPostdocAdd(){
+  cpdReadDom();
+  const en = CHEM_EDU_POSTDOC.lang === 'en';
+  const blank = function(){ return { title:'', content:'' }; };
+  CHEM_EDU_POSTDOC.secs.push({ id: CHEM_EDU_POSTDOC.nextId++, zh: blank(), en: blank() });
+  renderChemEduPostdoc();
+  const page = document.getElementById('page-chem-edu-postdoc');
+  const last = page && page.querySelector('[data-cpd-sec="' + (CHEM_EDU_POSTDOC.secs.length - 1) + '"]');
+  if (last && last.scrollIntoView) last.scrollIntoView({ behavior:'smooth', block:'center' });
+  showToast(en ? 'Section added' : '已增加一个板块', 'success');
+}
+function chemEduPostdocDel(i){
+  const en = CHEM_EDU_POSTDOC.lang === 'en';
+  if (CHEM_EDU_POSTDOC.secs.length <= 1){ showToast(en ? 'At least one section is required' : '至少保留一个板块', 'error'); return; }
+  openConfirm('确认删除', en ? 'Delete this section?' : '确定要删除该板块吗？', function(){
+    cpdReadDom();
+    CHEM_EDU_POSTDOC.secs.splice(i, 1);
+    renderChemEduPostdoc();
+    showToast(en ? 'Deleted' : '已删除', 'success');
+  });
 }
 function setChemEduPostdocLang(lang){
-  if (CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang]) CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang] = readChemEduPostdoc();  // 保存当前语言内容
+  if (lang !== CHEM_EDU_POSTDOC.lang) cpdReadDom();
   CHEM_EDU_POSTDOC.lang = lang;
-  fillChemEduPostdoc(CHEM_EDU_POSTDOC[lang]);
-  const page = document.getElementById('page-chem-edu-postdoc');
-  if (page) page.querySelectorAll('input[name="cpd-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
-  applyShellI18n('page-chem-edu-postdoc', lang);
+  PAGE_LANG['page-chem-edu-postdoc'] = lang;
+  renderChemEduPostdoc();
 }
 function saveChemEduPostdoc(){
-  if (CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang]) CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang] = readChemEduPostdoc();  // 同步当前语言内容
-  const lang = CHEM_EDU_POSTDOC.lang, en = lang === 'en', d = CHEM_EDU_POSTDOC[lang];
-  if (!d.introTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.introContent){ showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  if (!d.matTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.salTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.salContent)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  if (!d.conTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
-  if (!d.conContent)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
-  showToast(en?'Saved successfully':'内容已保存', 'success');
+  cpdReadDom();
+  const lang = CHEM_EDU_POSTDOC.lang, en = lang === 'en';
+  for (let i = 0; i < CHEM_EDU_POSTDOC.secs.length; i++){
+    const d = CHEM_EDU_POSTDOC.secs[i][lang];
+    if (!d.title){ showToast(en ? 'Please enter section title' : '请输入板块标题', 'error'); return; }
+    if (!d.content.replace(/<[^>]*>/g, '').trim()){ showToast(en ? 'Please enter section content' : '请输入板块内容', 'error'); return; }
+  }
+  showToast(en ? 'Saved successfully' : '内容已保存', 'success');
 }
 function initChemEduPostdoc(){
   CHEM_EDU_POSTDOC.lang = 'zh'; PAGE_LANG['page-chem-edu-postdoc'] = 'zh';
-  fillChemEduPostdoc(CHEM_EDU_POSTDOC.zh);
+  CHEM_EDU_POSTDOC.nextId = CHEM_EDU_POSTDOC.secs.length + 1;
+  renderChemEduPostdoc();
 }
 
-/* --- 初始化化学系新增页面 --- */
+
 function initChemPages(){
   if (document.getElementById('page-chem-governance')){
     PAGE_LANG['page-chem-governance'] = 'zh'; syncLangTabs('page-chem-governance'); renderChemGov();
