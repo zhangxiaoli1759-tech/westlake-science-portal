@@ -83,7 +83,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC'
 /* Cards */
 .page-header { margin-bottom: 20px; }
 .page-header h2 { font-size: 20px; font-weight: 600; }
-.page-header p { color: var(--text-muted); font-size: 13px; margin-top: 4px; }
 
 .card { background: var(--card-bg); border-radius: 10px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
 .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
@@ -406,6 +405,8 @@ tr:hover td { background: #fafafa; }
   appearance: none;
 }
 .link-action:last-child { margin-right: 0; }
+/* 超链接样式（带下划线）：如科学研究列表的「教授信息」数量 */
+.link-action.link-underline { text-decoration: underline; text-underline-offset: 2px; }
 .link-action:hover { color: var(--primary-light); }
 .link-action.danger { color: var(--danger); }
 .link-action.danger:hover { color: #ff7875; }
@@ -463,6 +464,56 @@ tr:hover td { background: #fafafa; }
 .module-box .module-remove { position:absolute; top:12px; right:14px; }
 .add-module-btn { display:block; width:100%; border:1px dashed var(--border); background:#fff; color:var(--primary); border-radius:8px; padding:12px; cursor:pointer; font-family:inherit; font-size:14px; }
 .add-module-btn:hover { border-color:var(--primary); background:#f5f8ff; }
+
+/* ===== 招贤纳士：富文本编辑器 ===== */
+.rt-editor { border:1px solid var(--border); border-radius:8px; overflow:hidden; width:100%; }
+.rt-toolbar { display:flex; align-items:center; gap:4px; padding:6px 8px; background:#fafbfc; border-bottom:1px solid var(--border); flex-wrap:wrap; }
+.rt-btn { min-width:28px; height:26px; padding:0 8px; border:1px solid transparent; background:#fff; border-radius:5px; cursor:pointer; font-family:inherit; font-size:13px; color:var(--text, #1f2937); }
+.rt-btn:hover { border-color:var(--border); background:#f0f3f8; }
+.rt-sep { width:1px; height:16px; background:var(--border); margin:0 4px; }
+.rt-content { min-height:150px; padding:12px 14px; font-size:14px; line-height:1.75; outline:none; color:var(--text, #1f2937); }
+.rt-content:empty:before { content:attr(data-placeholder); color:var(--text-muted); }
+.rt-content ul, .rt-content ol { padding-left:22px; margin:6px 0; }
+.rt-content a { color:var(--primary); }
+.rt-linkbar { display:flex; gap:8px; align-items:center; padding:8px 10px; border-bottom:1px solid var(--border); background:#f7f9fc; }
+.rt-linkbar .form-input { height:32px; }
+.rt-linkbar .btn { height:32px; padding:0 12px; font-size:13px; }
+
+/* 多图上传（中心与设施）：最多 3 张，可单张删除 */
+.multi-upload { display: flex; flex-wrap: wrap; gap: 10px; }
+.mu-item { position: relative; width: 96px; height: 96px; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; background: #f7f9fc; }
+.mu-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.mu-item .mu-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 22px; color: var(--text-muted); }
+.mu-item .mu-del { position: absolute; top: 3px; right: 3px; width: 18px; height: 18px; line-height: 17px; text-align: center; border: none; border-radius: 50%; background: rgba(0,0,0,.55); color: #fff; font-size: 11px; cursor: pointer; padding: 0; }
+.mu-item .mu-del:hover { background: var(--danger); }
+.multi-upload .upload-area { width: 96px; height: 96px; margin: 0; }
+.multi-upload .upload-area.disabled { opacity: .45; pointer-events: none; }
+.mu-count { font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+/* 页眉页脚：Logo 图片位（4 个） */
+#page-header-footer .form-column > .form-field { grid-template-columns: 150px 1fr; }
+.logo-box {
+  width: 110px; height: 110px; border: 1px solid var(--border); border-radius: 4px;
+  background: #fff; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; cursor: pointer; transition: border-color .15s;
+}
+.logo-box:hover { border-color: var(--primary); }
+.logo-box img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.logo-box .logo-box-ph { font-size: 13px; color: var(--text-muted); }
+/* 本科生培养单页配置：科研训练条目子列表 */
+.cue-train-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+.cue-train-row .form-input { flex:1; }
+.cue-train-row .ti-credit, .cue-train-row .ti-grade { flex:none; }
+
+/* 研究生培养单页配置：相关链接 / 培养环节 / 专业课程 子列表 */
+.cpg-link-row, .cpg-stage-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+.cpg-link-row .form-input, .cpg-stage-row .form-input { flex:1; }
+.cpg-course-row { display:grid; grid-template-columns:130px 110px 130px 1fr 80px 56px; gap:10px; align-items:center; margin-bottom:10px; }
+.cpg-course-row .form-input, .cpg-course-row select { width:100%; box-sizing:border-box; }
+.cpg-course-row select { padding:8px 10px; border:1px solid var(--border); border-radius:6px; background:#fff; color:inherit; }
+.cpg-course-head { font-size:12px; color:var(--text-muted); margin-bottom:8px; padding-left:2px; }
+.cpd-mat-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+.cpd-mat-row .form-input { flex:1; }
 </style>
 </head>
 <body data-page-node-id="wXu6j7sxyQURzaetG7XNXT">
@@ -501,7 +552,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Dashboard -->
     <div class="content-page active" id="page-dashboard" data-page-node-id="RSjMO8EFbdNEq5quKAhgoA">
       <div class="breadcrumb" data-page-node-id="l9InN1wmjdLBbEnOVcZNjO">首页 / <span data-page-node-id="7xn668ArAMxSg8GN58Kkj5">仪表盘</span></div>
-      <div class="page-header" data-page-node-id="aEXZPAdy10tsPJj6T72ZtP"><h2 data-page-node-id="CwywAmgMH9k81S8qJDpBZP">仪表盘</h2><p data-page-node-id="6QKvMI7bmmmzpRGLO7VOHA">理学院管理后台数据概览</p></div>
+      <div class="page-header" data-page-node-id="aEXZPAdy10tsPJj6T72ZtP"><h2 data-page-node-id="CwywAmgMH9k81S8qJDpBZP">仪表盘</h2></div>
       <div class="stats-grid" data-page-node-id="21sSlOzx7CCTUYdYGogFTA">
         <div class="stat-card" data-page-node-id="S058bsoDVwXIcFzpvgWlUw"><div class="stat-icon" data-page-node-id="JOHG6hftPRPMvOjMsUIDkk">📰</div><div class="stat-value" data-page-node-id="diUiOTO6trLtOb7yjlPMwC">32</div><div class="stat-label" data-page-node-id="1Mr1E3uQXofgzDjeKvjr4C">新闻动态</div></div>
         <div class="stat-card" data-page-node-id="1BnFoDMdVYsHXDCFSHqNgL"><div class="stat-icon" data-page-node-id="xBssOcQlrzs51oiiVJU7Jy">🎉</div><div class="stat-value" data-page-node-id="Cb1dQOkxnFlRJJ8jS2JGuX">12</div><div class="stat-label" data-page-node-id="xXAJd3CXdnk6fkzSlrUbkd">活动信息</div></div>
@@ -524,7 +575,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Users -->
     <div class="content-page" id="page-users" data-page-node-id="JEn0JR5sszxUNqvd4L0G3s">
       <div class="breadcrumb" data-page-node-id="BLZtkOH8DEF8HaWyokhcnr">首页 / 系统管理 / <span data-page-node-id="VzGgmJ9HR2El8fvKQZ6ayY">用户管理</span></div>
-      <div class="page-header" data-page-node-id="udW8SHYhfXVl2z57BuNlwq"><h2 data-page-node-id="bhFHCmezAH1fm22vgMBwaU">用户管理</h2><p data-page-node-id="x4Xry3D0u3LEwGo3DD8vD3">管理系统用户，分配角色与租户权限</p></div>
+      <div class="page-header" data-page-node-id="udW8SHYhfXVl2z57BuNlwq"><h2 data-page-node-id="bhFHCmezAH1fm22vgMBwaU">用户管理</h2></div>
       <div class="card" data-page-node-id="Tl1g04rpYrgcbMKDDXZlaX">
         <div class="card-header" data-page-node-id="Z7ZN1CnyBka5yag4EKLkIS"><h3 data-page-node-id="zxYUdjMqqOvU0UhsBGM5rG">用户列表</h3><button class="btn btn-primary" onclick="showModal('userModal')" data-page-node-id="nEiWosR6PIHOGbV41OCkRX">+ 新增用户</button></div>
         <div class="card-body" data-page-node-id="SB1ORWcfCeCmkJSFIGb9DM">
@@ -553,7 +604,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Roles -->
     <div class="content-page" id="page-roles" data-page-node-id="TtUnT5ey9LlZZkaawjiBpk">
       <div class="breadcrumb" data-page-node-id="grXAILqbrXhfeylopXHtp9">首页 / 系统管理 / <span data-page-node-id="sIGvGNKzaaRFNI2O0prwtW">角色管理</span></div>
-      <div class="page-header" data-page-node-id="SsVeOpVgzlSRPoDf1ADiHA"><h2 data-page-node-id="par1ZDk6HofukQdWp5m9u6">角色管理</h2><p data-page-node-id="GxPFJw3DPkGCbHAhyRBfSn">管理角色，分配菜单权限和租户范围</p></div>
+      <div class="page-header" data-page-node-id="SsVeOpVgzlSRPoDf1ADiHA"><h2 data-page-node-id="par1ZDk6HofukQdWp5m9u6">角色管理</h2></div>
       <div class="card" data-page-node-id="bXjXOSZfE5MT7PJUPfCohJ">
         <div class="card-header" data-page-node-id="xHfZDbEXNxrOGLtpE8CtHQ"><h3 data-page-node-id="GPsFXVHtVC4J2kwXKyKitM">角色列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="OjMelAk6Ed2qTML1dhYuuL">+ 新增角色</button></div>
         <div class="card-body" data-page-node-id="RDYhk57UtJE9jLNEoC3oM9">
@@ -574,7 +625,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Menus -->
     <div class="content-page" id="page-menus" data-page-node-id="lp9B0VB9H4mbkbTzW98SMN">
       <div class="breadcrumb" data-page-node-id="OrAwwyAncqCqdGGEU9P0hs">首页 / 系统管理 / <span data-page-node-id="EaKNcV7mLRgeUeCJVngSoz">菜单管理</span></div>
-      <div class="page-header" data-page-node-id="ei8AWrsOIOmtpe35Pu5H5S"><h2 data-page-node-id="CcUmO8ieTbWF2kWecZGBa5">菜单管理</h2><p data-page-node-id="T3ILTLEiBnZMxD3lEQqkzt">管理后台菜单结构，支持目录/菜单/按钮三级</p></div>
+      <div class="page-header" data-page-node-id="ei8AWrsOIOmtpe35Pu5H5S"><h2 data-page-node-id="CcUmO8ieTbWF2kWecZGBa5">菜单管理</h2></div>
       <div class="card" data-page-node-id="mUj8HAQuP0qq8xgCRXVn4e">
         <div class="card-header" data-page-node-id="D5TilmteqouE9aQWBguDk1"><h3 data-page-node-id="N761J44EuK3enkQ9Y8pzLf">菜单树</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="ocRvnHiM59g0xt4fWtPiwD">+ 新增菜单</button></div>
         <div class="card-body" data-page-node-id="6i203Tlheof5KRaxozD8hk">
@@ -630,7 +681,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Tenants -->
     <div class="content-page" id="page-tenants" data-page-node-id="RCB2W4STD7ICoOcwDCvj8j">
       <div class="breadcrumb" data-page-node-id="NxhDY8j3DPkHPvyEVo2oER">首页 / 系统管理 / <span data-page-node-id="giR24ONkVsZjO8xVSKTA6V">租户管理</span></div>
-      <div class="page-header" data-page-node-id="fUGPpqzCbyteGb2zMJ5CBx"><h2 data-page-node-id="IzpuFeM1piwCZifdMviz2F">租户管理</h2><p data-page-node-id="EXXhmPbG74JMSrYdilSBJa">管理多租户配置，包括域名、主题、下发策略</p></div>
+      <div class="page-header" data-page-node-id="fUGPpqzCbyteGb2zMJ5CBx"><h2 data-page-node-id="IzpuFeM1piwCZifdMviz2F">租户管理</h2></div>
       <div class="card" data-page-node-id="2rNAGjb4YHAYbuzbsw2xaW">
         <div class="card-header" data-page-node-id="B2Hffzi7NoaFApxQ1NfHk8"><h3 data-page-node-id="qxuGHN3ygbSobUtj0ODm2E">租户列表</h3><button class="btn btn-primary" onclick="showToast('演示模式，弹窗已模拟','success')" data-page-node-id="y0PrOJl2CaorDTWX49DzaD">+ 新增租户</button></div>
         <div class="card-body" data-page-node-id="GvKUUBZbuRxnFml2fVJtAr">
@@ -664,7 +715,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: Banner管理 -->
     <div class="content-page" id="page-banner" data-page-node-id="TQUv1ht7Dh2DFp6sqasAok">
       <div class="breadcrumb" data-page-node-id="xBKQsBFMMF6jYvxWTFt8qN">首页 / 内容管理 / <span data-page-node-id="UzEDzldccnbJEZOQ6VqrIt">Banner管理</span></div>
-      <div class="page-header" data-page-node-id="xXsTULRuCd07LT5ccoVRYp"><h2 data-page-node-id="2zgKuzFN3FfWO0eyHAIayJ">Banner管理</h2><p data-page-node-id="sZ7B8Ea4EV0jaNoQZaV1MA">管理官网首页轮播图，支持多设备尺寸</p></div>
+      <div class="page-header" data-page-node-id="xXsTULRuCd07LT5ccoVRYp"><h2 data-page-node-id="2zgKuzFN3FfWO0eyHAIayJ">Banner管理</h2></div>
       <div class="card" data-page-node-id="NyCksiH2wBEnVDW5f9rnP9">
         <div class="card-header" data-page-node-id="0bjoiNUhDVIQaPhfRtexFR"><h3 data-page-node-id="gZB5b1acilUVbqM0rqlEyi">Banner列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-banner','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-banner','en')">英文</button></div><button class="btn btn-primary" onclick="openPageBannerForm('create')" data-page-node-id="mB68OB1NIDFb1MuivXk2C1">+ 新增Banner</button></div>
         <div class="card-body" data-page-node-id="oiY4UTpnhr4AtvgNhHWJ8r">
@@ -683,7 +734,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 学科介绍 -->
     <div class="content-page" id="page-subjects" data-page-node-id="c21H4JSmtVIpXayIfXwKz3">
       <div class="breadcrumb" data-page-node-id="C8HCLdlvduLdS6iRLru5nv">首页 / 内容管理 / <span data-page-node-id="OnISYcbKoys6ZVm5oUeA7N">学科介绍</span></div>
-      <div class="page-header" data-page-node-id="2dBN1gqzlmhgJDZn9EjAHN"><h2 data-page-node-id="NC5oq3IJmG70DTYh9m1B8r">学科介绍</h2><p data-page-node-id="QYZRS1PLAFj5A78K3KR8FD">管理学院各学科方向介绍内容，支持富文本编辑</p></div>
+      <div class="page-header" data-page-node-id="2dBN1gqzlmhgJDZn9EjAHN"><h2 data-page-node-id="NC5oq3IJmG70DTYh9m1B8r">学科介绍</h2></div>
       <div class="card" data-page-node-id="L64JvW7CcLZcW9WI9tb5BK">
         <div class="card-header" data-page-node-id="UP2E1bnQ4c7dd8YpoadAHs"><h3 data-page-node-id="YwE73lldW1fJHpuC5jNWSy">学科列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-subjects','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-subjects','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-subjects','create')" data-page-node-id="lFw9iSJS7yJyoMRRijGIBg">+ 新增学科</button></div>
         <div class="card-body" data-page-node-id="LkaSL4OVwEW3AO7t9mMBVm">
@@ -703,7 +754,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 教师队伍(内容管理下) -->
     <div class="content-page" id="page-faculty" data-page-node-id="hjCFT9FQVJVOhmRlvgN9rg">
       <div class="breadcrumb" data-page-node-id="N44NCiWkLyYwj7skKV85R5">首页 / 内容管理 / <span data-page-node-id="2LxEtTWjBB8feoM8EsAbjE">教师队伍</span></div>
-      <div class="page-header" data-page-node-id="vmrqZjYjkiver5c8WQ3XEv"><h2 data-page-node-id="TjZPBLeMazVelFPYok1o1j">教师队伍</h2><p data-page-node-id="MKP4cGVTSSroJaDRAUC4mN">管理教师信息，支持分类展示（教授/副教授/讲师等）</p></div>
+      <div class="page-header" data-page-node-id="vmrqZjYjkiver5c8WQ3XEv"><h2 data-page-node-id="TjZPBLeMazVelFPYok1o1j">教师队伍</h2></div>
       <div class="card" data-page-node-id="O7ESZAb5pAjzVdVj1tpklt">
         <div class="card-header" data-page-node-id="JhKlyu39kBHIuDpnR5Jkbm"><h3 data-page-node-id="ko9aYdY9ZR1HOtVE8j7x7K">教师列表</h3><button class="btn btn-primary" onclick="openFaculty('create')" data-page-node-id="skwS62jEOkkxfC8duBSeA0">+ 新增教师</button></div>
         <div class="card-body" data-page-node-id="3T6HQMDhoVFMtWEQzyy4vK">
@@ -733,7 +784,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 招生信息 -->
     <div class="content-page" id="page-admissions" data-page-node-id="RI09J1cpXU9MNPE2MtqueA">
       <div class="breadcrumb" data-page-node-id="varbhclEqpzSAtoovJGCua">首页 / 内容管理 / <span data-page-node-id="Dlasa7PDILj5V6DSOZ8b9T">招生信息</span></div>
-      <div class="page-header" data-page-node-id="b8vkQwNlj4CK023o1C5UhL"><h2 data-page-node-id="brNgSLfCFyKKxMVtY9AFaK">招生信息</h2><p data-page-node-id="3xDvINieBTqanzswGG5mNR">管理招生简章、专业目录、常见问题等内容</p></div>
+      <div class="page-header" data-page-node-id="b8vkQwNlj4CK023o1C5UhL"><h2 data-page-node-id="brNgSLfCFyKKxMVtY9AFaK">招生信息</h2></div>
       <div class="card" data-page-node-id="oYzKDCvG1cDpGodM0hQm4z">
         <div class="card-header" data-page-node-id="IwOv4eyVX9wbimMNpUxtRj"><h3 data-page-node-id="PuKxI2ffpAE3v3DCA0Ggbk">招生内容列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-admissions','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-admissions','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-admissions','create')" data-page-node-id="34eF08lKSDb5wmTSIIYN1p">+ 新增内容</button></div>
         <div class="card-body" data-page-node-id="YPDXYRPdRaCjU1hYnf0rx5">
@@ -753,7 +804,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 学院介绍 -->
     <div class="content-page" id="page-about-college" data-page-node-id="9GqDyyea5Ght2WMEhvksJX">
       <div class="breadcrumb" data-page-node-id="GWEIH81DlzvbdqpWcqb0GU">首页 / 学院概况 / <span data-page-node-id="aF2vBtmonoZHrzrwBgKfA8">学院介绍</span></div>
-      <div class="page-header" data-page-node-id="wObO7pbbEgNuccNt8vhPNB"><h2 data-page-node-id="YlveyJAPCp2vlB71gp7yj7">学院介绍</h2><p data-page-node-id="wdQqlRRAC0VVQsoIyM3aWg">编辑学院介绍页面内容，支持图文混排</p></div>
+      <div class="page-header" data-page-node-id="wObO7pbbEgNuccNt8vhPNB"><h2 data-page-node-id="YlveyJAPCp2vlB71gp7yj7">学院介绍</h2></div>
       <div class="card" data-page-node-id="C2ygLPH333SZKM7BPYVaCs">
         <div class="card-header" data-page-node-id="LKgOEDSUMpS8hpIE8BjVoe"><h3 data-page-node-id="9fAlDj0ejroTWLEbRpf3Zt">页面内容</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px">
             <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-about-college','zh')">中文</button>
@@ -770,7 +821,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 科系介绍 -->
     <div class="content-page" id="page-about-depts" data-page-node-id="cPtN0GcQu8JbNOJfsgg82k">
       <div class="breadcrumb" data-page-node-id="XaC0hGFQ3PIIwyQK01eNRE">首页 / 学院概况 / <span data-page-node-id="ACGvm7CM4WlM1dIGp3Hh5e">科系介绍</span></div>
-      <div class="page-header" data-page-node-id="moTcffbGZXwPyAK9WnWz5j"><h2 data-page-node-id="aHA7DvSCz6eEVcFmJffnE8">科系介绍</h2><p data-page-node-id="88RRWpl2YSQw9832gCVRZg">管理各科系/研究所介绍内容</p></div>
+      <div class="page-header" data-page-node-id="moTcffbGZXwPyAK9WnWz5j"><h2 data-page-node-id="aHA7DvSCz6eEVcFmJffnE8">科系介绍</h2></div>
       <div class="card" data-page-node-id="U88xQQeU7D8qCPGQSqrLa0">
         <div class="card-header" data-page-node-id="GqAI6P7tMKbAXKnKJokTwY"><h3 data-page-node-id="ndOtv4rkW8qrVacinDaWbD">科系列表</h3><button class="btn btn-primary" onclick="openContentForm('page-about-depts','create')" data-page-node-id="QOoZ3UHhSlFHv6wOWhypvl">+ 新增科系</button></div>
         <div class="card-body" data-page-node-id="FtEoXpeM14phTzNu9HfC2O">
@@ -796,7 +847,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 学院生活 -->
     <div class="content-page" id="page-about-life" data-page-node-id="dCiUULKRWCEg93RoIUUIPL">
       <div class="breadcrumb" data-page-node-id="FDtTppJDqGjQlGBhbxAD8l">首页 / 学院概况 / <span data-page-node-id="U92GzdQguEFYBzFTXD2GXW">学院生活</span></div>
-      <div class="page-header" data-page-node-id="AxaHo4TwFUirKT9XUIlOSp"><h2 data-page-node-id="Yp1pEC1MQENEtlHzgT1ghg">学院生活</h2><p data-page-node-id="hkY1iEBZ1ttJFStGTgrFrz">管理校园生活相关内容，如图片集、学生活动风采等</p></div>
+      <div class="page-header" data-page-node-id="AxaHo4TwFUirKT9XUIlOSp"><h2 data-page-node-id="Yp1pEC1MQENEtlHzgT1ghg">学院生活</h2></div>
       <div class="card" data-page-node-id="OrpuJmp4lvFkIFVuEIsr3P">
         <div class="card-header" data-page-node-id="TwEGE8tU9r3B0oHerDr9T8"><h3 data-page-node-id="E9BFjmC30a1mk7nxlNCHnL">内容列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-about-life','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-about-life','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-about-life','create')" data-page-node-id="lH2piI2pDFB8wTcLGsFowu">+ 新增内容</button></div>
         <div class="card-body" data-page-node-id="DarlSMfx0VuqAWFjxUYRGC">
@@ -815,7 +866,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 联系我们 -->
     <div class="content-page" id="page-about-contact" data-page-node-id="2RvmEIF5rw4LNedrw2HGrH">
       <div class="breadcrumb" data-page-node-id="XNVsKYL6cZ1I5OdBkwbH42">首页 / 学院概况 / <span data-page-node-id="PDMubloKDIaGzmYTun2OYu">联系我们</span></div>
-      <div class="page-header" data-page-node-id="PRn70aSYDYoUq98L5ptjiC"><h2 data-page-node-id="CZjnk3Ij2TMMUgaFHXMBHY">联系我们</h2><p data-page-node-id="pjFMFnXzPuouCUIr8dEBLl">编辑各院系的联系信息（地址、电话、邮箱、地图等）</p></div>
+      <div class="page-header" data-page-node-id="PRn70aSYDYoUq98L5ptjiC"><h2 data-page-node-id="CZjnk3Ij2TMMUgaFHXMBHY">联系我们</h2></div>
       <div class="card" data-page-node-id="trRaO00p0TcNbvQCOkjJRo">
         <div class="card-header" data-page-node-id="dyQqD8q3hLBUWjTEhjz1wf"><h3 data-page-node-id="on7UtgV4BDelVAB94OeXUz">联系信息</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-about-contact','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-about-contact','en')">英文</button></div><button class="btn btn-primary" onclick="showToast('内容已保存','success')" data-page-node-id="xHGVnt4AnWLlAq0DNYQakz">保存</button></div>
         <div class="card-body" data-page-node-id="H7xRALmXOCCmubRSYpXOnb">
@@ -887,7 +938,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 新闻动态 -->
     <div class="content-page" id="page-news" data-page-node-id="Oj4sUde1MqDn3lohFv2jTn">
       <div class="breadcrumb" data-page-node-id="qtUjlFxl9RHzsaFmjRg2bG">首页 / 新闻活动 / <span data-page-node-id="fdaHAsvsjMumSXTpkriv3G">新闻动态</span></div>
-      <div class="page-header" data-page-node-id="BO8F2ui7Opo4eSndIhiXy2"><h2 data-page-node-id="xw3Z5NFFcN7wnXECATT3wK">新闻动态</h2><p data-page-node-id="warU1z39PFkSD0wTD1TCFO">管理新闻内容，支持下发至天文系、化学系</p></div>
+      <div class="page-header" data-page-node-id="BO8F2ui7Opo4eSndIhiXy2"><h2 data-page-node-id="xw3Z5NFFcN7wnXECATT3wK">新闻动态</h2></div>
       <div class="card" data-page-node-id="n7RzS6MQ1w48Sy8xBWluFw">
         <div class="card-header" data-page-node-id="e1fN4IURK31Y410MIv7G9X"><h3 data-page-node-id="doO2TxLeeajYdZl3uAt0Dx">新闻列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-news','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-news','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-news','create')" data-page-node-id="WsmZj1BNGBWbGglfAdyHfz">+ 新增新闻</button></div>
         <div class="card-body" data-page-node-id="fvEzJGtRr8CCnZHlbPa5Oz">
@@ -911,7 +962,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 活动信息 -->
     <div class="content-page" id="page-events" data-page-node-id="k5VFeC1vLVCAyIImeHHRub">
       <div class="breadcrumb" data-page-node-id="4rTgK8PTWtr3nJLKVHuENi">首页 / 新闻活动 / <span data-page-node-id="lZLDkbqDG8fDBJbNrnJxJH">活动信息</span></div>
-      <div class="page-header" data-page-node-id="PsRAUyfe6pA5ZkIIUHtpZf"><h2 data-page-node-id="9o7bsf4AlAWsB7Cb6Lv2lI">活动信息</h2><p data-page-node-id="dsc7maKpPJOqxN1quwEWHn">管理学术讲座、校园活动，支持下发至天文系、化学系</p></div>
+      <div class="page-header" data-page-node-id="PsRAUyfe6pA5ZkIIUHtpZf"><h2 data-page-node-id="9o7bsf4AlAWsB7Cb6Lv2lI">活动信息</h2></div>
       <div class="card" data-page-node-id="8FKmjfvOFjKmdBK7fUpX9L">
         <div class="card-header" data-page-node-id="4dWzwvJKhdyc1BHgulQxWs"><h3 data-page-node-id="D4gC2e8kkAec3ug9zVlhmr">活动列表</h3><div class="lang-tabs" style="margin-left:auto;margin-right:18px"><button type="button" class="lang-tab active" data-lang="zh" onclick="setPageLang('page-events','zh')">中文</button><button type="button" class="lang-tab" data-lang="en" onclick="setPageLang('page-events','en')">英文</button></div><button class="btn btn-primary" onclick="openContentForm('page-events','create')" data-page-node-id="CyVSf9UG6u5vS7bDIGDpMX">+ 新增活动</button></div>
         <div class="card-body" data-page-node-id="UQiFFu05Z5yykc3gEBQUag">
@@ -1123,7 +1174,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 教育教学（化学系 · 首页，单页配置，无列表） -->
     <div class="content-page" id="page-chem-teaching">
       <div class="breadcrumb">首页 / <span>教育教学</span></div>
-      <div class="page-header"><h2>教育教学</h2><p>配置教育教学页面：基本信息 + 「类型 / 详情链接」模块（支持增加多个）</p></div>
+      <div class="page-header"><h2>教育教学</h2></div>
       <div class="card">
         <div class="card-header">
           <h3>页面配置</h3>
@@ -1187,7 +1238,7 @@ tr:hover td { background: #fafafa; }
     <!-- Page: 使命与价值观（化学系简介） -->
     <div class="content-page" id="page-chem-mission">
       <div class="breadcrumb">首页 / 化学系简介 / <span>使命与价值观</span></div>
-      <div class="page-header"><h2>使命与价值观</h2><p>编辑使命与价值观页面内容，支持图文与数据展示</p></div>
+      <div class="page-header"><h2>使命与价值观</h2></div>
 
       <div class="card">
         <div class="card-header">
@@ -1209,21 +1260,7 @@ tr:hover td { background: #fafafa; }
               <textarea class="form-textarea" style="min-height:96px">化学系以“探索物质世界、创造未来分子”为使命，聚焦合成化学、催化、化学生物学、能源材料等前沿方向，致力于培养具有国际视野与创新能力的一流化学人才。</textarea>
             </div>
             <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>电脑端封面：</label>
-              <div>
-                <label class="upload-area" style="width:170px;height:100px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label"><span class="required">*</span>手机端封面：</label>
-              <div>
-                <label class="upload-area" style="width:140px;height:80px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
-                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：600px*280px　大小：不能超过2MB　最多上传一份；</div>
-              </div>
-            </div>
-            <div class="form-field align-top">
-              <label class="form-label">视频：</label>
+              <label class="form-label"><span class="required">*</span>视频：</label>
               <div>
                 <label class="btn btn-outline" style="cursor:pointer;display:inline-flex;align-items:center;gap:6px">📁 视频上传<input type="file" accept="video/*" hidden></label>
                 <div class="upload-hint">格式：mp4、avi、mov、wmv、flv　尺寸：1680px*900px　大小：不能超过2MB　最多上传一份；</div>
@@ -1255,33 +1292,14 @@ tr:hover td { background: #fafafa; }
               <tr><td>独立实验室、科研机构和平台</td><td>75+</td><td>23</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
             </tbody>
           </table>
-          <div class="pagination"><span>共 4 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-header"><h3>内容信息</h3></div>
-        <div class="card-body">
-          <div style="display:flex;justify-content:flex-end;margin-bottom:12px">
-            <button class="btn btn-primary" onclick="openChemMissionRowForm('content','create')">新增</button>
-          </div>
-          <table data-kind="content">
-            <thead><tr><th>标题</th><th>排序</th><th>介绍</th><th>了解更多</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>高水平、国际化师资队伍</td><td>2</td><td>实行独立实验室制度，以及与国际接轨的...</td><td>/faculty/all</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>培养具有全球竞争力的学术人才</td><td>3</td><td>致力于培养具有强烈社会责任、扎实学术...</td><td>/graduate_studies</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>专注开创性的基础科研</td><td>4</td><td>致力于开创性、有影响力的基础科学研究...</td><td>/research_highlights</td><td class="actions"><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 3 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
         </div>
       </div>
     </div>
 
     <!-- Page: 治理架构（化学系简介） -->
     <div class="content-page" id="page-chem-governance">
-      <div class="breadcrumb">首页 / 化学系简介 / <span>治理架构</span></div>
-      <div class="page-header"><h2>治理架构</h2><p>管理化学系各委员会与治理机构信息</p></div>
+      <div class="breadcrumb">首页 / 化学系简介 / <span>治理委员会</span></div>
+      <div class="page-header"><h2>治理委员会</h2></div>
       <div class="card">
         <div class="card-header">
           <h3>委员会列表</h3>
@@ -1294,24 +1312,23 @@ tr:hover td { background: #fafafa; }
         </div>
         <div class="card-body">
           <div class="toolbar">
-            <select class="form-select" style="width:150px"><option>请选择类型</option><option>党委会</option><option>院级委员会</option></select>
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入委员会名称"></div>
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入名称"></div>
             <button class="btn btn-primary">🔍 查询</button>
             <button class="btn btn-outline">↻ 重置</button>
           </div>
           <table>
-            <thead><tr><th>委员会名称</th><th>类型</th><th>语言</th><th>排序</th><th>发布状态</th><th>创建时间</th><th>创建人</th><th>操作</th></tr></thead>
+            <thead><tr><th>名称</th><th>语言</th><th>排序</th><th>发布状态</th><th>创建时间</th><th>创建人</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td>委员会</td><td>-</td><td>中文</td><td>2</td><td>已发布</td><td>2025-03-17 19:58:35</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>委员会</td><td>党委会</td><td>中文</td><td>3</td><td>未发布</td><td>2025-08-18 14:16:04</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>委员1会</td><td>院级委员会</td><td>中文</td><td>3</td><td>已发布</td><td>2025-03-26 23:09:10</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>委员会</td><td>-</td><td>中文</td><td>4</td><td>未发布</td><td>2025-03-17 19:58:57</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>奖学金评审委员会</td><td>党委会</td><td>中文</td><td>5</td><td>未发布</td><td>2025-07-24 11:50:48</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>测试</td><td>党委会</td><td>中文</td><td>6</td><td>未发布</td><td>2025-07-21 15:54:06</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>测试</td><td>党委会</td><td>中文</td><td>7</td><td>未发布</td><td>2025-07-01 10:13:20</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>学术委员会</td><td>院级委员会</td><td>中文</td><td>8</td><td>已发布</td><td>2025-03-17 19:58:59</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>10</td><td>已发布</td><td>2025-06-23 16:09:00</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>院级委员会</td><td>院级委员会</td><td>中文</td><td>11</td><td>已发布</td><td>2025-06-23 16:08:20</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>委员会</td><td>中文</td><td>2</td><td>已发布</td><td>2025-03-17 19:58:35</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>委员会</td><td>中文</td><td>3</td><td>未发布</td><td>2025-08-18 14:16:04</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>委员1会</td><td>中文</td><td>3</td><td>已发布</td><td>2025-03-26 23:09:10</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>委员会</td><td>中文</td><td>4</td><td>未发布</td><td>2025-03-17 19:58:57</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>奖学金评审委员会</td><td>中文</td><td>5</td><td>未发布</td><td>2025-07-24 11:50:48</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>测试</td><td>中文</td><td>6</td><td>未发布</td><td>2025-07-21 15:54:06</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>测试</td><td>中文</td><td>7</td><td>未发布</td><td>2025-07-01 10:13:20</td><td>admin</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
+              <tr><td>学术委员会</td><td>中文</td><td>8</td><td>已发布</td><td>2025-03-17 19:58:59</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>院级委员会</td><td>中文</td><td>10</td><td>已发布</td><td>2025-06-23 16:09:00</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
+              <tr><td>院级委员会</td><td>中文</td><td>11</td><td>已发布</td><td>2025-06-23 16:08:20</td><td>admin</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
             </tbody>
           </table>
           <div class="pagination"><span>共 31 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>3</button><button>4</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
@@ -1321,8 +1338,8 @@ tr:hover td { background: #fafafa; }
 
     <!-- Page: 科学研究（化学系） -->
     <div class="content-page" id="page-chem-science">
-      <div class="breadcrumb">首页 / <span>科学研究</span></div>
-      <div class="page-header"><h2>科学研究</h2><p>管理研究方向与领域教授信息</p></div>
+      <div class="breadcrumb">首页 / 科学研究 / <span>研究领域</span></div>
+      <div class="page-header"><h2>研究领域</h2></div>
       <div class="card">
         <div class="card-header">
           <h3>研究领域列表</h3>
@@ -1342,63 +1359,699 @@ tr:hover td { background: #fafafa; }
           <table>
             <thead><tr><th>排序</th><th>研究领域</th><th>语言</th><th>教授信息</th><th>状态</th><th>最新发布时间</th><th>创建时间</th><th>操作</th></tr></thead>
             <tbody>
-              <tr><td>25</td><td>有机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('有机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:33</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>23</td><td>物理化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('物理化学')">2</button></td><td>已发布</td><td>2025-08-19 17:12:45</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>22</td><td>化学生物学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('化学生物学')">0</button></td><td>已发布</td><td>2025-08-21 15:12:08</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>21</td><td>无机化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('无机化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:51</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>20</td><td>分析化学</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('分析化学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:58</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
-              <tr><td>19</td><td>高分子化学与物理</td><td>中文</td><td><button class="link-action" onclick="openChemProfessor('高分子化学与物理')">0</button></td><td>已发布</td><td>2025-01-06 15:22:41</td><td>2024-12-27 10:16:03</td><td class="actions"><button class="link-action">预览</button><button class="link-action">下架</button><button class="link-action">复制</button></td></tr>
+              <tr><td>3</td><td>有机化学与化学生物学</td><td>中文</td><td><button class="link-action link-underline" onclick="openChemProfessor('有机化学与化学生物学')">1</button></td><td>已发布</td><td>2025-08-19 17:12:33</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action" onclick="chemSciSetPub(0,false)">取消发布</button><button class="link-action" onclick="openChemResearchForm('edit',0)">编辑</button></td></tr>
+              <tr><td>2</td><td>材料与纳米科学</td><td>中文</td><td><button class="link-action link-underline" onclick="openChemProfessor('材料与纳米科学')">2</button></td><td>已发布</td><td>2025-08-19 17:12:45</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action" onclick="chemSciSetPub(1,false)">取消发布</button><button class="link-action" onclick="openChemResearchForm('edit',1)">编辑</button></td></tr>
+              <tr><td>1</td><td>物理化学与计算化学</td><td>中文</td><td><button class="link-action link-underline" onclick="openChemProfessor('物理化学与计算化学')">0</button></td><td>未发布</td><td>2025-08-21 15:12:08</td><td>2024-12-27 10:15:02</td><td class="actions"><button class="link-action" onclick="chemSciSetPub(2,true)">发布</button><button class="link-action" onclick="openChemResearchForm('edit',2)">编辑</button></td></tr>
             </tbody>
           </table>
-          <div class="pagination"><span>共 6 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">30 条/页</span></div>
+          <div class="pagination"><span>共 3 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">30 条/页</span></div>
         </div>
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系 · 顶层列表） -->
-    <div class="content-page" id="page-chem-edu">
-      <div class="breadcrumb">首页 / <span>教育教学</span></div>
-      <div class="page-header"><h2>教育教学</h2><p>管理教育教学内容（支持中英文）</p></div>
+    <!-- Page: 教育教学（化学系）· 本科生培养 -->
+    <!-- Page: 教育教学（化学系）· 本科生培养（单页配置，无列表） -->
+    <div class="content-page" id="page-chem-edu-ug">
+      <div class="breadcrumb">首页 / 教育教学 / <span>本科生培养</span></div>
+      <div class="page-header"><h2>本科生培养</h2></div>
+
+      <div class="card">
+        <div class="card-header"><h3>本科项目</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cue-lang" value="zh" checked onchange="setChemEduUgLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cue-lang" value="en" onchange="setChemEduUgLang('en')"> 英文</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cue-prog-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cue-prog-intro" style="min-height:150px" placeholder="请输入本科项目介绍"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>课程设计</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cue-cur-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cue-cur-intro" style="min-height:130px" placeholder="请输入课程设计介绍"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>课程列表</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>文档名称：</label>
+              <input class="form-input" id="cue-course-name" placeholder="请输入课程文档名称">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>文档链接：</label>
+              <input class="form-input" id="cue-course-url" placeholder="请输入课程文档链接">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><h3>本科生科训</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field align-top">
+              <label class="form-label">板块简介：</label>
+              <textarea class="form-textarea" id="cue-train-intro" style="min-height:60px" placeholder="请输入科训板块简介"></textarea>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">科研训练条目：</label>
+              <div>
+                <div id="cue-train-list"></div>
+                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduUgAddTrain()">+ 新增条目</button>
+              </div>
+            </div>
+          </div>
+          <div style="padding:6px 0 2px">
+            <button class="btn btn-primary" onclick="saveChemEduUg()">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page: 教育教学（化学系）· 研究生培养 -->
+    <div class="content-page" id="page-chem-edu-pg">
+      <div class="breadcrumb">首页 / 教育教学 / <span>研究生培养</span></div>
+      <div class="page-header"><h2>研究生培养</h2></div>
+
+      <!-- 1. 研究生项目 -->
+      <div class="card">
+        <div class="card-header"><h3>研究生项目</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cpg-lang" value="zh" checked onchange="setChemEduPgLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cpg-lang" value="en" onchange="setChemEduPgLang('en')"> 英文</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-prog-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpg-prog-intro" style="min-height:170px" placeholder="请输入研究生项目介绍"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">申请链接文本：</label>
+              <input class="form-input" id="cpg-apply-text" placeholder="如：点击此处申请">
+            </div>
+            <div class="form-field">
+              <label class="form-label">申请链接地址：</label>
+              <input class="form-input" id="cpg-apply-url" placeholder="请输入申请链接地址">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 招生方式 -->
+      <div class="card">
+        <div class="card-header"><h3>招生方式</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-adm-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpg-adm-intro" style="min-height:120px" placeholder="请输入招生方式介绍"></textarea>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">相关链接：</label>
+              <div>
+                <div id="cpg-link-list"></div>
+                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddLink()">+ 新增链接</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 基本学习年限和培养方式 -->
+      <div class="card">
+        <div class="card-header"><h3>基本学习年限和培养方式</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-mode-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field">
+              <label class="form-label">本科起点学制(年)：</label>
+              <input class="form-input" id="cpg-year-bachelor" style="width:160px" placeholder="如：5">
+            </div>
+            <div class="form-field">
+              <label class="form-label">硕士起点学制(年)：</label>
+              <input class="form-input" id="cpg-year-master" style="width:160px" placeholder="如：4">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpg-mode-intro" style="min-height:120px" placeholder="请输入培养方式介绍"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 培养过程主要环节 -->
+      <div class="card">
+        <div class="card-header"><h3>培养过程主要环节</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-stage-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">培养环节：</label>
+              <div>
+                <div id="cpg-stage-list"></div>
+                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddStage()">+ 新增环节</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. 专业课程 -->
+      <div class="card">
+        <div class="card-header"><h3>专业课程</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-course-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">课程表：</label>
+              <div>
+                <div class="cpg-course-head">课程类别 / 必修·选修 / 课程代码 / 课程名称 / 学分</div>
+                <div id="cpg-course-list"></div>
+                <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPgAddCourse()">+ 新增课程</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. 学术培养与毕业发展 -->
+      <div class="card">
+        <div class="card-header"><h3>学术培养与毕业发展</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpg-dev-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpg-dev-intro" style="min-height:140px" placeholder="请输入学术培养与毕业发展介绍"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:right;margin:18px 0">
+        <button type="button" class="btn btn-primary" onclick="saveChemEduPg()">保存</button>
+      </div>
+    </div>
+
+    <!-- Page: 教育教学（化学系）· 博士后项目 -->
+    <div class="content-page" id="page-chem-edu-postdoc">
+      <div class="breadcrumb">首页 / 教育教学 / <span>博士后项目</span></div>
+      <div class="page-header"><h2>博士后项目</h2></div>
+
+      <!-- 1. 项目简介 -->
+      <div class="card">
+        <div class="card-header"><h3>项目简介</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cpd-lang" value="zh" checked onchange="setChemEduPostdocLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cpd-lang" value="en" onchange="setChemEduPostdocLang('en')"> 英文</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpd-intro-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpd-intro-content" style="min-height:140px" placeholder="请输入项目简介"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. 申请材料 -->
+      <div class="card">
+        <div class="card-header"><h3>申请材料</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpd-mat-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">板块说明：</label>
+              <textarea class="form-textarea" id="cpd-mat-intro" style="min-height:56px" placeholder="如：申请人应提交以下材料："></textarea>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">材料清单：</label>
+              <div id="cpd-mat-list"></div>
+              <button type="button" class="btn btn-outline" style="margin-top:8px" onclick="chemEduPostdocAddMat()">+ 新增条目</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. 薪酬与资助 -->
+      <div class="card">
+        <div class="card-header"><h3>薪酬与资助</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpd-sal-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpd-sal-content" style="min-height:140px" placeholder="请输入薪酬与资助说明"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. 联系方式 -->
+      <div class="card">
+        <div class="card-header"><h3>联系方式</h3></div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>板块标题：</label>
+              <input class="form-input" id="cpd-con-title" placeholder="请输入板块标题">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>板块内容：</label>
+              <textarea class="form-textarea" id="cpd-con-content" style="min-height:80px" placeholder="请输入联系方式说明"></textarea>
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接文本：</label>
+              <input class="form-input" id="cpd-con-linktext" placeholder="如：获取更详细的信息">
+            </div>
+            <div class="form-field">
+              <label class="form-label">链接地址：</label>
+              <input class="form-input" id="cpd-con-linkurl" placeholder="如：https://...">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="padding:6px 0 2px">
+        <button class="btn btn-primary" onclick="saveChemEduPostdoc()">保存</button>
+      </div>
+    </div>
+
+    <!-- Page: 教育教学（化学系）· 短期项目 -->
+    <div class="content-page" id="page-chem-edu-short">
+      <div class="breadcrumb">首页 / 教育教学 / <span>短期项目</span></div>
+      <div class="page-header"><h2>短期项目</h2></div>
       <div class="card">
         <div class="card-header">
-          <h3>教育教学列表</h3>
+          <h3>短期项目列表</h3>
           <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemEduLang('zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemEduLang('en')">英文</button>
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemEduLang('page-chem-edu-short','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setChemEduLang('page-chem-edu-short','en')">英文</button>
           </div>
-          <button class="btn btn-primary" onclick="openChemEduForm('create')">新增教育教学</button>
+          <button class="btn btn-primary" onclick="openChemEduForm('create', null, 'page-chem-edu-short')">新增短期项目</button>
         </div>
         <div class="card-body">
           <div class="toolbar">
             <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入标题"></div>
-            <select class="form-select" style="width:150px"><option>请选择类型</option><option>本科生</option><option>研究生</option><option>短期项目</option></select>
             <button class="btn btn-primary">🔍 查询</button>
             <button class="btn btn-outline">↻ 重置</button>
             <button class="link-action">展开 ⌄</button>
           </div>
           <table>
-            <thead><tr><th>序号</th><th>标题</th><th>语言</th><th>类型</th><th>发布状态</th><th>点击数</th><th>最新发布时间</th><th>发布时间</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr><td>1</td><td>化学系本科生培养方案</td><td>中文</td><td>本科生</td><td>已发布</td><td>12</td><td>2026-09-17 09:54:03</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>2</td><td>化学系研究生课程体系</td><td>中文</td><td>研究生</td><td>已发布</td><td>8</td><td>2026-09-15 10:10:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>3</td><td>化学实验教学中心介绍</td><td>中文</td><td>本科生</td><td>已发布</td><td>5</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>4</td><td>本科生科研训练计划</td><td>中文</td><td>本科生</td><td>已发布</td><td>3</td><td>2026-09-14 18:41:42</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>5</td><td>研究生学术写作课程</td><td>中文</td><td>研究生</td><td>未发布</td><td>0</td><td>2026-09-15 11:09:00</td><td>2026-09-07</td><td class="actions"><button class="link-action">发布</button><button class="link-action">编辑</button><button class="link-action danger">删除</button></td></tr>
-              <tr><td>6</td><td>暑期学校与短期项目</td><td>中文</td><td>短期项目</td><td>已发布</td><td>0</td><td>2026-09-17 10:10:41</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>7</td><td>化学系 2027 年推免与培养衔接</td><td>中文</td><td>研究生</td><td>已发布</td><td>0</td><td>2026-09-17 09:54:12</td><td>2026-09-16</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-              <tr><td>8</td><td>教育教学测试用</td><td>中文</td><td>本科生</td><td>已发布</td><td>4</td><td>2026-09-14 16:02:13</td><td>2026-09-14</td><td class="actions"><button class="link-action">取消发布</button></td></tr>
-            </tbody>
+            <thead><tr><th>序号</th><th>标题</th><th>语言</th><th>发布状态</th><th>点击数</th><th>最新发布时间</th><th>发布时间</th><th>操作</th></tr></thead>
+            <tbody></tbody>
           </table>
-          <div class="pagination"><span>共 15 条数据</span><button disabled>‹</button><button class="active">1</button><button>2</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
+          <div class="pagination"><span>共 0 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span><span>跳至</span><input class="form-input" style="width:52px;height:30px;padding:0 6px"><span>页</span></div>
         </div>
       </div>
     </div>
 
-
-
 <!-- ====== 化学系新增：使命与价值观 行编辑弹窗 ====== -->
 
+
+    <!-- Page: 招贤纳士（化学系）单页配置 -->
+    <div class="content-page" id="page-chem-join">
+      <div class="breadcrumb">首页 / <span>招贤纳士</span></div>
+      <div class="page-header"><h2>招贤纳士</h2></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>招聘信息</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-chem-join','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-chem-join','en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>标题：</label>
+              <input class="form-input" placeholder="请输入标题" value="加入我们">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>简述：</label>
+              <input class="form-input" placeholder="请输入简述" value="西湖大学化学系诚邀海内外优秀人才加盟">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>详情：</label>
+              <div class="rt-editor">
+                <div class="rt-toolbar">
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('bold',this)" title="加粗"><b>B</b></button>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('italic',this)" title="斜体"><i>I</i></button>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('underline',this)" title="下划线"><u>U</u></button>
+                  <span class="rt-sep"></span>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertUnorderedList',this)">• 列表</button>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertOrderedList',this)">1. 列表</button>
+                  <span class="rt-sep"></span>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtLink(this)">🔗 链接</button>
+                  <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('removeFormat',this)">清除格式</button>
+                </div>
+                <div class="rt-linkbar" style="display:none">
+                  <input class="form-input rt-link-input" placeholder="请输入链接地址，如 /careers/list">
+                  <button type="button" class="btn btn-primary" onmousedown="event.preventDefault()" onclick="rtLinkApply(this)">确定</button>
+                  <button type="button" class="btn btn-outline" onmousedown="event.preventDefault()" onclick="rtLinkCancel(this)">取消</button>
+                </div>
+                <div class="rt-content" contenteditable="true" data-placeholder="请输入详情"><p>西湖大学化学系现面向海内外公开招聘教研系列、研究系列与博士后岗位，诚邀有志于化学前沿研究的优秀人才加盟。</p><ul><li>教研系列（教授 / 副教授 / 助理教授）</li><li>研究系列（研究员 / 副研究员）</li><li>博士后研究员</li></ul></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>联系我们</h3>
+          <button class="btn btn-primary" style="margin-left:auto" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>联系地址：</label>
+              <input class="form-input" placeholder="请输入联系地址" value="浙江省杭州市西湖区墩余路600号">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>联系电话：</label>
+              <input class="form-input" placeholder="请输入联系电话" value="0571-88888888">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>联系人：</label>
+              <input class="form-input" placeholder="请输入联系人" value="化学系人才招聘工作组">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>邮编：</label>
+              <input class="form-input" placeholder="请输入邮编" value="310024">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>链接文本：</label>
+              <input class="form-input" placeholder="请输入链接文本" value="查看岗位详情">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>跳转地址：</label>
+              <div>
+                <input class="form-input" placeholder="请输入跳转地址" value="/careers/list">
+                <div class="upload-hint">注意：站内链接请维护相对地址，例如「/careers/list」</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page: 系主任（化学系简介） -->
+    <div class="content-page" id="page-chem-dean">
+      <div class="breadcrumb">首页 / 化学系简介 / <span>系主任</span></div>
+      <div class="page-header"><h2>系主任</h2></div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>语言：</label>
+              <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="cd-lang" value="zh" checked onchange="setChemDeanLang('zh')"> 中文</label>
+                <label class="radio-item"><input type="radio" name="cd-lang" value="en" onchange="setChemDeanLang('en')"> 英文</label>
+              </div>
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>姓：</label>
+              <input class="form-input" id="cd-surname" placeholder="请输入姓" value="张">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>名：</label>
+              <input class="form-input" id="cd-given" placeholder="请输入名" value="鑫">
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">头衔：</label>
+              <div>
+                <textarea class="form-textarea" id="cd-titles" placeholder="请输入头衔">系主任</textarea>
+                <div class="upload-hint" style="margin-top:6px">注：多个头衔请用“*”分割</div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>头像：</label>
+              <div>
+                <label class="upload-area" style="width:96px;height:104px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG、PNEG　尺寸：440px*476px　大小：不能超过2MB　最多上传一份；</div>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label"><span class="required">*</span>介绍：</label>
+              <textarea class="form-textarea" id="cd-bio" style="min-height:110px" placeholder="请输入介绍">张鑫教授2001年毕业于中国科学技术大学化学物理系；2004年获中科院大连化物所硕士学位，导师为韩克利研究员；2010年获加州理工学院化学系博士学位，导师为Shu-ou Shan教授，随后进入美国Scripps研究所做博士后研究，导师为Jeffery W. Kelly教授。2015年，张鑫获聘美国宾州州立大学化学系和生物化学与分子生物学系助理教授；2020年，张鑫晋升长聘副教授、Paul Berg Early Career讲席教授。2021年入职西湖大学，受聘化学教授、细胞生物学教授；自2022年1月起，任西湖大学工学院生物医学工程领域兼聘教授。2023年11月起，任西湖大学理学院化学系系主任。张鑫课题组聚焦于生物有机化学和蛋白质生物化学的交叉领域，以“生物大分子相分离和聚集的化学生物学”为研究中心，瞄准此研究领域亟需解决的重要技术和科学问题。</textarea>
+            </div>
+          </div>
+          <div style="padding:6px 0 2px">
+            <button class="btn btn-primary" onclick="saveChemDean()">保存</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page: 页眉页脚（全局设置） -->
+    <div class="content-page" id="page-header-footer">
+      <div class="breadcrumb">首页 / <span>页眉页脚</span></div>
+      <div class="page-header"><h2>页眉页脚</h2></div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>页眉设置</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setFormLang('page-header-footer','zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setFormLang('page-header-footer','en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field align-top">
+              <label class="form-label">中文导航logo：</label>
+              <div>
+                <label class="logo-box">
+                  <img id="hf-img-zh-nav" alt="中文导航logo" style="display:none">
+                  <span class="logo-box-ph" id="hf-ph-zh-nav">图片上传</span>
+                  <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none" onchange="hfPickLogo(this,'zh-nav')">
+                </label>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">英文导航logo：</label>
+              <div>
+                <label class="logo-box">
+                  <img id="hf-img-en-nav" alt="英文导航logo" style="display:none">
+                  <span class="logo-box-ph" id="hf-ph-en-nav">图片上传</span>
+                  <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none" onchange="hfPickLogo(this,'en-nav')">
+                </label>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">中文页脚logo：</label>
+              <div>
+                <label class="logo-box">
+                  <img id="hf-img-zh-ftr" alt="中文页脚logo" style="display:none">
+                  <span class="logo-box-ph" id="hf-ph-zh-ftr">图片上传</span>
+                  <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none" onchange="hfPickLogo(this,'zh-ftr')">
+                </label>
+              </div>
+            </div>
+            <div class="form-field align-top">
+              <label class="form-label">英文页脚logo：</label>
+              <div>
+                <label class="logo-box">
+                  <img id="hf-img-en-ftr" alt="英文页脚logo" style="display:none">
+                  <span class="logo-box-ph" id="hf-ph-en-ftr">图片上传</span>
+                  <input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none" onchange="hfPickLogo(this,'en-ftr')">
+                </label>
+                <div class="upload-hint">格式：JPG、JPEG、PNG　大小：单张不能超过 2MB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h3>页脚设置</h3>
+          <button class="btn btn-primary" style="margin-left:auto" onclick="showToast('内容已保存','success')">保存</button>
+        </div>
+        <div class="card-body">
+          <div class="form-column">
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>联系地址：</label>
+              <input class="form-input" placeholder="请输入联系地址" value="浙江省杭州市西湖区云栖小镇石龙山街18号">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>联系电话：</label>
+              <input class="form-input" placeholder="请输入联系电话" value="0571-8811XXXX">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>邮箱：</label>
+              <input class="form-input" placeholder="请输入邮箱" value="science@westlake.edu.cn">
+            </div>
+            <div class="form-field">
+              <label class="form-label">联系人：</label>
+              <input class="form-input" placeholder="请输入联系人">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>版权信息：</label>
+              <input class="form-input" placeholder="请输入版权信息" value="© 2026 西湖大学理学院 版权所有">
+            </div>
+            <div class="form-field">
+              <label class="form-label"><span class="required">*</span>ICP备案号：</label>
+              <input class="form-input" placeholder="请输入ICP备案号" value="浙ICP备XXXXXXXX号">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Page: 中心与设施（化学系·科学研究） -->
+    <div class="content-page" id="page-chem-center">
+      <div class="breadcrumb">首页 / 科学研究 / <span>中心与设施</span></div>
+      <div class="page-header"><h2>中心与设施</h2></div>
+      <div class="card">
+        <div class="card-header">
+          <h3>中心与设施列表</h3>
+          <div class="lang-tabs" style="margin-left:auto;margin-right:18px">
+            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemCenterLang('zh')">中文</button>
+            <button type="button" class="lang-tab" data-lang="en" onclick="setChemCenterLang('en')">英文</button>
+          </div>
+          <button class="btn btn-primary" onclick="openChemCenterForm('create')">新建中心与设施</button>
+        </div>
+        <div class="card-body">
+          <div class="toolbar">
+            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="请输入标题"></div>
+            <select class="form-select" style="width:186px"><option>请选择类型</option><option>中心和重点实验室</option><option>研究设施</option></select>
+            <select class="form-select" style="width:150px"><option>请选择状态</option><option>已发布</option><option>未发布</option></select>
+            <button class="btn btn-primary">🔍 查询</button>
+            <button class="btn btn-outline">↻ 重置</button>
+          </div>
+          <table>
+            <thead><tr><th>标题</th><th>类型</th><th>状态</th><th>最新发布时间</th><th>创建时间</th><th>操作</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <div class="pagination"><span>共 0 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">30 条/页</span></div>
+        </div>
+      </div>
+    </div>
   </main>
+</div>
+
+<!-- ====== 化学系新增：中心与设施 新建/编辑弹窗（图片最多 3 张） ====== -->
+<div class="modal-overlay" id="chemCenterModal">
+  <div class="modal" style="width:760px">
+    <div class="modal-header">
+      <h3 id="chemCenterModalTitle">新建中心与设施</h3>
+      <button class="modal-close" onclick="closeModal('chemCenterModal')">✕</button>
+    </div>
+    <div class="modal-body" style="padding:22px 28px 4px">
+      <div class="form-column">
+        <div class="form-field"><label class="form-label"><span class="required">*</span>标题：</label><input class="form-input" id="cc-title" placeholder="请输入标题"></div>
+        <div class="form-field">
+          <label class="form-label">类型：</label>
+          <div class="radio-group">
+            <label class="radio-item"><input type="radio" name="cc-type" value="center" checked> 中心和重点实验室</label>
+            <label class="radio-item"><input type="radio" name="cc-type" value="facility"> 研究设施</label>
+          </div>
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label">图片：</label>
+          <div>
+            <div class="multi-upload" id="cc-img-list"></div>
+            <label class="upload-area" id="cc-img-add" style="width:96px;height:96px;margin-top:10px"><span>＋ 图片上传</span><input type="file" id="cc-img-input" accept="image/jpeg,image/jpg,image/png" multiple style="display:none" onchange="ccPickImgs(this)"></label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG　大小：单张不能超过2MB　最多上传 3 张；</div>
+            <div class="mu-count" id="cc-img-count">已上传 0/3</div>
+          </div>
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label">描述：</label>
+          <div class="rt-editor">
+            <div class="rt-toolbar">
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('bold',this)" title="加粗"><b>B</b></button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('italic',this)" title="斜体"><i>I</i></button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('underline',this)" title="下划线"><u>U</u></button>
+              <span class="rt-sep"></span>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertUnorderedList',this)">• 列表</button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertOrderedList',this)">1. 列表</button>
+              <span class="rt-sep"></span>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtLink(this)">🔗 链接</button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('removeFormat',this)">清除格式</button>
+            </div>
+            <div class="rt-linkbar" style="display:none">
+              <input class="form-input rt-link-input" placeholder="请输入链接地址，如 /research/centers">
+              <button type="button" class="btn btn-primary" onmousedown="event.preventDefault()" onclick="rtLinkApply(this)">确定</button>
+              <button type="button" class="btn btn-outline" onmousedown="event.preventDefault()" onclick="rtLinkCancel(this)">取消</button>
+            </div>
+            <div class="rt-content" contenteditable="true" data-placeholder="请输入描述"></div>
+          </div>
+        </div>
+        <div class="form-field"><label class="form-label">跳转链接：</label><input class="form-input" id="cc-link" placeholder="请输入跳转链接"></div>
+      </div>
+    </div>
+    <div class="modal-footer" style="justify-content:flex-start">
+      <button class="btn btn-outline" onclick="closeModal('chemCenterModal')">取消</button>
+      <button class="btn btn-primary" onclick="saveChemCenterForm()">保存</button>
+    </div>
+  </div>
 </div>
 
 <!-- 用户 Modal (demo) -->
@@ -1709,12 +2362,6 @@ tr:hover td { background: #fafafa; }
         <div class="form-field"><label class="form-label"><span class="required">*</span>数据：</label><input class="form-input" id="cmr-value" placeholder="请输入数据"></div>
         <div class="form-field"><label class="form-label">排序：</label><input class="form-input" id="cmr-sort" placeholder="请输入排序"></div>
       </div>
-      <div class="form-column" id="cmr-content-fields" style="display:none">
-        <div class="form-field"><label class="form-label"><span class="required">*</span>标题：</label><input class="form-input" id="cmr-ctitle" placeholder="请输入标题"></div>
-        <div class="form-field"><label class="form-label">排序：</label><input class="form-input" id="cmr-csort" placeholder="请输入排序"></div>
-        <div class="form-field align-top"><label class="form-label">介绍：</label><textarea class="form-textarea" id="cmr-cintro" placeholder="请输入介绍"></textarea></div>
-        <div class="form-field"><label class="form-label">了解更多：</label><input class="form-input" id="cmr-clink" placeholder="请输入链接"></div>
-      </div>
     </div>
     <div class="modal-footer" style="justify-content:flex-start">
       <button class="btn btn-outline" onclick="closeModal('chemMissionRowModal')">取消</button>
@@ -1727,7 +2374,7 @@ tr:hover td { background: #fafafa; }
 <div class="modal-overlay" id="chemGovernanceModal">
   <div class="modal" style="width:820px">
     <div class="modal-header">
-      <h3 id="chemGovModalTitle">新增委员会</h3>
+      <h3 id="chemGovModalTitle">新增</h3>
       <button class="modal-close" onclick="closeModal('chemGovernanceModal')">✕</button>
     </div>
     <div class="modal-body" style="padding:22px 28px 4px">
@@ -1739,20 +2386,11 @@ tr:hover td { background: #fafafa; }
             <label class="radio-item"><input type="radio" name="cg-lang" value="en"> 英文</label>
           </div>
         </div>
-        <div class="form-field"><label class="form-label"><span class="required">*</span>委员会名称：</label><input class="form-input" id="cg-name" placeholder="请输入委员会名称"></div>
-        <div class="form-field">
-          <label class="form-label"><span class="required">*</span>类型：</label>
-          <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="cg-type" value="党委会" checked> 党委会</label>
-            <label class="radio-item"><input type="radio" name="cg-type" value="院级委员会"> 院级委员会</label>
-          </div>
-        </div>
+        <div class="form-field"><label class="form-label"><span class="required">*</span>名称：</label><input class="form-input" id="cg-name" placeholder="请输入名称"></div>
         <div class="form-field"><label class="form-label">负责人：</label><input class="form-input" id="cg-head" placeholder="请输入负责人"></div>
         <div class="form-field"><label class="form-label">负责人抬头：</label><input class="form-input" id="cg-headtitle" placeholder="请输入负责人抬头"></div>
-        <div class="form-field"><label class="form-label">副负责人：</label><input class="form-input" id="cg-vice" placeholder="请输入副负责人"></div>
-        <div class="form-field"><label class="form-label">副负责人抬头：</label><input class="form-input" id="cg-vicetitle" placeholder="请输入副负责人抬头"></div>
         <div class="form-field align-top"><label class="form-label">委员：</label>
-          <div><input class="form-input" id="cg-members" placeholder="请输入委员姓名">
+          <div><input class="form-input" id="cg-members" placeholder="请输入姓名">
             <div class="upload-hint">多个委员请用中文逗号「，」或英文逗号「,」分隔</div>
           </div>
         </div>
@@ -1788,6 +2426,36 @@ tr:hover td { background: #fafafa; }
           <div class="radio-group">
             <label class="radio-item"><input type="radio" name="cr-status" value="pub" checked> 已发布</label>
             <label class="radio-item"><input type="radio" name="cr-status" value="unpub"> 未发布</label>
+          </div>
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label">图片：</label>
+          <div>
+            <label class="upload-area" style="width:110px;height:90px"><span>图片上传</span><input type="file" accept="image/jpeg,image/jpg,image/png" style="display:none"></label>
+            <div class="upload-hint">格式：JPG、JPEG、PNG　大小：不能超过2MB　最多上传一份；</div>
+            <div class="upload-hint" id="cr-img-current" style="display:none"></div>
+          </div>
+        </div>
+        <div class="form-field align-top">
+          <label class="form-label">简介：</label>
+          <div class="rt-editor">
+            <div class="rt-toolbar">
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('bold',this)" title="加粗"><b>B</b></button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('italic',this)" title="斜体"><i>I</i></button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('underline',this)" title="下划线"><u>U</u></button>
+              <span class="rt-sep"></span>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertUnorderedList',this)">• 列表</button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('insertOrderedList',this)">1. 列表</button>
+              <span class="rt-sep"></span>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtLink(this)">🔗 链接</button>
+              <button type="button" class="rt-btn" onmousedown="event.preventDefault()" onclick="rtCmd('removeFormat',this)">清除格式</button>
+            </div>
+            <div class="rt-linkbar" style="display:none">
+              <input class="form-input rt-link-input" placeholder="请输入链接地址，如 /research/list">
+              <button type="button" class="btn btn-primary" onmousedown="event.preventDefault()" onclick="rtLinkApply(this)">确定</button>
+              <button type="button" class="btn btn-outline" onmousedown="event.preventDefault()" onclick="rtLinkCancel(this)">取消</button>
+            </div>
+            <div class="rt-content" contenteditable="true" data-placeholder="请输入简介"></div>
           </div>
         </div>
       </div>
@@ -1842,14 +2510,6 @@ tr:hover td { background: #fafafa; }
         <div class="form-field align-top"><label class="form-label">简介：</label>
           <div><textarea class="form-textarea" id="ce-intro" maxlength="200" placeholder="请输入简介"></textarea>
             <div class="upload-hint">长度 0-200 个字符</div>
-          </div>
-        </div>
-        <div class="form-field">
-          <label class="form-label"><span class="required">*</span>类型：</label>
-          <div class="radio-group">
-            <label class="radio-item"><input type="radio" name="ce-type" value="本科生" checked> 本科生</label>
-            <label class="radio-item"><input type="radio" name="ce-type" value="研究生"> 研究生</label>
-            <label class="radio-item"><input type="radio" name="ce-type" value="短期项目"> 短期项目</label>
           </div>
         </div>
         <div class="form-field align-top">
@@ -2320,6 +2980,7 @@ const TENANT_MENUS = {
         { label: '天文小影', icon: '🎬', page: 'astro-video' }
       ] },
       { label: '全局设置', icon: '🌐', page: 'global-settings' },
+      { label: '页眉页脚', icon: '🖥', page: 'header-footer' },
       { label: '系统管理', icon: '⚙️', children: [
         { label: '用户管理', icon: '👤', page: 'users' },
         { label: '角色管理', icon: '🔑', page: 'roles' },
@@ -2345,6 +3006,7 @@ const TENANT_MENUS = {
       { label: '资料下载', icon: '📚', page: 'downloads' },
       { label: '菜单设置', icon: '📋', page: 'astro-menu-settings' },
       { label: '回收站', icon: '🗑', page: 'astro-recycle' },
+      { label: '页眉页脚', icon: '🖥', page: 'header-footer' },
       { label: '系统管理', icon: '⚙️', children: [
         { label: '用户管理', icon: '👤', page: 'users' },
         { label: '角色管理', icon: '🔑', page: 'roles' },
@@ -2363,18 +3025,28 @@ const TENANT_MENUS = {
       ] },
       { label: '化学系简介', icon: '🧪', children: [
         { label: '使命与价值观', icon: '🎯', page: 'chem-mission' },
-        { label: '治理架构', icon: '🏛', page: 'chem-governance' },
+        { label: '系主任', icon: '🧑‍💼', page: 'chem-dean' },
+        { label: '治理委员会', icon: '🏛', page: 'chem-governance' },
         { label: '招贤纳士', icon: '💼', page: 'chem-join' }
       ] },
       { label: '教师队伍', icon: '👨‍🏫', page: 'faculty' },
-      { label: '科学研究', icon: '🔬', page: 'chem-science' },
-      { label: '教育教学', icon: '📐', page: 'chem-edu' },
+      { label: '科学研究', icon: '🔬', children: [
+        { label: '研究领域', icon: '🔬', page: 'chem-science' },
+        { label: '中心与设施', icon: '🏛', page: 'chem-center' }
+      ] },
+      { label: '教育教学', icon: '📐', children: [
+        { label: '本科生培养', icon: '🎓', page: 'chem-edu-ug' },
+        { label: '研究生培养', icon: '🎓', page: 'chem-edu-pg' },
+        { label: '博士后项目', icon: '🎓', page: 'chem-edu-postdoc' },
+        { label: '短期项目', icon: '🗓', page: 'chem-edu-short' }
+      ] },
       { label: '招生信息', icon: '🎓', children: [
         { label: '招生动态', icon: '📢', page: 'admissions' },
         { label: '宣讲信息', icon: '📣', page: 'chem-adm-talk' },
         { label: '报考须知', icon: '📋', page: 'chem-adm-guide' },
         { label: '常见问题', icon: '❓', page: 'chem-adm-faq' }
       ] },
+      { label: '页眉页脚', icon: '🖥', page: 'header-footer' },
       { label: '系统管理', icon: '⚙️', children: [
         { label: '用户管理', icon: '👤', page: 'users' },
         { label: '角色管理', icon: '🔑', page: 'roles' },
@@ -2391,8 +3063,9 @@ const PLACEHOLDER_PAGES = {
   'astro-about': '关于', 'astro-people': '人物管理', 'astro-research': '研究管理', 'astro-career': '职业管理',
   'astro-types': '类型配置', 'astro-menu-settings': '菜单设置', 'astro-recycle': '回收站',
   'chem-research-show': '科学研究展示', 'chem-teaching': '教育教学', 'chem-mission': '使命与价值观',
-  'chem-governance': '治理架构', 'chem-join': '招贤纳士', 'chem-science': '科学研究',
-  'chem-edu': '教育教学', 'chem-adm-talk': '宣讲信息', 'chem-adm-guide': '报考须知', 'chem-adm-faq': '常见问题'
+  'chem-governance': '治理委员会', 'chem-join': '招贤纳士', 'chem-science': '研究领域',
+  'chem-center': '中心与设施',
+  'chem-edu-ug': '本科生培养', 'chem-edu-pg': '研究生培养', 'chem-edu-postdoc': '博士后项目', 'chem-edu-short': '短期项目', 'chem-adm-talk': '宣讲信息', 'chem-adm-guide': '报考须知', 'chem-adm-faq': '常见问题'
 };
 
 let currentTenant = 'science';
@@ -2441,7 +3114,7 @@ function ensurePage(page) {
   el.className = 'content-page';
   el.id = 'page-' + page;
   el.innerHTML = '<div class="breadcrumb">首页 / <span>' + title + '</span></div>'
-    + '<div class="page-header"><h2>' + title + '</h2><p>当前租户下的模块页面</p></div>'
+    + '<div class="page-header"><h2>' + title + '</h2></div>'
     + '<div class="card"><div class="card-body" style="padding:56px;text-align:center;color:var(--text-muted)">'
     + '<div style="font-size:34px;margin-bottom:12px">🚧</div>'
     + '<div style="font-size:14px">「' + title + '」模块页面待补充（原型占位）</div></div></div>';
@@ -2601,6 +3274,7 @@ function setAstroLangTab(l) {
   ASTRO_LANG_TAB = l;
   document.querySelectorAll('#astroLangTabs .lang-tab').forEach(b => b.classList.toggle('active', b.dataset.lang === l));
   renderAstroTable();
+  applyTableHeaders('page-astro-video', l);
 }
 
 function searchAstro() { renderAstroTable(); }
@@ -3139,6 +3813,7 @@ function setDlLangTab(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   renderDownloadsTable();
+  applyTableHeaders('page-downloads', lang);
 }
 
 function setRecLangTab(lang) {
@@ -3147,6 +3822,7 @@ function setRecLangTab(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   renderRecruitmentTable();
+  applyTableHeaders('page-recruitment', lang);
 }
 
 function renderDownloadsTable() {
@@ -3333,6 +4009,7 @@ function setTeacherLangTab(lang) {
     b.classList.toggle('active', b.dataset.lang === lang);
   });
   renderTeacherTable();
+  applyTableHeaders('page-teacher-list', lang);
 }
 
 function renderTeacherTable() {
@@ -3458,10 +4135,314 @@ function syncLangTabs(pageId) {
   });
 }
 
+// 列表表头中英对照表（用于表头随语言切换）
+const HEADER_EN = {
+  '操作': 'Actions', '状态': 'Status', '标题': 'Title', '创建时间': 'Created At',
+  '排序': 'Sort', '语言': 'Language', '类型': 'Type', '创建人': 'Created By',
+  '发布时间': 'Published At', '发布状态': 'Publish Status', '姓名': 'Name',
+  '更新时间': 'Updated At', '最新发布时间': 'Latest Published At', '序号': 'No.',
+  '所属租户': 'Tenant', '所属院系': 'Department', '分类': 'Category',
+  '下发目标': 'Deliver To', '点击数': 'Views', '用户名': 'Username',
+  '所属角色': 'Role', '角色名称': 'Role Name', '角色标识': 'Role Key',
+  '描述': 'Description', '租户范围': 'Tenant Scope', '租户名称': 'Tenant Name',
+  '标识': 'Key', 'PC域名': 'PC Domain', 'H5域名': 'H5 Domain',
+  '预览': 'Preview', '跳转链接': 'Link', '适用设备': 'Devices',
+  '学科名称': 'Subject', '简介': 'Introduction', '职称': 'Title',
+  '研究方向': 'Research Area', '适用年份': 'Applicable Year',
+  '科系名称': 'Department', '负责人': 'Head', '封面': 'Cover', '照片': 'Photo',
+  '身份': 'Identity', '活动名称': 'Event Name', '活动时间': 'Event Time',
+  '数据': 'Data', '名称': 'Name', '研究领域': 'Research Field',
+  '教授信息': 'Professors', '头像': 'Avatar', '第二名称': 'Alt. Name',
+  '职位': 'Position', '电子邮箱': 'Email', '内容': 'Content', '说明': 'Note',
+  '链接文本': 'Link Text', '跳转地址': 'Target URL', '联系地址': 'Address',
+  '联系电话': 'Phone', '联系人': 'Contact', '邮编': 'Zip Code', '详情': 'Detail',
+  '模块': 'Module', '招聘信息': 'Recruitment Info'
+};
+// ===== 页面外壳文案中英对照（面包屑 / 页面标题 / 卡片标题 / 筛选控件 / 分页 / 下拉选项） =====
+const SHELL_EN = {
+  '首页': 'Home',
+  '系统管理': 'System Management',
+  '内容管理': 'Content Management',
+  '学院概况': 'College Overview',
+  '新闻活动': 'News & Events',
+  '化学系简介': 'About the Department',
+  '科学研究': 'Research',
+  '教育教学': 'Education',
+  '人物列表': 'People',
+  '仪表盘': 'Dashboard',
+  '用户管理': 'User Management',
+  '角色管理': 'Role Management',
+  '菜单管理': 'Menu Management',
+  '租户管理': 'Tenant Management',
+  'Banner管理': 'Banner Management',
+  '学科介绍': 'Subject Introduction',
+  '教师队伍': 'Faculty',
+  '招生信息': 'Admissions',
+  '学院介绍': 'About the College',
+  '科系介绍': 'Departments',
+  '学院生活': 'Campus Life',
+  '联系我们': 'Contact Us',
+  '新闻动态': 'News',
+  '活动信息': 'Events',
+  '招生培养': 'Admissions & Training',
+  '资料下载': 'Downloads',
+  '天文小影': 'Astro Videos',
+  '使命与价值观': 'Mission & Values',
+  '治理委员会': 'Governance Committee',
+  '研究领域': 'Research Fields',
+  '本科生培养': 'Undergraduate Training',
+  '研究生培养': 'Graduate Training',
+  '博士后项目': 'Postdoctoral Program',
+  '短期项目': 'Short-term Programs',
+  '招贤纳士': 'Careers',
+  '系主任': 'Department Chair',
+  '页眉页脚': 'Header & Footer',
+  '中心与设施': 'Centers & Facilities',
+  '快捷入口': 'Quick Links',
+  '用户列表': 'User List',
+  '角色列表': 'Role List',
+  '菜单树': 'Menu Tree',
+  '租户列表': 'Tenant List',
+  'Banner列表': 'Banner List',
+  '学科列表': 'Subject List',
+  '教师列表': 'Faculty List',
+  '招生内容列表': 'Admissions Content List',
+  '页面内容': 'Page Content',
+  '科系列表': 'Department List',
+  '内容列表': 'Content List',
+  '联系信息': 'Contact Info',
+  '新闻列表': 'News List',
+  '活动列表': 'Event List',
+  '招生信息列表': 'Admissions List',
+  '资料列表': 'Downloads List',
+  '天文小影列表': 'Astro Video List',
+  '页面配置': 'Page Configuration',
+  '基本信息': 'Basic Info',
+  '数据信息': 'Data Info',
+  '委员会列表': 'Committee List',
+  '研究领域列表': 'Research Field List',
+  '本科生培养列表': 'Undergraduate Training List',
+  '博士生培养列表': 'Graduate Training List',
+  '博士后项目列表': 'Postdoctoral Program List',
+  '短期项目列表': 'Short-term Program List',
+  '招聘信息': 'Recruitment Info',
+  '页眉设置': 'Header Settings',
+  '页脚设置': 'Footer Settings',
+  '中心与设施列表': 'Centers & Facilities List',
+  '搜索用户名/姓名...': 'Search username / name...',
+  '搜索教师姓名...': 'Search teacher name...',
+  '请输入姓名': 'Please enter name',
+  '请输入研究领域': 'Please enter research field',
+  '搜索新闻标题...': 'Search news title...',
+  '请输入标题': 'Please enter title',
+  '页': 'page',
+  '请输入类型': 'Please enter type',
+  '请输入详情链接': 'Please enter detail link',
+  '请输入名称': 'Please enter name',
+  '请输入简述': 'Please enter brief',
+  '请输入链接地址，如 /careers/list': 'Enter a link, e.g. /careers/list',
+  '请输入联系地址': 'Please enter address',
+  '请输入联系电话': 'Please enter phone',
+  '请输入联系人': 'Please enter contact',
+  '请输入邮编': 'Please enter zip code',
+  '请输入链接文本': 'Please enter link text',
+  '请输入跳转地址': 'Please enter target URL',
+  '请输入姓': 'Please enter surname',
+  '请输入名': 'Please enter given name',
+  '请输入邮箱': 'Please enter email',
+  '请输入版权信息': 'Please enter copyright',
+  '请输入ICP备案号': 'Please enter ICP license number',
+  '+ 新增用户': '+ New User',
+  '🔃 刷新': '🔃 Refresh',
+  '+ 新增角色': '+ New Role',
+  '+ 新增菜单': '+ New Menu',
+  '+ 新增租户': '+ New Tenant',
+  '+ 新增Banner': '+ New Banner',
+  '+ 新增学科': '+ New Subject',
+  '+ 新增教师': '+ New Teacher',
+  '+ 新增内容': '+ New Content',
+  '保存': 'Save',
+  '+ 新增条目': '+ Add item',
+  '+ 新增科系': '+ New Department',
+  'banner设置': 'Banner Settings',
+  '+ 添加人物': '+ Add Person',
+  '查询': 'Search',
+  '重置': 'Reset',
+  '展开 ▼': 'Expand ▼',
+  '+ 新增新闻': '+ New News',
+  '+ 新增活动': '+ New Event',
+  '+ 新增招生信息': '+ New Admission',
+  '+ 新增': '+ New',
+  '新增': 'New',
+  '排序': 'Sort',
+  '🔍 查询': '🔍 Search',
+  '↻ 重置': '↻ Reset',
+  '新建研究领域': 'New Research Field',
+  '新增本科生培养': 'New Undergraduate Training',
+  '展开 ⌄': 'Expand ⌄',
+  '新增博士生培养': 'New Graduate Training',
+  '新增博士后项目': 'New Postdoctoral Program',
+  '新增短期项目': 'New Short-term Program',
+  '新建中心与设施': 'New Center / Facility',
+  '跳至': 'Go to',
+  // 操作类按钮（全部 .btn 通用翻译）
+  '编辑': 'Edit',
+  '删除': 'Delete',
+  '发布': 'Publish',
+  '取消发布': 'Unpublish',
+  '取消': 'Cancel',
+  '确定': 'Confirm',
+  '提交': 'Submit',
+  '预览': 'Preview',
+  '复制': 'Copy',
+  '禁用': 'Disable',
+  '启用': 'Enable',
+  '详情': 'Details',
+  '撤回': 'Withdraw',
+  '配置': 'Configure',
+  '清除格式': 'Clear Format',
+  '关闭': 'Close',
+  '上移': 'Move Up',
+  '下移': 'Move Down',
+  '添加': 'Add',
+  '进入后台': 'Enter Admin',
+  '下架': 'Take Down',
+  '保存修改': 'Save Changes',
+  '展开 ⌄': 'Expand ⌄',
+  '查看': 'View',
+  '导入': 'Import',
+  '导出': 'Export',
+  '上传': 'Upload',
+  '下载': 'Download',
+  '应用': 'Apply',
+  // 配置页通用占位符（本科生 / 研究生培养）
+  '请输入板块标题': 'Enter section title',
+  '请输入本科项目介绍': 'Enter undergraduate program introduction',
+  '请输入课程设计介绍': 'Enter curriculum design introduction',
+  '请输入课程文档名称': 'Enter course document name',
+  '请输入课程文档链接': 'Enter course document link',
+  '请输入科训板块简介': 'Enter research training intro',
+  '请输入研究生项目介绍': 'Enter graduate program introduction',
+  '如：点击此处申请': 'e.g. Click here to apply',
+  '请输入申请链接地址': 'Enter application link URL',
+  '请输入招生方式介绍': 'Enter admissions method introduction',
+  '链接地址': 'Link URL',
+  '请输入培养方式介绍': 'Enter training mode introduction',
+  '如：5': 'e.g. 5',
+  '如：4': 'e.g. 4',
+  '环节名称': 'Stage name',
+  '请输入学术培养与毕业发展介绍': 'Enter academic training & career development',
+  '课程类别': 'Course category',
+  '课程代码': 'Course code',
+  '课程名称': 'Course name',
+  '学分': 'Credits',
+  // 配置页通用占位符（博士后项目）
+  '请输入项目简介': 'Enter program overview',
+  '请输入材料内容': 'Enter material description',
+  '如：申请人应提交以下材料：': 'e.g., Applicants should submit the following materials:',
+  '请输入薪酬与资助说明': 'Enter salary & funding details',
+  '请输入联系方式说明': 'Enter contact information',
+  '如：获取更详细的信息': 'e.g. Click here for more information',
+  '如：https://...': 'e.g. https://...',
+  // 博士后项目卡片标题
+  '项目简介': 'Program Overview',
+  '申请材料': 'Application Materials',
+  '薪酬与资助': 'Salary & Funding',
+  '联系方式': 'Contact',
+};
+const SHELL_OPT_EN = {
+  '全部职称': 'All Titles',
+  '教授': 'Professor',
+  '副教授': 'Associate Professor',
+  '助理教授': 'Assistant Professor',
+  '讲师': 'Lecturer',
+  '全部院系': 'All Departments',
+  '理学院': 'School of Science',
+  '天文系': 'Department of Astronomy',
+  '化学系': 'Department of Chemistry',
+  '全部类型': 'All Types',
+  '本科生': 'Undergraduate',
+  '研究生': 'Graduate',
+  '短期项目': 'Short-term',
+  '全部状态': 'All Status',
+  '未发布': 'Unpublished',
+  '已发布': 'Published',
+  '请选择类型': 'Select type',
+  '天文小影': 'Astro Videos',
+  '天文此刻': 'Astronomy Now',
+  '校园生活': 'Campus Life',
+  '请选择状态': 'Select status',
+  '中心和重点实验室': 'Centers & Key Labs',
+  '研究设施': 'Research Facilities',
+};
+function shellEnRun(zh){
+  return zh.replace(/[\u4e00-\u9fa5]+/g, function(m){ return SHELL_EN[m] !== undefined ? SHELL_EN[m] : m; });
+}
+// 页面外壳随语言切换（幂等：首次记录中文原文）
+function applyShellI18n(pageId, lang){
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  const en = (lang === 'en');
+  // 1) 面包屑（含 "首页 / A / B" 与 <span> 叶子）
+  page.querySelectorAll('.breadcrumb').forEach(function(b){
+    if (b.dataset.zhHtml === undefined) b.dataset.zhHtml = b.innerHTML;
+    b.innerHTML = en ? shellEnRun(b.dataset.zhHtml) : b.dataset.zhHtml;
+  });
+  // 2) 页面标题、卡片标题
+  page.querySelectorAll('.page-header h2, .card-header h3').forEach(function(h){
+    if (h.dataset.zh === undefined) h.dataset.zh = h.textContent.trim();
+    const v = SHELL_EN[h.dataset.zh];
+    h.textContent = (en && v !== undefined) ? v : h.dataset.zh;
+  });
+  // 3) 输入占位
+  page.querySelectorAll('input[placeholder]').forEach(function(i){
+    if (i.dataset.zhPh === undefined) i.dataset.zhPh = i.placeholder;
+    const v = SHELL_EN[i.dataset.zhPh.trim()];
+    i.placeholder = (en && v !== undefined) ? v : i.dataset.zhPh;
+  });
+  // 4) 工具栏 / 卡片头 / 表单操作 / 弹窗底部 按钮（含行内操作）
+  page.querySelectorAll('.btn, .link-action').forEach(function(btn){
+    if (btn.dataset.zh === undefined) btn.dataset.zh = btn.textContent.trim();
+    const v = SHELL_EN[btn.dataset.zh];
+    btn.textContent = (en && v !== undefined) ? v : btn.dataset.zh;
+  });
+  // 5) 分页文案（共 N 条(数据) / N 条/页 / 跳至 / 页）
+  page.querySelectorAll('.pagination span, .pagination option').forEach(function(el){
+    if (el.tagName === 'SPAN' && el.children.length) return;  // 含子元素(select/input)的包裹 span 跳过，避免破坏内部结构
+    if (el.dataset.zh === undefined) el.dataset.zh = el.textContent.trim();
+    const z = el.dataset.zh;
+    let v = SHELL_EN[z];
+    if (v === undefined && /^共\s*\d+\s*条(数据)?$/.test(z)) v = z.replace(/共\s*(\d+)\s*条(数据)?/, 'Total $1 items');
+    if (v === undefined && /^\d+\s*条\/页$/.test(z)) v = z.replace(/(\d+)\s*条\/页/, '$1 / page');
+    el.textContent = (en && v !== undefined) ? v : z;
+  });
+  // 6) 下拉选项
+  page.querySelectorAll('select.form-select option').forEach(function(o){
+    if (o.dataset.zh === undefined) o.dataset.zh = o.textContent.trim();
+    const v = SHELL_OPT_EN[o.dataset.zh];
+    o.textContent = (en && v !== undefined) ? v : o.dataset.zh;
+  });
+}
+
+// 表头随语言切换：首次记录中文原文，之后按 lang 切换
+function applyTableHeaders(pageId, lang) {
+  const page = document.getElementById(pageId);
+  if (!page) return;
+  page.querySelectorAll('thead th').forEach(function (th) {
+    if (th.children.length) return;                 // 表头内含元素的不动
+    if (th.dataset.zh === undefined) th.dataset.zh = th.textContent.trim();
+    const zh = th.dataset.zh;
+    const en = HEADER_EN[zh];
+    th.textContent = (lang === 'en' && en) ? en : zh;
+  });
+  applyShellI18n(pageId, lang);
+}
+
 // 切换列表页语言
 function setPageLang(pageId, lang) {
   PAGE_LANG[pageId] = lang;
   syncLangTabs(pageId);
+  applyTableHeaders(pageId, lang);
   applyPageLangFilter(pageId);
 }
 
@@ -3509,7 +4490,8 @@ function applyPageLangFilter(pageId) {
   const pag = page.querySelector('.pagination');
   if (pag) {
     const span = pag.querySelector('span');
-    if (span && /共\s*\d+\s*条/.test(span.textContent)) span.textContent = '共 ' + visible + ' 条';
+    if (span && /共\s*\d+\s*条/.test(span.textContent))
+      span.textContent = (lang === 'en') ? ('Total ' + visible + ' items') : ('共 ' + visible + ' 条');
   }
 }
 
@@ -3524,17 +4506,22 @@ function initStaticLangRows() {
 
 // 单页配置型页面（学院介绍 / 联系我们）：中英文内容分别填写
 function setFormLang(pageId, lang) {
+  applyTableHeaders(pageId, lang);
   const page = document.getElementById(pageId);
   if (!page) return;
   const prev = PAGE_LANG[pageId] || 'zh';
   if (prev === lang) return;
   const fields = Array.from(page.querySelectorAll('.card-body input.form-input, .card-body textarea.form-textarea'));
+  const rts = Array.from(page.querySelectorAll('.card-body .rt-content'));
   FORM_LANG_CACHE[pageId] = FORM_LANG_CACHE[pageId] || {};
-  FORM_LANG_CACHE[pageId][prev] = fields.map(f => f.value);
+  FORM_LANG_CACHE[pageId][prev] = { v: fields.map(f => f.value), rt: rts.map(r => r.innerHTML) };
   PAGE_LANG[pageId] = lang;
   syncLangTabs(pageId);
   const cached = FORM_LANG_CACHE[pageId][lang];
-  fields.forEach((f, i) => { f.value = cached ? (cached[i] || '') : ''; });
+  const cv = cached && cached.v ? cached.v : null;
+  const cr = cached && cached.rt ? cached.rt : null;
+  fields.forEach((f, i) => { f.value = cv ? (cv[i] || '') : ''; });
+  rts.forEach((r, i) => { r.innerHTML = cr ? (cr[i] || '') : ''; });
   showToast(lang === 'en' ? '已切换到「英文内容」，可独立维护英文版本' : '已切换到「中文内容」', 'success');
 }
 
@@ -3762,67 +4749,47 @@ function removeChemTeachingModule(btn){
   if (m) m.remove();
 }
 
-/* --- 2. 使命与价值观：数据信息 / 内容信息 表格行增删改 --- */
+/* --- 2. 使命与价值观：数据信息 表格行增删改 --- */
 let chemMissionCtx = null;
 function openChemMissionRowForm(kind, mode, tr){
-  chemMissionCtx = { kind: kind, mode: mode, tr: tr || null };
+  chemMissionCtx = { kind: kind || 'data', mode: mode, tr: tr || null };
   const en = chemIsEn('page-chem-mission');
   const t = document.getElementById('chemMissionRowTitle');
-  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit ' : '编辑') : (en ? 'Add ' : '新增')) + (kind === 'data' ? (en ? 'Data' : '数据') : (en ? 'Content' : '内容'));
-  const df = document.getElementById('cmr-data-fields');
-  const cf = document.getElementById('cmr-content-fields');
-  if (df) df.style.display = kind === 'data' ? '' : 'none';
-  if (cf) cf.style.display = kind === 'content' ? '' : 'none';
-  ['cmr-title','cmr-value','cmr-sort','cmr-ctitle','cmr-csort','cmr-cintro','cmr-clink'].forEach(function(id){ chemSetVal(id, ''); });
+  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit ' : '编辑') : (en ? 'Add ' : '新增')) + (en ? 'Data' : '数据');
+  ['cmr-title','cmr-value','cmr-sort'].forEach(function(id){ chemSetVal(id, ''); });
   if (mode === 'edit' && tr){
     const td = tr.querySelectorAll('td');
-    if (kind === 'data'){ chemSetVal('cmr-title', td[0].textContent.trim()); chemSetVal('cmr-value', td[1].textContent.trim()); chemSetVal('cmr-sort', td[2].textContent.trim()); }
-    else { chemSetVal('cmr-ctitle', td[0].textContent.trim()); chemSetVal('cmr-csort', td[1].textContent.trim()); chemSetVal('cmr-cintro', td[2].textContent.trim()); chemSetVal('cmr-clink', td[3].textContent.trim()); }
+    chemSetVal('cmr-title', td[0].textContent.trim());
+    chemSetVal('cmr-value', td[1].textContent.trim());
+    chemSetVal('cmr-sort', td[2].textContent.trim());
   }
   showModal('chemMissionRowModal');
 }
 function chemMissionRowHtml(kind, v){
-  const acts = '<td class="actions"><button class="link-action" onclick="openChemMissionRowForm(\'' + kind + '\',\'edit\',this.closest(\'tr\'))">编辑</button><button class="link-action danger" onclick="deleteChemMissionRow(this)">删除</button></td>';
-  if (kind === 'data') return '<tr><td>' + chemEsc(v.a) + '</td><td>' + chemEsc(v.b) + '</td><td>' + chemEsc(v.c) + '</td>' + acts + '</tr>';
-  return '<tr><td>' + chemEsc(v.a) + '</td><td>' + chemEsc(v.b) + '</td><td>' + chemEsc(v.c) + '</td><td>' + chemEsc(v.d) + '</td>' + acts + '</tr>';
+  const acts = '<td class="actions"><button class="link-action" onclick="openChemMissionRowForm(\'' + (kind || 'data') + '\',\'edit\',this.closest(\'tr\'))">编辑</button><button class="link-action danger" onclick="deleteChemMissionRow(this)">删除</button></td>';
+  return '<tr><td>' + chemEsc(v.a) + '</td><td>' + chemEsc(v.b) + '</td><td>' + chemEsc(v.c) + '</td>' + acts + '</tr>';
 }
 function saveChemMissionRowForm(){
   if (!chemMissionCtx) return;
-  const ctx = chemMissionCtx, mode = ctx.mode, tr = ctx.tr, kind = ctx.kind;
+  const ctx = chemMissionCtx, mode = ctx.mode, tr = ctx.tr, kind = ctx.kind || 'data';
   const page = document.getElementById('page-chem-mission');
   const table = page && page.querySelector('table[data-kind="' + kind + '"]');
   if (!table) return;
   const tbody = table.querySelector('tbody');
-  let v;
-  if (kind === 'data'){
-    v = { a: chemVal('cmr-title'), b: chemVal('cmr-value'), c: chemVal('cmr-sort') };
-    if (!v.a){ showToast('请输入标题', 'error'); return; }
-  } else {
-    v = { a: chemVal('cmr-ctitle'), b: chemVal('cmr-csort'), c: chemVal('cmr-cintro'), d: chemVal('cmr-clink') };
-    if (!v.a){ showToast('请输入标题', 'error'); return; }
-  }
+  const v = { a: chemVal('cmr-title'), b: chemVal('cmr-value'), c: chemVal('cmr-sort') };
+  if (!v.a){ showToast('请输入标题', 'error'); return; }
   const html = chemMissionRowHtml(kind, v);
   if (mode === 'edit' && tr) tr.outerHTML = html;
   else tbody.insertAdjacentHTML('beforeend', html);
-  chemUpdateCount(table);
   closeModal('chemMissionRowModal');
   showToast('保存成功', 'success');
 }
 function deleteChemMissionRow(btn){
   const tr = btn.closest('tr');
   openConfirm('确认删除', '确定要删除该条数据吗？', function(){
-    const table = tr.closest('table');
     tr.remove();
-    if (table) chemUpdateCount(table);
     showToast('已删除', 'success');
   });
-}
-function chemUpdateCount(table){
-  const box = table.closest('.card-body');
-  const span = box && box.querySelector('.pagination span');
-  if (!span) return;
-  const total = table.querySelectorAll('tbody tr').length;
-  span.textContent = /条|Total/.test(span.textContent) ? (span.textContent.indexOf('Total') === 0 ? ('Total ' + total + ' items') : ('共 ' + total + ' 条数据')) : span.textContent;
 }
 function initChemMissionRows(){
   const page = document.getElementById('page-chem-mission');
@@ -3841,31 +4808,31 @@ function initChemMissionRows(){
 const CHEM_GOV = {
   lang: 'zh',
   zh: [
-    { name:'委员会', type:'-', sort:2, pub:true,  time:'2025-03-17 19:58:35', creator:'admin' },
-    { name:'委员会', type:'党委会', sort:3, pub:false, time:'2025-08-18 14:16:04', creator:'admin' },
-    { name:'委员1会', type:'院级委员会', sort:3, pub:true,  time:'2025-03-26 23:09:10', creator:'admin' },
-    { name:'委员会', type:'-', sort:4, pub:false, time:'2025-03-17 19:58:57', creator:'admin' },
-    { name:'奖学金评审委员会', type:'党委会', sort:5, pub:false, time:'2025-07-24 11:50:48', creator:'admin' },
-    { name:'测试', type:'党委会', sort:6, pub:false, time:'2025-07-21 15:54:06', creator:'admin' },
-    { name:'测试', type:'党委会', sort:7, pub:false, time:'2025-07-01 10:13:20', creator:'admin' },
-    { name:'学术委员会', type:'院级委员会', sort:8, pub:true,  time:'2025-03-17 19:58:59', creator:'admin' },
-    { name:'院级委员会', type:'院级委员会', sort:10, pub:true, time:'2025-06-23 16:09:00', creator:'admin' },
-    { name:'院级委员会', type:'院级委员会', sort:11, pub:true, time:'2025-06-23 16:08:20', creator:'admin' }
+    { name:'委员会', sort:2, pub:true,  time:'2025-03-17 19:58:35', creator:'admin' },
+    { name:'委员会', sort:3, pub:false, time:'2025-08-18 14:16:04', creator:'admin' },
+    { name:'委员1会', sort:3, pub:true,  time:'2025-03-26 23:09:10', creator:'admin' },
+    { name:'委员会', sort:4, pub:false, time:'2025-03-17 19:58:57', creator:'admin' },
+    { name:'奖学金评审委员会', sort:5, pub:false, time:'2025-07-24 11:50:48', creator:'admin' },
+    { name:'测试', sort:6, pub:false, time:'2025-07-21 15:54:06', creator:'admin' },
+    { name:'测试', sort:7, pub:false, time:'2025-07-01 10:13:20', creator:'admin' },
+    { name:'学术委员会', sort:8, pub:true,  time:'2025-03-17 19:58:59', creator:'admin' },
+    { name:'院级委员会', sort:10, pub:true, time:'2025-06-23 16:09:00', creator:'admin' },
+    { name:'院级委员会', sort:11, pub:true, time:'2025-06-23 16:08:20', creator:'admin' }
   ],
   en: [
-    { name:'Committee', type:'-', sort:2, pub:true,  time:'2025-03-17 19:58:35', creator:'admin' },
-    { name:'Committee', type:'Party Committee', sort:3, pub:false, time:'2025-08-18 14:16:04', creator:'admin' },
-    { name:'Committee 1', type:'Faculty Committee', sort:3, pub:true, time:'2025-03-26 23:09:10', creator:'admin' },
-    { name:'Committee', type:'-', sort:4, pub:false, time:'2025-03-17 19:58:57', creator:'admin' },
-    { name:'Scholarship Review Committee', type:'Party Committee', sort:5, pub:false, time:'2025-07-24 11:50:48', creator:'admin' },
-    { name:'Test', type:'Party Committee', sort:6, pub:false, time:'2025-07-21 15:54:06', creator:'admin' },
-    { name:'Test', type:'Party Committee', sort:7, pub:false, time:'2025-07-01 10:13:20', creator:'admin' },
-    { name:'Academic Committee', type:'Faculty Committee', sort:8, pub:true, time:'2025-03-17 19:58:59', creator:'admin' },
-    { name:'Faculty Committee', type:'Faculty Committee', sort:10, pub:true, time:'2025-06-23 16:09:00', creator:'admin' },
-    { name:'Faculty Committee', type:'Faculty Committee', sort:11, pub:true, time:'2025-06-23 16:08:20', creator:'admin' }
+    { name:'Committee', sort:2, pub:true,  time:'2025-03-17 19:58:35', creator:'admin' },
+    { name:'Committee', sort:3, pub:false, time:'2025-08-18 14:16:04', creator:'admin' },
+    { name:'Committee 1', sort:3, pub:true, time:'2025-03-26 23:09:10', creator:'admin' },
+    { name:'Committee', sort:4, pub:false, time:'2025-03-17 19:58:57', creator:'admin' },
+    { name:'Scholarship Review Committee', sort:5, pub:false, time:'2025-07-24 11:50:48', creator:'admin' },
+    { name:'Test', sort:6, pub:false, time:'2025-07-21 15:54:06', creator:'admin' },
+    { name:'Test', sort:7, pub:false, time:'2025-07-01 10:13:20', creator:'admin' },
+    { name:'Academic Committee', sort:8, pub:true, time:'2025-03-17 19:58:59', creator:'admin' },
+    { name:'Faculty Committee', sort:10, pub:true, time:'2025-06-23 16:09:00', creator:'admin' },
+    { name:'Faculty Committee', sort:11, pub:true, time:'2025-06-23 16:08:20', creator:'admin' }
   ]
 };
-function setChemGovLang(lang){ CHEM_GOV.lang = lang; PAGE_LANG['page-chem-governance'] = lang; syncLangTabs('page-chem-governance'); renderChemGov(); }
+function setChemGovLang(lang){ CHEM_GOV.lang = lang; PAGE_LANG['page-chem-governance'] = lang; syncLangTabs('page-chem-governance'); applyTableHeaders('page-chem-governance', lang); renderChemGov(); }
 function renderChemGov(){
   const page = document.getElementById('page-chem-governance');
   if (!page) return;
@@ -3875,7 +4842,7 @@ function renderChemGov(){
   tbody.innerHTML = rows.map(function(r, i){
     const label = r.pub ? (lang === 'en' ? 'Published' : '已发布') : (lang === 'en' ? 'Unpublished' : '未发布');
     const toggle = '<button class="link-action" onclick="chemGovToggle(' + i + ')">' + (r.pub ? (lang === 'en' ? 'Unpublish' : '取消发布') : (lang === 'en' ? 'Publish' : '发布')) + '</button>';
-    return '<tr data-lang="' + lang + '"><td>' + chemEsc(r.name) + '</td><td>' + chemEsc(r.type) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td>' + r.sort + '</td><td>' + label + '</td><td>' + r.time + '</td><td>' + chemEsc(r.creator) + '</td><td class="actions">' + toggle + '<button class="link-action" onclick="openChemGovernanceForm(\'edit\',' + i + ')">' + (lang === 'en' ? 'Edit' : '编辑') + '</button><button class="link-action danger" onclick="chemGovDelete(' + i + ')">' + (lang === 'en' ? 'Delete' : '删除') + '</button></td></tr>';
+    return '<tr data-lang="' + lang + '"><td>' + chemEsc(r.name) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td>' + r.sort + '</td><td>' + label + '</td><td>' + r.time + '</td><td>' + chemEsc(r.creator) + '</td><td class="actions">' + toggle + '<button class="link-action" onclick="openChemGovernanceForm(\'edit\',' + i + ')">' + (lang === 'en' ? 'Edit' : '编辑') + '</button><button class="link-action danger" onclick="chemGovDelete(' + i + ')">' + (lang === 'en' ? 'Delete' : '删除') + '</button></td></tr>';
   }).join('');
   const span = page.querySelector('.pagination span');
   if (span) span.textContent = (lang === 'en' ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
@@ -3887,14 +4854,11 @@ function openChemGovernanceForm(mode, idx){
   const lang = CHEM_GOV.lang, en = lang === 'en';
   chemGovCtx = { mode: mode, idx: typeof idx === 'number' ? idx : -1 };
   const t = document.getElementById('chemGovModalTitle');
-  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit Committee' : '编辑委员会') : (en ? 'Add Committee' : '新增委员会'));
+  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit' : '编辑') : (en ? 'Add' : '新增'));
   document.querySelectorAll('input[name="cg-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
-  ['cg-name','cg-head','cg-headtitle','cg-vice','cg-vicetitle','cg-members'].forEach(function(id){ chemSetVal(id, ''); });
-  document.querySelectorAll('input[name="cg-type"]').forEach(function(r, i){ r.checked = (i === 0); });
+  ['cg-name','cg-head','cg-headtitle','cg-members'].forEach(function(id){ chemSetVal(id, ''); });
   if (mode === 'edit' && CHEM_GOV[lang][idx]){
     chemSetVal('cg-name', CHEM_GOV[lang][idx].name);
-    const ty = CHEM_GOV[lang][idx].type;
-    document.querySelectorAll('input[name="cg-type"]').forEach(function(r){ r.checked = (r.value === ty); });
   }
   showModal('chemGovernanceModal');
 }
@@ -3902,12 +4866,10 @@ function saveChemGovernanceForm(){
   if (!chemGovCtx) return;
   const lang = CHEM_GOV.lang;
   const name = chemVal('cg-name');
-  if (!name){ showToast('请输入委员会名称', 'error'); return; }
-  const te = document.querySelector('input[name="cg-type"]:checked');
-  const type = te ? te.value : '-';
+  if (!name){ showToast('请输入名称', 'error'); return; }
   const rows = CHEM_GOV[lang];
-  if (chemGovCtx.mode === 'edit' && rows[chemGovCtx.idx]){ rows[chemGovCtx.idx].name = name; rows[chemGovCtx.idx].type = type; }
-  else { rows.unshift({ name: name, type: type, sort: rows.length + 1, pub: false, time: chemNow(), creator: 'admin' }); }
+  if (chemGovCtx.mode === 'edit' && rows[chemGovCtx.idx]){ rows[chemGovCtx.idx].name = name; }
+  else { rows.unshift({ name: name, sort: rows.length + 1, pub: false, time: chemNow(), creator: 'admin' }); }
   renderChemGov();
   closeModal('chemGovernanceModal');
   showToast('保存成功', 'success');
@@ -3917,37 +4879,47 @@ function saveChemGovernanceForm(){
 const CHEM_SCI = {
   lang: 'zh',
   zh: [
-    { sort:25, field:'有机化学', prof:1, pub:true, latest:'2025-08-19 17:12:33', created:'2024-12-27 10:15:02' },
-    { sort:23, field:'物理化学', prof:2, pub:true, latest:'2025-08-19 17:12:45', created:'2024-12-27 10:15:02' },
-    { sort:22, field:'化学生物学', prof:0, pub:true, latest:'2025-08-21 15:12:08', created:'2024-12-27 10:15:02' },
-    { sort:21, field:'无机化学', prof:1, pub:true, latest:'2025-08-19 17:12:51', created:'2024-12-27 10:15:02' },
-    { sort:20, field:'分析化学', prof:1, pub:true, latest:'2025-08-19 17:12:58', created:'2024-12-27 10:16:03' },
-    { sort:19, field:'高分子化学与物理', prof:0, pub:true, latest:'2025-01-06 15:22:41', created:'2024-12-27 10:16:03' }
+    { sort:3, field:'有机化学与化学生物学', prof:1, pub:true,  img:'organic-chemistry-chemical-biology.jpg', intro:'<p>聚焦有机合成方法学与化学生物学的交叉研究，发展生物大分子标记、成像与调控的新工具与新方法。</p>', latest:'2025-08-19 17:12:33', created:'2024-12-27 10:15:02' },
+    { sort:2, field:'材料与纳米科学', prof:2, pub:true,  img:'materials-nanoscience.jpg', intro:'<p>围绕功能材料与纳米结构的可控制备、先进表征与器件应用开展研究，探索能源、催化与环境领域的新材料体系。</p>', latest:'2025-08-19 17:12:45', created:'2024-12-27 10:15:02' },
+    { sort:1, field:'物理化学与计算化学', prof:0, pub:false, img:'', intro:'<p>结合理论计算与实验表征，研究化学反应动力学、表界面过程与复杂体系的多尺度模拟。</p>', latest:'2025-08-21 15:12:08', created:'2024-12-27 10:15:02' }
   ],
   en: [
-    { sort:25, field:'Organic Chemistry', prof:1, pub:true, latest:'2025-08-19 17:12:33', created:'2024-12-27 10:15:02' },
-    { sort:23, field:'Physical Chemistry', prof:2, pub:true, latest:'2025-08-19 17:12:45', created:'2024-12-27 10:15:02' },
-    { sort:22, field:'Chemical Biology', prof:0, pub:true, latest:'2025-08-21 15:12:08', created:'2024-12-27 10:15:02' },
-    { sort:21, field:'Inorganic Chemistry', prof:1, pub:true, latest:'2025-08-19 17:12:51', created:'2024-12-27 10:15:02' },
-    { sort:20, field:'Analytical Chemistry', prof:1, pub:true, latest:'2025-08-19 17:12:58', created:'2024-12-27 10:16:03' },
-    { sort:19, field:'Polymer Chemistry and Physics', prof:0, pub:true, latest:'2025-01-06 15:22:41', created:'2024-12-27 10:16:03' }
+    { sort:3, field:'Organic Chemistry and Chemical Biology', prof:1, pub:true,  img:'organic-chemistry-chemical-biology.jpg', intro:'<p>Focusing on the interface of synthetic methodology and chemical biology, developing new tools for labeling, imaging and regulating biomacromolecules.</p>', latest:'2025-08-19 17:12:33', created:'2024-12-27 10:15:02' },
+    { sort:2, field:'Materials and Nanoscience', prof:2, pub:true,  img:'materials-nanoscience.jpg', intro:'<p>Research on controllable preparation, advanced characterization and device applications of functional materials and nanostructures.</p>', latest:'2025-08-19 17:12:45', created:'2024-12-27 10:15:02' },
+    { sort:1, field:'Physical Chemistry and Computational Chemistry', prof:0, pub:false, img:'', intro:'<p>Combining theoretical computation with experiments to study chemical kinetics, interfacial processes and multiscale simulation of complex systems.</p>', latest:'2025-08-21 15:12:08', created:'2024-12-27 10:15:02' }
   ]
 };
-function setChemScienceLang(lang){ CHEM_SCI.lang = lang; PAGE_LANG['page-chem-science'] = lang; syncLangTabs('page-chem-science'); renderChemSci(); }
+function setChemScienceLang(lang){ CHEM_SCI.lang = lang; PAGE_LANG['page-chem-science'] = lang; syncLangTabs('page-chem-science'); applyTableHeaders('page-chem-science', lang); renderChemSci(); }
 function renderChemSci(){
   const page = document.getElementById('page-chem-science');
   if (!page) return;
-  const lang = CHEM_SCI.lang, rows = CHEM_SCI[lang];
+  const lang = CHEM_SCI.lang, en = lang === 'en';
+  const rows = CHEM_SCI[lang];
   const tbody = page.querySelector('table tbody');
   if (!tbody) return;
   tbody.innerHTML = rows.map(function(r, i){
-    const label = r.pub ? (lang === 'en' ? 'Published' : '已发布') : (lang === 'en' ? 'Unpublished' : '未发布');
-    return '<tr data-lang="' + lang + '"><td>' + r.sort + '</td><td>' + chemEsc(r.field) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td><button class="link-action" onclick="openChemProfessor(\'' + chemEsc(r.field).replace(/'/g, '') + '\')">' + r.prof + '</button></td><td>' + label + '</td><td>' + r.latest + '</td><td>' + r.created + '</td><td class="actions"><button class="link-action" onclick="showToast(\'' + (lang === 'en' ? 'Preview (demo)' : '预览（演示）') + '\',\'success\')">' + (lang === 'en' ? 'Preview' : '预览') + '</button><button class="link-action" onclick="chemSciDown(' + i + ')">' + (lang === 'en' ? 'Unpublish' : '下架') + '</button><button class="link-action" onclick="openChemResearchForm(\'edit\',' + i + ')">' + (lang === 'en' ? 'Copy' : '复制') + '</button></td></tr>';
+    const label = r.pub ? (en ? 'Published' : '已发布') : (en ? 'Unpublished' : '未发布');
+    const pubBtn = r.pub
+      ? '<button class="link-action" onclick="chemSciSetPub(' + i + ',false)">' + (en ? 'Unpublish' : '取消发布') + '</button>'
+      : '<button class="link-action" onclick="chemSciSetPub(' + i + ',true)">' + (en ? 'Publish' : '发布') + '</button>';
+    return '<tr data-lang="' + lang + '"><td>' + r.sort + '</td><td>' + chemEsc(r.field) + '</td><td>' + (en ? 'English' : '中文') + '</td>'
+      + '<td><button class="link-action link-underline" onclick="openChemProfessor(\'' + chemEsc(r.field).replace(/'/g, '') + '\')">' + r.prof + '</button></td>'
+      + '<td>' + label + '</td><td>' + r.latest + '</td><td>' + r.created + '</td>'
+      + '<td class="actions">' + pubBtn
+      + '<button class="link-action" onclick="openChemResearchForm(\'edit\',' + i + ')">' + (en ? 'Edit' : '编辑') + '</button></td></tr>';
   }).join('');
   const span = page.querySelector('.pagination span');
-  if (span) span.textContent = (lang === 'en' ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
+  if (span) span.textContent = (en ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
 }
-function chemSciDown(i){ CHEM_SCI[CHEM_SCI.lang][i].pub = false; renderChemSci(); showToast('已下架', 'success'); }
+function chemSciSetPub(i, pub){
+  const lang = CHEM_SCI.lang, en = lang === 'en';
+  const r = CHEM_SCI[lang][i];
+  if (!r) return;
+  r.pub = !!pub;
+  if (pub) r.latest = chemNow();
+  renderChemSci();
+  showToast(en ? (pub ? 'Published' : 'Unpublished') : (pub ? '已发布' : '已取消发布'), 'success');
+}
 let chemSciCtx = null;
 function openChemResearchForm(mode, idx){
   const lang = CHEM_SCI.lang, en = lang === 'en';
@@ -3957,10 +4929,23 @@ function openChemResearchForm(mode, idx){
   document.querySelectorAll('input[name="cr-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
   chemSetVal('cr-field', ''); chemSetVal('cr-sort', '');
   document.querySelectorAll('input[name="cr-status"]').forEach(function(r, i){ r.checked = (i === 0); });
+  const imgCur = document.getElementById('cr-img-current');
+  const rtBox = document.querySelector('#chemResearchModal .rt-content');
+  const rtBar = document.querySelector('#chemResearchModal .rt-linkbar');
+  if (rtBar) rtBar.style.display = 'none';
   if (mode === 'edit' && CHEM_SCI[lang][idx]){
-    chemSetVal('cr-field', CHEM_SCI[lang][idx].field);
-    chemSetVal('cr-sort', CHEM_SCI[lang][idx].sort);
-    document.querySelectorAll('input[name="cr-status"]').forEach(function(r){ r.checked = (r.value === (CHEM_SCI[lang][idx].pub ? 'pub' : 'unpub')); });
+    const row = CHEM_SCI[lang][idx];
+    chemSetVal('cr-field', row.field);
+    chemSetVal('cr-sort', row.sort);
+    document.querySelectorAll('input[name="cr-status"]').forEach(function(r){ r.checked = (r.value === (row.pub ? 'pub' : 'unpub')); });
+    if (imgCur){
+      if (row.img){ imgCur.style.display = 'block'; imgCur.textContent = (en ? 'Current image: ' : '当前图片：') + row.img; }
+      else { imgCur.style.display = 'none'; imgCur.textContent = ''; }
+    }
+    if (rtBox) rtBox.innerHTML = row.intro || '';
+  } else {
+    if (imgCur){ imgCur.style.display = 'none'; imgCur.textContent = ''; }
+    if (rtBox) rtBox.innerHTML = '';
   }
   showModal('chemResearchModal');
 }
@@ -3972,13 +4957,16 @@ function saveChemResearchForm(){
   const sort = chemVal('cr-sort') || '';
   const se = document.querySelector('input[name="cr-status"]:checked');
   const pub = se ? se.value === 'pub' : true;
+  const rtBox = document.querySelector('#chemResearchModal .rt-content');
+  const intro = rtBox ? rtBox.innerHTML.trim() : '';
   const rows = CHEM_SCI[lang];
   const now = chemNow();
   if (chemSciCtx.mode === 'edit' && rows[chemSciCtx.idx]){
     rows[chemSciCtx.idx].field = field; rows[chemSciCtx.idx].sort = sort; rows[chemSciCtx.idx].pub = pub; rows[chemSciCtx.idx].latest = now;
+    rows[chemSciCtx.idx].intro = intro;
     showToast(en ? 'Saved' : '保存成功', 'success');
   } else {
-    rows.unshift({ sort: sort, field: field, prof: 0, pub: pub, latest: now, created: now });
+    rows.unshift({ sort: sort, field: field, prof: 0, pub: pub, img: '', intro: intro, latest: now, created: now });
     showToast(en ? 'Created' : '创建成功', 'success');
   }
   renderChemSci();
@@ -4020,47 +5008,61 @@ function chemProfAdd(){
 }
 function chemProfDelete(i){ if (!chemProfCtx) return; chemProfData(chemProfCtx.field).splice(i, 1); renderChemProf(); showToast('已删除', 'success'); }
 
-/* --- 5. 教育教学（化学系·顶层）列表（中英文）+ 新增/编辑弹窗 --- */
-const CHEM_EDU = {
-  lang: 'zh',
-  zh: [
-    { title:'化学系本科生培养方案', type:'本科生', pub:true, hits:12, latest:'2026-09-17 09:54:03', pubdate:'2026-09-16' },
-    { title:'化学系研究生课程体系', type:'研究生', pub:true, hits:8, latest:'2026-09-15 10:10:42', pubdate:'2026-09-14' },
-    { title:'化学实验教学中心介绍', type:'本科生', pub:true, hits:5, latest:'2026-09-14 16:02:13', pubdate:'2026-09-14' },
-    { title:'本科生科研训练计划', type:'本科生', pub:true, hits:3, latest:'2026-09-14 18:41:42', pubdate:'2026-09-14' },
-    { title:'研究生学术写作课程', type:'研究生', pub:false, hits:0, latest:'2026-09-15 11:09:00', pubdate:'2026-09-07' },
-    { title:'暑期学校与短期项目', type:'短期项目', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
-    { title:'化学系 2027 年推免与培养衔接', type:'研究生', pub:true, hits:0, latest:'2026-09-17 09:54:12', pubdate:'2026-09-16' },
-    { title:'教育教学测试用', type:'本科生', pub:true, hits:4, latest:'2026-09-14 16:02:13', pubdate:'2026-09-14' }
-  ],
-  en: [
-    { title:'Undergraduate Training Program of the Department of Chemistry', type:'Undergraduate', pub:true, hits:12, latest:'2026-09-17 09:54:03', pubdate:'2026-09-16' },
-    { title:'Graduate Curriculum System of the Department of Chemistry', type:'Graduate', pub:true, hits:8, latest:'2026-09-15 10:10:42', pubdate:'2026-09-14' },
-    { title:'Introduction to the Chemistry Teaching Laboratory Center', type:'Undergraduate', pub:true, hits:5, latest:'2026-09-14 16:02:13', pubdate:'2026-09-14' },
-    { title:'Undergraduate Research Training Program', type:'Undergraduate', pub:true, hits:3, latest:'2026-09-14 18:41:42', pubdate:'2026-09-14' },
-    { title:'Academic Writing for Graduate Students', type:'Graduate', pub:false, hits:0, latest:'2026-09-15 11:09:00', pubdate:'2026-09-07' },
-    { title:'Summer School and Short-term Programs', type:'Short-term', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
-    { title:'2027 Recommended Admission and Training', type:'Graduate', pub:true, hits:0, latest:'2026-09-17 09:54:12', pubdate:'2026-09-16' },
-    { title:'Education Test Item', type:'Undergraduate', pub:true, hits:4, latest:'2026-09-14 16:02:13', pubdate:'2026-09-14' }
-  ]
+/* --- 5. 教育教学（化学系）四个培养类型子页：列表（中英文）+ 新增/编辑弹窗 --- */
+const CHEM_EDU_PAGES = {
+  'page-chem-edu-short':   { type:'短期项目', typeEn:'Short-term',    name:'短期项目',   nameEn:'Short-term Programs' }
 };
-function setChemEduLang(lang){ CHEM_EDU.lang = lang; PAGE_LANG['page-chem-edu'] = lang; syncLangTabs('page-chem-edu'); renderChemEdu(); }
-function renderChemEdu(){
-  const page = document.getElementById('page-chem-edu');
-  if (!page) return;
-  const lang = CHEM_EDU.lang, rows = CHEM_EDU[lang];
+const CHEM_EDU_LANG = {};
+const CHEM_EDU_DATA = {
+  'page-chem-edu-short': {
+    zh: [
+      { title:'暑期学校与短期项目', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
+      { title:'国际交流短期研修项目', pub:false, hits:0, latest:'2026-09-12 15:33:20', pubdate:'2026-09-11' }
+    ],
+    en: [
+      { title:'Summer School and Short-term Programs', pub:true, hits:0, latest:'2026-09-17 10:10:41', pubdate:'2026-09-16' },
+      { title:'International Short-term Exchange Program', pub:false, hits:0, latest:'2026-09-12 15:33:20', pubdate:'2026-09-11' }
+    ]
+  },
+};
+function setChemEduLang(pageId, lang){
+  CHEM_EDU_LANG[pageId] = lang;
+  PAGE_LANG[pageId] = lang;
+  syncLangTabs(pageId);
+  applyTableHeaders(pageId, lang);
+  renderChemEduList(pageId);
+}
+function renderChemEduList(pageId){
+  const d = CHEM_EDU_DATA[pageId];
+  const page = document.getElementById(pageId);
+  if (!d || !page) return;
+  const lang = CHEM_EDU_LANG[pageId] || 'zh', rows = d[lang];
   const tbody = page.querySelector('table tbody');
   if (!tbody) return;
   tbody.innerHTML = rows.map(function(r, i){
     const label = r.pub ? (lang === 'en' ? 'Published' : '已发布') : (lang === 'en' ? 'Unpublished' : '未发布');
-    const toggle = '<button class="link-action" onclick="chemEduToggle(' + i + ')">' + (r.pub ? (lang === 'en' ? 'Unpublish' : '取消发布') : (lang === 'en' ? 'Publish' : '发布')) + '</button>';
-    return '<tr data-lang="' + lang + '"><td>' + (i + 1) + '</td><td>' + chemEsc(r.title) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td>' + chemEsc(r.type) + '</td><td>' + label + '</td><td>' + r.hits + '</td><td>' + r.latest + '</td><td>' + r.pubdate + '</td><td class="actions">' + toggle + '<button class="link-action" onclick="openChemEduForm(\'edit\',' + i + ')">' + (lang === 'en' ? 'Edit' : '编辑') + '</button><button class="link-action danger" onclick="chemEduDelete(' + i + ')">' + (lang === 'en' ? 'Delete' : '删除') + '</button></td></tr>';
+    const toggle = '<button class="link-action" onclick="chemEduToggle(\'' + pageId + '\',' + i + ')">' + (r.pub ? (lang === 'en' ? 'Unpublish' : '取消发布') : (lang === 'en' ? 'Publish' : '发布')) + '</button>';
+    return '<tr data-lang="' + lang + '"><td>' + (i + 1) + '</td><td>' + chemEsc(r.title) + '</td><td>' + (lang === 'en' ? 'English' : '中文') + '</td><td>' + label + '</td><td>' + r.hits + '</td><td>' + r.latest + '</td><td>' + r.pubdate + '</td><td class="actions">' + toggle + '<button class="link-action" onclick="openChemEduForm(\'edit\',' + i + ',\'' + pageId + '\')">' + (lang === 'en' ? 'Edit' : '编辑') + '</button><button class="link-action danger" onclick="chemEduDelete(\'' + pageId + '\',' + i + ')">' + (lang === 'en' ? 'Delete' : '删除') + '</button></td></tr>';
   }).join('');
   const span = page.querySelector('.pagination span');
   if (span) span.textContent = (lang === 'en' ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
 }
-function chemEduToggle(i){ CHEM_EDU[CHEM_EDU.lang][i].pub = !CHEM_EDU[CHEM_EDU.lang][i].pub; renderChemEdu(); }
-function chemEduDelete(i){ openConfirm('确认删除', '确定要删除该条教育教学内容吗？', function(){ CHEM_EDU[CHEM_EDU.lang].splice(i, 1); renderChemEdu(); showToast('已删除', 'success'); }); }
+function chemEduToggle(pageId, i){
+  const d = CHEM_EDU_DATA[pageId];
+  if (!d) return;
+  const lang = CHEM_EDU_LANG[pageId] || 'zh';
+  d[lang][i].pub = !d[lang][i].pub;
+  renderChemEduList(pageId);
+}
+function chemEduDelete(pageId, i){
+  openConfirm('确认删除', '确定要删除该条内容吗？', function(){
+    const d = CHEM_EDU_DATA[pageId];
+    const lang = CHEM_EDU_LANG[pageId] || 'zh';
+    d[lang].splice(i, 1);
+    renderChemEduList(pageId);
+    showToast('已删除', 'success');
+  });
+}
 function chemEduToggleContent(){
   const ce = document.querySelector('input[name="ce-ctype"]:checked');
   const isRich = ce && ce.value === 'rich';
@@ -4070,43 +5072,416 @@ function chemEduToggleContent(){
   if (rf) rf.style.display = isRich ? '' : 'none';
 }
 let chemEduCtx = null;
-function openChemEduForm(mode, idx){
-  const lang = CHEM_EDU.lang, en = lang === 'en';
-  chemEduCtx = { mode: mode, idx: typeof idx === 'number' ? idx : -1 };
+function openChemEduForm(mode, idx, pageId){
+  pageId = pageId || 'page-chem-edu-short';
+  const cfg = CHEM_EDU_PAGES[pageId] || {};
+  const lang = CHEM_EDU_LANG[pageId] || 'zh', en = lang === 'en';
+  const name = en ? (cfg.nameEn || cfg.typeEn || '') : (cfg.name || cfg.type || '');
+  chemEduCtx = { mode: mode, idx: (typeof idx === 'number' ? idx : -1), pageId: pageId };
   const t = document.getElementById('chemEduModalTitle');
-  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit Education Content' : '编辑教育教学') : (en ? 'Add Education Content' : '新增教育教学'));
+  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit ' : '编辑') : (en ? 'Add ' : '新增')) + name;
   document.querySelectorAll('input[name="ce-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
   chemSetVal('ce-title', ''); chemSetVal('ce-intro', ''); chemSetVal('ce-time', ''); chemSetVal('ce-link', ''); chemSetVal('ce-rich', '');
-  document.querySelectorAll('input[name="ce-type"]').forEach(function(r, i){ r.checked = (i === 0); });
   const lr = document.querySelector('input[name="ce-ctype"][value="link"]');
   if (lr) lr.checked = true;
   chemEduToggleContent();
-  if (mode === 'edit' && CHEM_EDU[lang][idx]){
-    const r = CHEM_EDU[lang][idx];
-    chemSetVal('ce-title', r.title);
-    chemSetVal('ce-time', r.pubdate);
+  if (mode === 'edit') {
+    const d = CHEM_EDU_DATA[pageId];
+    if (d && d[lang] && d[lang][idx]) {
+      const r = d[lang][idx];
+      chemSetVal('ce-title', r.title);
+      chemSetVal('ce-time', r.pubdate);
+    }
   }
   showModal('chemEduModal');
 }
 function saveChemEduForm(){
   if (!chemEduCtx) return;
-  const lang = CHEM_EDU.lang, en = lang === 'en';
+  const pageId = chemEduCtx.pageId;
+  const d = CHEM_EDU_DATA[pageId];
+  if (!d) return;
+  const lang = CHEM_EDU_LANG[pageId] || 'zh', en = lang === 'en';
   const title = chemVal('ce-title');
   if (!title){ showToast(en ? 'Please enter title' : '请输入标题', 'error'); return; }
-  const te = document.querySelector('input[name="ce-type"]:checked');
-  const type = te ? te.value : '本科生';
   const time = chemVal('ce-time');
-  const rows = CHEM_EDU[lang];
+  const rows = d[lang];
   const now = chemNow();
   if (chemEduCtx.mode === 'edit' && rows[chemEduCtx.idx]){
-    rows[chemEduCtx.idx].title = title; rows[chemEduCtx.idx].type = type; rows[chemEduCtx.idx].latest = now; rows[chemEduCtx.idx].pubdate = time || rows[chemEduCtx.idx].pubdate;
+    rows[chemEduCtx.idx].title = title; rows[chemEduCtx.idx].latest = now;
+    rows[chemEduCtx.idx].pubdate = time || rows[chemEduCtx.idx].pubdate;
     showToast(en ? 'Saved' : '保存成功', 'success');
   } else {
-    rows.unshift({ title: title, type: type, pub: false, hits: 0, latest: now, pubdate: time || now.slice(0, 10) });
+    rows.unshift({ title: title, pub: false, hits: 0, latest: now, pubdate: time || now.slice(0, 10) });
     showToast(en ? 'Created' : '创建成功', 'success');
   }
-  renderChemEdu();
+  renderChemEduList(pageId);
   closeModal('chemEduModal');
+}
+
+/* --- 本科生培养：单页配置（无列表，对应客户端 /regular） --- */
+const CHEM_EDU_UG = {
+  lang: 'zh',
+  zh: {
+    progTitle: '化学专业本科项目',
+    progIntro: '化学是对变化的研究。作为国家战略性基础学科和创造新物质的学科，化学对推动生命和医学科学、材料与制造科学等领域交叉发展有着强有力的支撑作用，对国民经济和社会的可持续发展具有不可替代的作用。\n\n西湖大学化学专业旨在通过一流的课程和触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。在化学学科的核心内容，即合成化学、物理和理论化学、生物化学和材料化学的基础上，西湖大学还注重跨学科的联系，特别是与物理学科、生物医学科学的交叉。',
+    curTitle: '化学专业课程设计',
+    curIntro: '化学专业课程设计旨在教授学生化学实验的技艺和严谨的科学概念框架，这些是化学家们在原子和分子水平上理解、预测和操纵物质所需要的知识基础。化学的核心课程将围绕化学的主要分支学科来组织，并辅以必修的数学和物理课程。除了深入的核心培训外，还为学生提供了广泛多样的选修课和可选择的高级课程。这些选修课旨在让学生探索自己的兴趣，同时在相关科学学科中运用化学的概念和思维方法。',
+    courseName: '化学系本科生课程介绍',
+    courseUrl: 'https://chem.westlake.edu.cn/%E5%8C%96%E5%AD%A6%E7%B3%BB%E6%9C%AC%E7%A7%91%E7%94%9F%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D.pdf',
+    trainIntro: '化学专业为本科生提供了丰富的科研实训机会，包括但不限于：',
+    trainItems: [
+      { name:'科研训练I', credit:'1学分', grade:'1年级/冬' },
+      { name:'科研训练II', credit:'1学分', grade:'1年级/夏' },
+      { name:'科研训练III', credit:'2学分', grade:'2年级/冬' },
+      { name:'科研训练IV', credit:'2学分', grade:'2年级/夏' },
+      { name:'科研训练V', credit:'2学分', grade:'3年级/冬-夏' },
+      { name:'交叉学科前沿专题', credit:'1学分', grade:'2-4年级' },
+      { name:'专业认识实习', credit:'1学分', grade:'2年级/夏' },
+      { name:'毕业设计（论文）', credit:'8学分', grade:'4年级' }
+    ]
+  },
+  en: {
+    progTitle: 'Undergraduate Program in Chemistry',
+    progIntro: 'Chemistry is the study of change. As a national strategic fundamental discipline and the science of creating new substances, chemistry provides strong support for the interdisciplinary development of life and medical sciences, materials and manufacturing sciences, and plays an irreplaceable role in the sustainable development of the national economy and society.\n\nThe Undergraduate Program in Chemistry at Westlake University aims to equip students with a broad knowledge base and solid innovative research capabilities through first-class courses and research practice at the frontier of the discipline, cultivating top-notch innovative talents for the future. Building on the core of chemistry — synthetic chemistry, physical and theoretical chemistry, biochemistry and materials chemistry — Westlake University also emphasizes interdisciplinary connections, especially with physics and biomedical sciences.',
+    curTitle: 'Chemistry Curriculum Design',
+    curIntro: 'The chemistry curriculum is designed to teach students the craft of chemical experimentation and a rigorous conceptual framework, which are the knowledge foundations chemists need to understand, predict and manipulate matter at the atomic and molecular level. The core courses are organized around the main branches of chemistry, supplemented by required mathematics and physics courses. Beyond the in-depth core training, a wide variety of electives and advanced courses are offered for students to explore their interests while applying chemical concepts and ways of thinking in related scientific disciplines.',
+    courseName: 'Undergraduate Course Introduction (Chemistry)',
+    courseUrl: 'https://chem.westlake.edu.cn/%E5%8C%96%E5%AD%A6%E7%B3%BB%E6%9C%AC%E7%A7%91%E7%94%9F%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D.pdf',
+    trainIntro: 'The Department offers rich research training opportunities for undergraduates, including but not limited to:',
+    trainItems: [
+      { name:'Research Training I', credit:'1 credit', grade:'Grade 1 / Winter' },
+      { name:'Research Training II', credit:'1 credit', grade:'Grade 1 / Summer' },
+      { name:'Research Training III', credit:'2 credits', grade:'Grade 2 / Winter' },
+      { name:'Research Training IV', credit:'2 credits', grade:'Grade 2 / Summer' },
+      { name:'Research Training V', credit:'2 credits', grade:'Grade 3 / Winter–Summer' },
+      { name:'Frontiers of Interdisciplinary Topics', credit:'1 credit', grade:'Grades 2–4' },
+      { name:'Professional Internship', credit:'1 credit', grade:'Grade 2 / Summer' },
+      { name:'Graduation Design (Thesis)', credit:'8 credits', grade:'Grade 4' }
+    ]
+  }
+};
+function cueEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cueVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function cueSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
+function chemEduUgAddTrain(it){
+  it = it || { name:'', credit:'', grade:'' };
+  const row = document.createElement('div');
+  row.className = 'cue-train-row';
+  row.innerHTML =
+    '<input class="form-input ti-name" placeholder="请输入名称" value="'+cueEsc(it.name)+'">' +
+    '<input class="form-input ti-credit" style="width:120px" placeholder="学分" value="'+cueEsc(it.credit)+'">' +
+    '<input class="form-input ti-grade" style="width:150px" placeholder="年级/学期" value="'+cueEsc(it.grade)+'">' +
+    '<button type="button" class="link-action danger" onclick="chemEduUgRemoveTrain(this)">删除</button>';
+  document.getElementById('cue-train-list').appendChild(row);
+}
+function chemEduUgRemoveTrain(btn){ const r=btn.closest('.cue-train-row'); if(r) r.remove(); }
+function readChemEduUg(){
+  return {
+    progTitle: cueVal('cue-prog-title'),
+    progIntro: cueVal('cue-prog-intro'),
+    curTitle: cueVal('cue-cur-title'),
+    curIntro: cueVal('cue-cur-intro'),
+    courseName: cueVal('cue-course-name'),
+    courseUrl: cueVal('cue-course-url'),
+    trainIntro: cueVal('cue-train-intro'),
+    trainItems: Array.from(document.querySelectorAll('#cue-train-list .cue-train-row')).map(function(r){
+      return { name: r.querySelector('.ti-name').value.trim(), credit: r.querySelector('.ti-credit').value.trim(), grade: r.querySelector('.ti-grade').value.trim() };
+    })
+  };
+}
+function fillChemEduUg(d){
+  cueSet('cue-prog-title', d.progTitle);
+  cueSet('cue-prog-intro', d.progIntro);
+  cueSet('cue-cur-title', d.curTitle);
+  cueSet('cue-cur-intro', d.curIntro);
+  cueSet('cue-course-name', d.courseName);
+  cueSet('cue-course-url', d.courseUrl);
+  cueSet('cue-train-intro', d.trainIntro);
+  const list = document.getElementById('cue-train-list');
+  list.innerHTML = '';
+  (d.trainItems||[]).forEach(function(it){ chemEduUgAddTrain(it); });
+}
+function setChemEduUgLang(lang){
+  if (CHEM_EDU_UG[CHEM_EDU_UG.lang]) CHEM_EDU_UG[CHEM_EDU_UG.lang] = readChemEduUg();  // 保存当前语言内容
+  CHEM_EDU_UG.lang = lang;
+  fillChemEduUg(CHEM_EDU_UG[lang]);
+  const page = document.getElementById('page-chem-edu-ug');
+  if (page) page.querySelectorAll('input[name="cue-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
+  applyShellI18n('page-chem-edu-ug', lang);
+}
+function saveChemEduUg(){
+  if (CHEM_EDU_UG[CHEM_EDU_UG.lang]) CHEM_EDU_UG[CHEM_EDU_UG.lang] = readChemEduUg();  // 同步当前语言内容
+  const lang = CHEM_EDU_UG.lang, en = lang === 'en';
+  const d = CHEM_EDU_UG[lang];
+  if (!d.progTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.progIntro)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  if (!d.courseName) { showToast(en?'Please enter document name':'请输入文档名称', 'error'); return; }
+  if (!d.courseUrl)  { showToast(en?'Please enter document link':'请输入文档链接', 'error'); return; }
+  showToast(en?'Saved successfully':'内容已保存', 'success');
+}
+
+/* --- 研究生培养：单页配置（无列表，对应客户端 /academics） --- */
+const CHEM_EDU_PG = {
+  lang: 'zh',
+  zh: {
+    progTitle: '研究生项目',
+    progIntro: '西湖大学化学学科建立于2018年，2023年获批为一级学科博士学位授权点。学科面向全球招收博士研究生，通过一流的课程以及触及学科前沿的研究实践，让学生具备宽广的知识基础和扎实的创新研究能力，培养面向未来的一流拔尖创新人才。\n\n学科实行独立实验室（PI）制度，开展催化与合成、化学生物学、材料化学、理论与计算化学、实验物理化学等领域的研究，聚焦人类能源环境挑战关键问题，在仿生催化领域建立了世界顶尖学者领军团队，在发现和提高催化活性和选择性方面国际领先。西湖大学目前已经构建了完善的博士研究生奖助体系，除了国家奖学金、学业奖学金、国家助学金等资助体系外，学校还专门设立了西湖大学助学金和社会奖助学金，让每一位博士研究生都能够专注学业、潜心科研。',
+    applyText: '点击此处申请',
+    applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&',
+    admTitle: '招生方式',
+    admIntro: '化学学科（0703）按照一级学科独立招收培养博士研究生，通过“申请—考核”制选拔全日制非定向博士研究生，招生方式分为直接攻博、普通招考两类。',
+    links: [
+      { text: '招生信息', url: 'https://chem.westlake.edu.cn/admissions/0' },
+      { text: '化学系', url: 'https://chem.westlake.edu.cn/' },
+      { text: '理学院', url: 'https://science.westlake.edu.cn/index.shtml' },
+      { text: '西湖大学', url: 'https://www.westlake.edu.cn/' }
+    ],
+    modeTitle: '基本学习年限和培养方式',
+    yearBachelor: '5',
+    yearMaster: '4',
+    modeIntro: '化学专业博士研究生教育采用定导招生培养模式，本科起点博士研究生学制为5年，硕士起点博士研究生学制为4年。博士研究生导师是博士研究生培养的第一责任人，按照因材施教和个性化培养理念，积极参与制定执行博士研究生培养计划；指导博士研究生确定研究方向，深入开展研究；定期与博士研究生沟通交流，合理安排研究项目的时间节点。',
+    stageTitle: '培养过程主要环节',
+    stages: ['课程学习', '开题报告', '学术交流', '资格考试', '论文进展报告', '教学实践', '研究计划', '毕业答辩'],
+    courseTitle: '专业课程',
+    courses: [
+      { cat: '专业课', type: '必修', code: 'CHEM5019', name: '无机化学表征方法', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5020', name: '分子结构与反应机理', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5021', name: '化学生物学', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5022', name: '有机合成反应和策略', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5023', name: '金属有机化学', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5024', name: '分子光谱学与群论基础', credit: '3.0' },
+      { cat: '专业课', type: '必修', code: 'CHEM5025', name: '量子化学', credit: '3.0' },
+      { cat: '专业课', type: '选修', code: 'CHEM5026', name: '纳米材料导论', credit: '3.0' },
+      { cat: '专业课', type: '选修', code: 'CHEM5029', name: '天然产物合成', credit: '3.0' },
+      { cat: '专业课', type: '选修', code: 'CHEM5031', name: '高等无机化学II：金属酶与仿生催化', credit: '3.0' }
+    ],
+    devTitle: '学术培养与毕业发展',
+    devIntro: '学科支持每个学生参加国际会议或国际交流计划，广泛开展国内外学术交流，拓展国际视野；设立优秀博士毕业生发展基金，鼓励优秀博士毕业生到顶尖高校、研究机构开展博士后科研工作；鼓励学科交叉和自由探索，部分学生已获得国家自然科学基金青年学生基础研究项目（博士研究生）资助。截至2024年8月31日，化学系有毕业生34人，初次就业率为97.1%。'
+  },
+  en: {
+    progTitle: 'Graduate Programs',
+    progIntro: 'The Discipline of Chemistry at Westlake University was established in 2018 and was approved as a first-level authorized doctoral degree program in 2023. The department recruits PhD students globally. Through first-class courses and research practice at the frontier of the discipline, students acquire a broad knowledge base and solid innovative research capabilities, cultivating top-notch innovative talents for the future.\n\nThe department adopts an independent laboratory (PI) system, conducting research in catalysis and synthesis, chemical biology, materials chemistry, theoretical and computational chemistry, and experimental physical chemistry, focusing on key challenges in human energy and the environment. Westlake University has built a comprehensive financial aid system for PhD students, including national scholarships, academic scholarships and national stipends, as well as the Westlake University scholarship and social scholarships, enabling every PhD student to focus on study and research.',
+    applyText: 'Click here to apply',
+    applyUrl: 'https://gradadmission.westlake.edu.cn/psc/CSPRD/EMPLOYEE/SA/c/WL_CUSTOMIZE_MENU.WL_AD_LOGIN_COM.GBL?Page=WL_AD_LOGIN&Action=U&languageCd=ZHS&',
+    admTitle: 'Admissions',
+    admIntro: 'The Discipline of Chemistry (0703) recruits and trains PhD students independently as a first-level discipline. Full-time non-directed PhD students are selected through an "application–assessment" system, with two admission routes: direct doctoral admission and the regular examination.',
+    links: [
+      { text: 'Admissions Info', url: 'https://chem.westlake.edu.cn/admissions/0' },
+      { text: 'Department of Chemistry', url: 'https://chem.westlake.edu.cn/' },
+      { text: 'School of Science', url: 'https://science.westlake.edu.cn/index.shtml' },
+      { text: 'Westlake University', url: 'https://www.westlake.edu.cn/' }
+    ],
+    modeTitle: 'Duration of Study and Training Mode',
+    yearBachelor: '5',
+    yearMaster: '4',
+    modeIntro: 'Doctoral education in Chemistry adopts a fixed-advisor training model. The duration is 5 years for students entering with a bachelor’s degree and 4 years for those entering with a master’s degree. The doctoral advisor is the primary responsible person for the student’s training, actively participating in the formulation and execution of the training plan according to the principles of individualized cultivation.',
+    stageTitle: 'Main Stages of the Training Process',
+    stages: ['Coursework', 'Proposal Defense', 'Academic Exchange', 'Qualifying Examination', 'Thesis Progress Report', 'Teaching Practice', 'Research Plan', 'Graduation Defense'],
+    courseTitle: 'Courses',
+    courses: [
+      { cat: 'Major', type: '必修', code: 'CHEM5019', name: 'Inorganic Chemistry Characterization Methods', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5020', name: 'Molecular Structure and Reaction Mechanisms', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5021', name: 'Chemical Biology', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5022', name: 'Organic Synthesis Reactions and Strategies', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5023', name: 'Organometallic Chemistry', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5024', name: 'Molecular Spectroscopy and Group Theory Fundamentals', credit: '3.0' },
+      { cat: 'Major', type: '必修', code: 'CHEM5025', name: 'Quantum Chemistry', credit: '3.0' },
+      { cat: 'Major', type: '选修', code: 'CHEM5026', name: 'Introduction to Nanomaterials', credit: '3.0' },
+      { cat: 'Major', type: '选修', code: 'CHEM5029', name: 'Natural Product Synthesis', credit: '3.0' },
+      { cat: 'Major', type: '选修', code: 'CHEM5031', name: 'Advanced Inorganic Chemistry II: Metalloenzymes and Biomimetic Catalysis', credit: '3.0' }
+    ],
+    devTitle: 'Academic Training and Career Development',
+    devIntro: 'The department supports every student to participate in international conferences or exchange programs, conducting extensive academic exchanges at home and abroad to broaden international perspectives; it has established a development fund for outstanding doctoral graduates, encouraging them to pursue postdoctoral research at top universities and institutions. As of August 31, 2024, the Department of Chemistry has 34 graduates, with an initial employment rate of 97.1%.'
+  }
+};
+function cpgEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cpgVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function cpgSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
+function chemEduPgAddLink(it){
+  it = it || { text:'', url:'' };
+  const row = document.createElement('div');
+  row.className = 'cpg-link-row';
+  row.innerHTML =
+    '<input class="form-input" placeholder="链接文本" value="'+cpgEsc(it.text)+'">' +
+    '<input class="form-input" placeholder="链接地址" value="'+cpgEsc(it.url)+'">' +
+    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveLink(this)">删除</button>';
+  document.getElementById('cpg-link-list').appendChild(row);
+}
+function chemEduPgRemoveLink(btn){ const r=btn.closest('.cpg-link-row'); if(r) r.remove(); }
+function chemEduPgAddStage(it){
+  it = it || '';
+  const row = document.createElement('div');
+  row.className = 'cpg-stage-row';
+  row.innerHTML =
+    '<input class="form-input" placeholder="环节名称" value="'+cpgEsc(it)+'">' +
+    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveStage(this)">删除</button>';
+  document.getElementById('cpg-stage-list').appendChild(row);
+}
+function chemEduPgRemoveStage(btn){ const r=btn.closest('.cpg-stage-row'); if(r) r.remove(); }
+function chemEduPgAddCourse(it){
+  it = it || { cat:'', type:'必修', code:'', name:'', credit:'' };
+  const en = CHEM_EDU_PG && CHEM_EDU_PG.lang === 'en';
+  const t1 = en ? 'Required' : '必修', t2 = en ? 'Elective' : '选修';
+  const row = document.createElement('div');
+  row.className = 'cpg-course-row';
+  row.innerHTML =
+    '<input class="form-input" placeholder="课程类别" value="'+cpgEsc(it.cat)+'">' +
+    '<select class="form-input cpg-type"><option value="必修"'+((it.type||'必修')==='必修'?' selected':'')+'>'+t1+'</option><option value="选修"'+((it.type||'必修')==='选修'?' selected':'')+'>'+t2+'</option></select>' +
+    '<input class="form-input" placeholder="课程代码" value="'+cpgEsc(it.code)+'">' +
+    '<input class="form-input" placeholder="课程名称" value="'+cpgEsc(it.name)+'">' +
+    '<input class="form-input" placeholder="学分" value="'+cpgEsc(it.credit)+'">' +
+    '<button type="button" class="link-action danger" onclick="chemEduPgRemoveCourse(this)">✕</button>';
+  document.getElementById('cpg-course-list').appendChild(row);
+}
+function chemEduPgRemoveCourse(btn){ const r=btn.closest('.cpg-course-row'); if(r) r.remove(); }
+function readChemEduPg(){
+  return {
+    progTitle: cpgVal('cpg-prog-title'), progIntro: cpgVal('cpg-prog-intro'),
+    applyText: cpgVal('cpg-apply-text'), applyUrl: cpgVal('cpg-apply-url'),
+    admTitle: cpgVal('cpg-adm-title'), admIntro: cpgVal('cpg-adm-intro'),
+    links: Array.from(document.querySelectorAll('#cpg-link-list .cpg-link-row')).map(function(r){ return { text: r.children[0].value.trim(), url: r.children[1].value.trim() }; }),
+    modeTitle: cpgVal('cpg-mode-title'), yearBachelor: cpgVal('cpg-year-bachelor'), yearMaster: cpgVal('cpg-year-master'), modeIntro: cpgVal('cpg-mode-intro'),
+    stageTitle: cpgVal('cpg-stage-title'),
+    stages: Array.from(document.querySelectorAll('#cpg-stage-list .cpg-stage-row')).map(function(r){ return r.children[0].value.trim(); }),
+    courseTitle: cpgVal('cpg-course-title'),
+    courses: Array.from(document.querySelectorAll('#cpg-course-list .cpg-course-row')).map(function(r){
+      return { cat: r.children[0].value.trim(), type: r.querySelector('.cpg-type').value, code: r.children[2].value.trim(), name: r.children[3].value.trim(), credit: r.children[4].value.trim() };
+    }),
+    devTitle: cpgVal('cpg-dev-title'), devIntro: cpgVal('cpg-dev-intro')
+  };
+}
+function fillChemEduPg(d){
+  cpgSet('cpg-prog-title', d.progTitle); cpgSet('cpg-prog-intro', d.progIntro);
+  cpgSet('cpg-apply-text', d.applyText); cpgSet('cpg-apply-url', d.applyUrl);
+  cpgSet('cpg-adm-title', d.admTitle); cpgSet('cpg-adm-intro', d.admIntro);
+  const ll = document.getElementById('cpg-link-list'); ll.innerHTML = ''; (d.links||[]).forEach(function(it){ chemEduPgAddLink(it); });
+  cpgSet('cpg-mode-title', d.modeTitle); cpgSet('cpg-year-bachelor', d.yearBachelor); cpgSet('cpg-year-master', d.yearMaster); cpgSet('cpg-mode-intro', d.modeIntro);
+  cpgSet('cpg-stage-title', d.stageTitle);
+  const sl = document.getElementById('cpg-stage-list'); sl.innerHTML = ''; (d.stages||[]).forEach(function(it){ chemEduPgAddStage(it); });
+  cpgSet('cpg-course-title', d.courseTitle);
+  const cl = document.getElementById('cpg-course-list'); cl.innerHTML = ''; (d.courses||[]).forEach(function(it){ chemEduPgAddCourse(it); });
+  cpgSet('cpg-dev-title', d.devTitle); cpgSet('cpg-dev-intro', d.devIntro);
+}
+function setChemEduPgLang(lang){
+  if (CHEM_EDU_PG[CHEM_EDU_PG.lang]) CHEM_EDU_PG[CHEM_EDU_PG.lang] = readChemEduPg();  // 保存当前语言内容
+  CHEM_EDU_PG.lang = lang;
+  fillChemEduPg(CHEM_EDU_PG[lang]);
+  const page = document.getElementById('page-chem-edu-pg');
+  if (page) page.querySelectorAll('input[name="cpg-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
+  applyShellI18n('page-chem-edu-pg', lang);
+}
+function saveChemEduPg(){
+  if (CHEM_EDU_PG[CHEM_EDU_PG.lang]) CHEM_EDU_PG[CHEM_EDU_PG.lang] = readChemEduPg();  // 同步当前语言内容
+  const lang = CHEM_EDU_PG.lang, en = lang === 'en', d = CHEM_EDU_PG[lang];
+  if (!d.progTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.progIntro)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  if (!d.admTitle)   { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.admIntro)   { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  showToast(en?'Saved successfully':'内容已保存', 'success');
+}
+function initChemEduPg(){
+  CHEM_EDU_PG.lang = 'zh'; PAGE_LANG['page-chem-edu-pg'] = 'zh';
+  fillChemEduPg(CHEM_EDU_PG.zh);
+}
+
+/* --- 博士后项目：单页配置（无列表，对应客户端 /academic） --- */
+const CHEM_EDU_POSTDOC = {
+  lang: 'zh',
+  zh: {
+    introTitle: '博士后项目',
+    introContent: '化学系的多元研究项目欢迎来自世界各地的博士后学者。若有意申请博士后职位，可以直接与感兴趣的教师联系。每位教师的联系信息都可以在我们的教师页面上找到。西湖大学化学系欢迎你的加入',
+    matTitle: '申请材料',
+    matIntro: '申请人应提交以下材料：',
+    materials: [
+      '个人简历（CV）',
+      '两位与申请人在同一研究领域的学者的推荐信',
+      '博士学位证书',
+      '尚未获得博士学位证书的申请人，应提供其学校出具的博士学位授予已获得批准的证明文件',
+      '获得海外（包括香港、台湾和澳门）博士学位的申请人，还应提供教育部留学服务中心出具的学历证书认证；外国人也可以提交在中国驻外大使馆和领事馆颁发的学位证书',
+      '护照（仅外国人）'
+    ],
+    salTitle: '薪酬与资助',
+    salContent: '该研究团队将根据所选候选人的资格和经验提供有竞争力的薪酬待遇。鼓励并支持有关项目和计划的申请。\n\n获得中国博士后科学基金会或浙江省博士后研究项目选派资助的博士后将有资格从杭州市政府获得同等金额的支持资金。\n\n在完成博士后研究后全职在杭州工作的博士后将有资格向杭州市政府申请40万元的津贴。',
+    conTitle: '联系方式',
+    conContent: '有关具体职位描述和要求，请联系您想申请的研究团队。',
+    conLinkText: '获取更详细的信息',
+    conLinkUrl: 'https://www.westlake.edu.cn/careers/OpenPositions/?keywords='
+  },
+  en: {
+    introTitle: 'Postdoctoral Program',
+    introContent: 'The diverse research programs of the Department of Chemistry welcome postdoctoral scholars from around the world. If you are interested in applying for a postdoctoral position, you may contact the faculty member whose research interests you. Contact information for each faculty member can be found on our Faculty page. The Department of Chemistry at Westlake University welcomes you to join us.',
+    matTitle: 'Application Materials',
+    matIntro: 'Applicants should submit the following materials:',
+    materials: [
+      'Curriculum Vitae (CV)',
+      'Recommendation letters from two scholars in the same research field as the applicant',
+      'Doctoral degree certificate',
+      'Applicants who have not yet obtained a doctoral degree certificate should provide a certification from their university confirming that the doctoral degree has been approved',
+      'Applicants with a doctoral degree obtained overseas (including Hong Kong, Taiwan and Macau) should also provide a credential verification from the Chinese Service Center for Scholarly Exchange; foreign nationals may submit the degree certificate issued by Chinese embassies or consulates abroad',
+      'Passport (foreign nationals only)'
+    ],
+    salTitle: 'Salary & Funding',
+    salContent: 'The research group will provide a competitive salary based on the candidate’s qualifications and experience, and encourages and supports applications for relevant projects and programs.\n\nPostdoctoral researchers who receive funding from the China Postdoctoral Science Foundation or the Zhejiang Provincial Postdoctoral Research Project Selection Program will be eligible for matching support funds from the Hangzhou Municipal Government.\n\nPostdoctoral researchers who work full-time in Hangzhou after completing their postdoctoral research will be eligible to apply to the Hangzhou Municipal Government for a subsidy of 400,000 RMB.',
+    conTitle: 'Contact',
+    conContent: 'For specific position descriptions and requirements, please contact the research group you wish to apply to.',
+    conLinkText: 'Click here for more information',
+    conLinkUrl: 'https://www.westlake.edu.cn/careers/OpenPositions/?keywords='
+  }
+};
+function cpdEsc(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function cpdVal(id){ const e=document.getElementById(id); return e?e.value.trim():''; }
+function cpdSet(id,v){ const e=document.getElementById(id); if(e) e.value=v||''; }
+function chemEduPostdocAddMat(it){
+  it = it || '';
+  const row = document.createElement('div');
+  row.className = 'cpd-mat-row';
+  row.innerHTML =
+    '<input class="form-input" placeholder="请输入材料内容" value="'+cpdEsc(it)+'">' +
+    '<button type="button" class="link-action danger" onclick="chemEduPostdocRemoveMat(this)">删除</button>';
+  document.getElementById('cpd-mat-list').appendChild(row);
+}
+function chemEduPostdocRemoveMat(btn){ const r=btn.closest('.cpd-mat-row'); if(r) r.remove(); }
+function readChemEduPostdoc(){
+  return {
+    introTitle: cpdVal('cpd-intro-title'), introContent: cpdVal('cpd-intro-content'),
+    matTitle: cpdVal('cpd-mat-title'), matIntro: cpdVal('cpd-mat-intro'),
+    materials: Array.from(document.querySelectorAll('#cpd-mat-list .cpd-mat-row')).map(function(r){ return r.children[0].value.trim(); }),
+    salTitle: cpdVal('cpd-sal-title'), salContent: cpdVal('cpd-sal-content'),
+    conTitle: cpdVal('cpd-con-title'), conContent: cpdVal('cpd-con-content'),
+    conLinkText: cpdVal('cpd-con-linktext'), conLinkUrl: cpdVal('cpd-con-linkurl')
+  };
+}
+function fillChemEduPostdoc(d){
+  cpdSet('cpd-intro-title', d.introTitle); cpdSet('cpd-intro-content', d.introContent);
+  cpdSet('cpd-mat-title', d.matTitle); cpdSet('cpd-mat-intro', d.matIntro);
+  const ml = document.getElementById('cpd-mat-list'); ml.innerHTML = ''; (d.materials||[]).forEach(function(it){ chemEduPostdocAddMat(it); });
+  cpdSet('cpd-sal-title', d.salTitle); cpdSet('cpd-sal-content', d.salContent);
+  cpdSet('cpd-con-title', d.conTitle); cpdSet('cpd-con-content', d.conContent);
+  cpdSet('cpd-con-linktext', d.conLinkText); cpdSet('cpd-con-linkurl', d.conLinkUrl);
+}
+function setChemEduPostdocLang(lang){
+  if (CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang]) CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang] = readChemEduPostdoc();  // 保存当前语言内容
+  CHEM_EDU_POSTDOC.lang = lang;
+  fillChemEduPostdoc(CHEM_EDU_POSTDOC[lang]);
+  const page = document.getElementById('page-chem-edu-postdoc');
+  if (page) page.querySelectorAll('input[name="cpd-lang"]').forEach(function(r){ r.checked = (r.value === lang); });
+  applyShellI18n('page-chem-edu-postdoc', lang);
+}
+function saveChemEduPostdoc(){
+  if (CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang]) CHEM_EDU_POSTDOC[CHEM_EDU_POSTDOC.lang] = readChemEduPostdoc();  // 同步当前语言内容
+  const lang = CHEM_EDU_POSTDOC.lang, en = lang === 'en', d = CHEM_EDU_POSTDOC[lang];
+  if (!d.introTitle)  { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.introContent){ showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  if (!d.matTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.salTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.salContent)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  if (!d.conTitle)    { showToast(en?'Please enter section title':'请输入板块标题', 'error'); return; }
+  if (!d.conContent)  { showToast(en?'Please enter section content':'请输入板块内容', 'error'); return; }
+  showToast(en?'Saved successfully':'内容已保存', 'success');
+}
+function initChemEduPostdoc(){
+  CHEM_EDU_POSTDOC.lang = 'zh'; PAGE_LANG['page-chem-edu-postdoc'] = 'zh';
+  fillChemEduPostdoc(CHEM_EDU_POSTDOC.zh);
 }
 
 /* --- 初始化化学系新增页面 --- */
@@ -4117,10 +5492,233 @@ function initChemPages(){
   if (document.getElementById('page-chem-science')){
     PAGE_LANG['page-chem-science'] = 'zh'; syncLangTabs('page-chem-science'); renderChemSci();
   }
-  if (document.getElementById('page-chem-edu')){
-    PAGE_LANG['page-chem-edu'] = 'zh'; syncLangTabs('page-chem-edu'); renderChemEdu();
+  // 本科生培养：单页配置（不走列表渲染）
+  if (document.getElementById('page-chem-edu-ug')){
+    CHEM_EDU_UG.lang = 'zh'; PAGE_LANG['page-chem-edu-ug'] = 'zh';
+    fillChemEduUg(CHEM_EDU_UG.zh);
+  }
+  ['page-chem-edu-short'].forEach(function(pid){
+    if (document.getElementById(pid)){
+      CHEM_EDU_LANG[pid] = 'zh'; PAGE_LANG[pid] = 'zh'; syncLangTabs(pid); renderChemEduList(pid);
+    }
+  });
+  if (document.getElementById('page-chem-edu-pg')) initChemEduPg();
+  if (document.getElementById('page-chem-edu-postdoc')) initChemEduPostdoc();
+  if (document.getElementById('page-chem-center')){
+    PAGE_LANG['page-chem-center'] = 'zh'; syncLangTabs('page-chem-center'); renderChemCenter();
   }
   initChemMissionRows();
+}
+
+
+/* ===== 招贤纳士：富文本编辑器工具栏（contenteditable + execCommand） ===== */
+function rtEditor(btn){ return btn.closest('.rt-editor'); }
+function rtBox(btn){ const e = rtEditor(btn); return e ? e.querySelector('.rt-content') : null; }
+function rtCmd(cmd, btn){
+  const box = rtBox(btn);
+  if (!box) return;
+  box.focus();
+  try { document.execCommand(cmd, false, null); } catch (e) {}
+}
+function rtLink(btn){
+  const ed = rtEditor(btn);
+  if (!ed) return;
+  const bar = ed.querySelector('.rt-linkbar');
+  const box = ed.querySelector('.rt-content');
+  if (box) box.focus();
+  if (bar){
+    const show = bar.style.display === 'none';
+    bar.style.display = show ? 'flex' : 'none';
+    if (show){ const i = bar.querySelector('.rt-link-input'); if (i){ i.value = ''; i.focus(); } }
+  }
+}
+function rtLinkApply(btn){
+  const ed = rtEditor(btn);
+  if (!ed) return;
+  const bar = ed.querySelector('.rt-linkbar');
+  const box = ed.querySelector('.rt-content');
+  const input = ed.querySelector('.rt-link-input');
+  const url = input ? input.value.trim() : '';
+  if (!url){ showToast('请输入链接地址', 'error'); return; }
+  if (box){ box.focus(); try { document.execCommand('createLink', false, url); } catch (e) {} }
+  if (bar) bar.style.display = 'none';
+  showToast('已插入链接', 'success');
+}
+function rtLinkCancel(btn){
+  const bar = rtEditor(btn) && rtEditor(btn).querySelector('.rt-linkbar');
+  if (bar) bar.style.display = 'none';
+}
+
+/* --- 7. 系主任（化学系简介）：单页配置 + 语言 radio 切换 --- */
+function setChemDeanLang(lang) {
+  setFormLang('page-chem-dean', lang);
+  syncChemDeanLangRadio(lang);
+}
+function syncChemDeanLangRadio(lang) {
+  const page = document.getElementById('page-chem-dean');
+  if (!page) return;
+  page.querySelectorAll('input[name="cd-lang"]').forEach(r => { r.checked = (r.value === lang); });
+}
+function saveChemDean() {
+  const page = document.getElementById('page-chem-dean');
+  if (!page) return;
+  const lang = (page.querySelector('input[name="cd-lang"]:checked') || {}).value || 'zh';
+  const val = function (id) { const e = document.getElementById(id); return e ? e.value.trim() : ''; };
+  if (!val('cd-surname')) { showToast('请输入姓', 'error'); return; }
+  if (!val('cd-given'))   { showToast('请输入名', 'error'); return; }
+  if (!val('cd-bio'))     { showToast('请输入介绍', 'error'); return; }
+  showToast(lang === 'en' ? 'Saved successfully' : '内容已保存', 'success');
+}
+
+/* --- 6. 中心与设施（化学系·科学研究）：列表（中英文）+ 新增/编辑弹窗（多图上传） --- */
+const CHEM_CENTER = {
+  lang: 'zh',
+  zh: [
+    { title:'化学分析与测试中心', type:'center',   pub:true,  imgs:['analysis-center-1.jpg','analysis-center-2.jpg'], desc:'<p>面向全校开放的公共分析测试平台，提供核磁共振、质谱、X 射线衍射等大型仪器的测试与分析服务。</p>', link:'/research/centers/analysis', latest:'2026-09-18 10:12:30', created:'2024-12-27 10:15:02' },
+    { title:'分子科学研究中心',   type:'center',   pub:false, imgs:['molecular-center-1.jpg'], desc:'<p>围绕分子合成、组装与功能的交叉研究平台，支撑化学与生命科学的跨学科合作。</p>', link:'', latest:'2026-09-17 15:40:08', created:'2025-03-11 09:22:14' },
+    { title:'高性能计算平台',     type:'facility', pub:true,  imgs:['hpc-1.jpg','hpc-2.jpg','hpc-3.jpg'], desc:'<p>面向理论化学与计算材料学的 GPU 计算集群，提供第一性原理计算与分子动力学模拟资源。</p>', link:'/research/facilities/hpc', latest:'2026-09-16 11:05:52', created:'2025-01-20 14:03:41' },
+    { title:'核磁共振谱仪平台',   type:'facility', pub:false, imgs:[], desc:'<p>配备 400MHz / 600MHz 液体与固体核磁谱仪，支持结构解析与小分子动力学研究。</p>', link:'', latest:'2026-09-15 09:18:27', created:'2025-02-06 16:47:09' },
+    { title:'化学生物学交叉实验室', type:'center', pub:true,  imgs:['chembio-1.jpg'], desc:'<p>聚焦化学生物学前沿方向的开放实验室，开展生物大分子标记与成像技术研究。</p>', link:'/research/centers/chemical-biology', latest:'2026-09-14 17:33:11', created:'2025-04-02 10:09:55' }
+  ],
+  en: [
+    { title:'Center for Chemical Analysis and Testing', type:'center',   pub:true,  imgs:['analysis-center-1.jpg','analysis-center-2.jpg'], desc:'<p>A shared analytical platform providing NMR, mass spectrometry and X-ray diffraction services for the whole university.</p>', link:'/research/centers/analysis', latest:'2026-09-18 10:12:30', created:'2024-12-27 10:15:02' },
+    { title:'Center for Molecular Science',             type:'center',   pub:false, imgs:['molecular-center-1.jpg'], desc:'<p>An interdisciplinary platform for molecular synthesis, assembly and function.</p>', link:'', latest:'2026-09-17 15:40:08', created:'2025-03-11 09:22:14' },
+    { title:'High Performance Computing Platform',      type:'facility', pub:true,  imgs:['hpc-1.jpg','hpc-2.jpg','hpc-3.jpg'], desc:'<p>A GPU cluster supporting first-principles calculations and molecular dynamics simulations.</p>', link:'/research/facilities/hpc', latest:'2026-09-16 11:05:52', created:'2025-01-20 14:03:41' },
+    { title:'NMR Spectrometer Platform',                type:'facility', pub:false, imgs:[], desc:'<p>Equipped with 400MHz / 600MHz liquid and solid-state NMR spectrometers.</p>', link:'', latest:'2026-09-15 09:18:27', created:'2025-02-06 16:47:09' },
+    { title:'Chemical Biology Laboratory',              type:'center',   pub:true,  imgs:['chembio-1.jpg'], desc:'<p>An open laboratory focusing on biomacromolecule labeling and imaging.</p>', link:'/research/centers/chemical-biology', latest:'2026-09-14 17:33:11', created:'2025-04-02 10:09:55' }
+  ]
+};
+function ccTypeLabel(type, en){
+  if (type === 'facility') return en ? 'Research Facilities' : '研究设施';
+  return en ? 'Centers and Key Laboratories' : '中心和重点实验室';
+}
+function setChemCenterLang(lang){ CHEM_CENTER.lang = lang; PAGE_LANG['page-chem-center'] = lang; syncLangTabs('page-chem-center'); applyTableHeaders('page-chem-center', lang); renderChemCenter(); }
+function renderChemCenter(){
+  const page = document.getElementById('page-chem-center');
+  if (!page) return;
+  const lang = CHEM_CENTER.lang, en = lang === 'en';
+  const rows = CHEM_CENTER[lang];
+  const tbody = page.querySelector('table tbody');
+  if (!tbody) return;
+  tbody.innerHTML = rows.map(function(r, i){
+    const label = r.pub ? (en ? 'Published' : '已发布') : (en ? 'Unpublished' : '未发布');
+    const acts = r.pub
+      ? '<button class="link-action" onclick="chemCenterSetPub(' + i + ',false)">' + (en ? 'Unpublish' : '取消发布') + '</button>'
+      : '<button class="link-action" onclick="openChemCenterForm(\'edit\',' + i + ')">' + (en ? 'Edit' : '编辑') + '</button>'
+        + '<button class="link-action danger" onclick="chemCenterDelete(' + i + ')">' + (en ? 'Delete' : '删除') + '</button>'
+        + '<button class="link-action" onclick="chemCenterSetPub(' + i + ',true)">' + (en ? 'Publish' : '发布') + '</button>';
+    return '<tr data-lang="' + lang + '"><td>' + chemEsc(r.title) + '</td><td>' + ccTypeLabel(r.type, en) + '</td><td>' + label + '</td>'
+      + '<td>' + r.latest + '</td><td>' + r.created + '</td><td class="actions">' + acts + '</td></tr>';
+  }).join('');
+  const span = page.querySelector('.pagination span');
+  if (span) span.textContent = (en ? 'Total ' + rows.length + ' items' : '共 ' + rows.length + ' 条数据');
+}
+function chemCenterSetPub(i, pub){
+  const lang = CHEM_CENTER.lang, en = lang === 'en';
+  const r = CHEM_CENTER[lang][i];
+  if (!r) return;
+  r.pub = !!pub;
+  if (pub) r.latest = chemNow();
+  renderChemCenter();
+  showToast(en ? (pub ? 'Published' : 'Unpublished') : (pub ? '已发布' : '已取消发布'), 'success');
+}
+function chemCenterDelete(i){
+  const lang = CHEM_CENTER.lang, en = lang === 'en';
+  openConfirm('确认删除', en ? 'Delete this record?' : '确定要删除该条中心与设施内容吗？', function(){
+    CHEM_CENTER[lang].splice(i, 1);
+    renderChemCenter();
+    showToast(en ? 'Deleted' : '已删除', 'success');
+  });
+}
+let chemCenterCtx = null;
+let ccImgs = [];
+function ccRenderImgs(){
+  const list = document.getElementById('cc-img-list');
+  const add = document.getElementById('cc-img-add');
+  const cnt = document.getElementById('cc-img-count');
+  if (list) list.innerHTML = ccImgs.map(function(im, i){
+    return '<div class="mu-item">' + (im.url ? '<img src="' + im.url + '" alt="">' : '<div class="mu-ph">🖼</div>')
+      + '<button type="button" class="mu-del" onclick="ccRemoveImg(' + i + ')" title="删除">✕</button></div>';
+  }).join('');
+  if (add) add.classList.toggle('disabled', ccImgs.length >= 3);
+  if (cnt) cnt.textContent = '已上传 ' + ccImgs.length + '/3';
+}
+function ccPickImgs(input){
+  const files = Array.prototype.slice.call(input.files || []);
+  input.value = '';
+  if (!files.length) return;
+  let overflow = false;
+  files.forEach(function(f){
+    if (ccImgs.length >= 3){ overflow = true; return; }
+    if (f.size > 2 * 1024 * 1024){ showToast('「' + f.name + '」超过 2MB，已跳过', 'error'); return; }
+    ccImgs.push({ name: f.name, url: URL.createObjectURL(f) });
+  });
+  if (overflow) showToast('最多上传 3 张图片', 'error');
+  ccRenderImgs();
+}
+function ccRemoveImg(i){ ccImgs.splice(i, 1); ccRenderImgs(); }
+function openChemCenterForm(mode, idx){
+  const lang = CHEM_CENTER.lang, en = lang === 'en';
+  chemCenterCtx = { mode: mode, idx: typeof idx === 'number' ? idx : -1 };
+  const t = document.getElementById('chemCenterModalTitle');
+  if (t) t.textContent = (mode === 'edit' ? (en ? 'Edit Center & Facility' : '编辑中心与设施') : (en ? 'New Center & Facility' : '新建中心与设施'));
+  chemSetVal('cc-title', ''); chemSetVal('cc-link', '');
+  document.querySelectorAll('input[name="cc-type"]').forEach(function(r, i){ r.checked = (i === 0); });
+  ccImgs = [];
+  const rtBox = document.querySelector('#chemCenterModal .rt-content');
+  const rtBar = document.querySelector('#chemCenterModal .rt-linkbar');
+  if (rtBar) rtBar.style.display = 'none';
+  if (rtBox) rtBox.innerHTML = '';
+  if (mode === 'edit' && CHEM_CENTER[lang][idx]){
+    const row = CHEM_CENTER[lang][idx];
+    chemSetVal('cc-title', row.title);
+    chemSetVal('cc-link', row.link || '');
+    document.querySelectorAll('input[name="cc-type"]').forEach(function(r){ r.checked = (r.value === row.type); });
+    ccImgs = (row.imgs || []).map(function(n){ return { name: n, url: '' }; });
+    if (rtBox) rtBox.innerHTML = row.desc || '';
+  }
+  ccRenderImgs();
+  showModal('chemCenterModal');
+}
+function saveChemCenterForm(){
+  if (!chemCenterCtx) return;
+  const lang = CHEM_CENTER.lang, en = lang === 'en';
+  const title = chemVal('cc-title');
+  if (!title){ showToast(en ? 'Please enter the title' : '请输入标题', 'error'); return; }
+  const te = document.querySelector('input[name="cc-type"]:checked');
+  const type = te ? te.value : 'center';
+  const link = chemVal('cc-link') || '';
+  const rtBox = document.querySelector('#chemCenterModal .rt-content');
+  const desc = rtBox ? rtBox.innerHTML.trim() : '';
+  const imgs = ccImgs.map(function(im){ return im.name; });
+  const rows = CHEM_CENTER[lang];
+  const now = chemNow();
+  if (chemCenterCtx.mode === 'edit' && rows[chemCenterCtx.idx]){
+    const r = rows[chemCenterCtx.idx];
+    r.title = title; r.type = type; r.link = link; r.desc = desc; r.imgs = imgs; r.latest = now;
+    showToast(en ? 'Saved' : '保存成功', 'success');
+  } else {
+    rows.unshift({ title: title, type: type, pub: false, imgs: imgs, desc: desc, link: link, latest: now, created: now });
+    showToast(en ? 'Created' : '创建成功', 'success');
+  }
+  renderChemCenter();
+  closeModal('chemCenterModal');
+}
+
+/* --- 7. 页眉页脚：4 个 Logo 位图片选择（中文/英文 导航/页脚） --- */
+function hfPickLogo(input, key) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (file.size > 2 * 1024 * 1024) {
+    showToast('图片大小不能超过 2MB', 'error');
+    input.value = '';
+    return;
+  }
+  const img = document.getElementById('hf-img-' + key);
+  const ph = document.getElementById('hf-ph-' + key);
+  if (img) { img.src = URL.createObjectURL(file); img.style.display = 'block'; }
+  if (ph) ph.style.display = 'none';
+  showToast('图片上传成功', 'success');
 }
 
 /* ===== 租户初始化：渲染当前租户菜单，并按账号租户权限弹窗选择 ===== */
