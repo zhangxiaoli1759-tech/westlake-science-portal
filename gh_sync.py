@@ -38,6 +38,8 @@ API = "https://api.github.com"
 TRACKED_FILES = [
     ".gitignore",
     "PRD_理学院管理后台.md",
+    "PRD_化学系需求.html",
+    "需求文档_天文系9月份增补需求.html",
     "admin-prototype.html",
     "index.html",
     "website-homepage.html",
@@ -77,7 +79,7 @@ def api_request(path, token, method="GET", data=None):
 
     req = urllib.request.Request(url, data=body, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=180) as resp:
             return json.loads(resp.read())
     except urllib.error.HTTPError as e:
         detail = e.read().decode("utf-8", errors="replace")[:600]
