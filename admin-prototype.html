@@ -535,9 +535,8 @@ tr:hover td { background: #fafafa; }
 .cug-sec-del { margin-left: auto; }
 .cpg-sec-del { margin-left: auto; }
 .csh-add-wrap { padding: 2px 0 16px; }
-/* 科学研究展示（化学系 · 首页）：中英文切换置左、查询整行并入卡片头（去掉列表标题与新增按钮） */
-.crs-toolbar-inline { margin-bottom: 0; flex: 1; justify-content: flex-end; flex-wrap: nowrap; }
-.crs-toolbar-inline .search-box { flex: none; }
+/* 科学研究展示（化学系 · 首页）：需求下架中，页面仅保留占位说明（逻辑待跃临确认） */
+.crs-pending { padding: 60px 0; text-align: center; color: #94a3b8; font-size: 15px; }
 /* 使命与价值观：页面级「语言切换 + 保存」条（语言置顶，全页仅一个保存；中英文各一份数据） */
 .page-lang-bar {
   display: flex; align-items: center; gap: 16px;
@@ -1208,38 +1207,16 @@ tr:hover td { background: #fafafa; }
 <!-- ====== 化学系新增页面（5 个） ====== -->
     <!-- ===== 化学系新增页面：教育教学(首页) / 使命与价值观 / 治理架构 / 科学研究 / 教育教学 ===== -->
 
-    <!-- Page: 科学研究展示（化学系 · 首页，列表：样式参考新闻列表 —— 语言 tab 置左 / 无列表标题 / 无新增按钮 / 查询整行并入卡片头 / 操作只留「推送首页」） -->
+    <!-- Page: 科学研究展示（化学系 · 首页）：需求下架中，内容已清空，仅保留占位（逻辑待跃临确认） -->
     <div class="content-page" id="page-chem-research-show">
       <div class="breadcrumb">首页 / <span>科学研究展示</span></div>
-      <div class="page-header"><h2>科学研究展示</h2></div>
       <div class="card">
-        <div class="card-header">
-          <div class="lang-tabs">
-            <button type="button" class="lang-tab active" data-lang="zh" onclick="setChemResearchShowLang('zh')">中文</button>
-            <button type="button" class="lang-tab" data-lang="en" onclick="setChemResearchShowLang('en')">英文</button>
-          </div>
-          <div class="toolbar crs-toolbar-inline">
-            <div class="search-box"><span class="search-icon">🔍</span><input type="text" placeholder="搜索标题"></div>
-            <select class="form-select" style="width:130px"><option>请选择状态</option><option>已推送</option><option>未推送</option></select>
-            <button class="btn btn-primary">🔍 查询</button>
-            <button class="btn btn-outline">↻ 重置</button>
-          </div>
-        </div>
         <div class="card-body">
-          <table>
-            <thead><tr><th>标题</th><th>分类</th><th>状态</th><th>发布时间</th><th>操作</th></tr></thead>
-            <tbody>
-              <tr data-lang="zh"><td>手性分子精准合成新策略</td><td><span class="tag tag-info">科研动态</span></td><td><span class="tag tag-success">已推送</span></td><td>2026-08-08</td><td class="actions"><button class="link-action" onclick="chemResearchShowPush(0)">推送首页</button></td></tr>
-              <tr data-lang="zh"><td>新型钙钛矿太阳能电池效率突破</td><td><span class="tag tag-info">科研成果</span></td><td><span class="tag tag-warning">未推送</span></td><td>2026-08-03</td><td class="actions"><button class="link-action" onclick="chemResearchShowPush(1)">推送首页</button></td></tr>
-              <tr data-lang="zh"><td>化学生物学交叉研究平台建成启用</td><td><span class="tag tag-info">平台设施</span></td><td><span class="tag tag-success">已推送</span></td><td>2026-07-26</td><td class="actions"><button class="link-action" onclick="chemResearchShowPush(2)">推送首页</button></td></tr>
-            </tbody>
-          </table>
-          <div class="pagination"><span>共 3 条数据</span><button disabled>‹</button><button class="active">1</button><button>›</button><span style="margin-left:auto">10 条/页</span></div>
+          <div class="crs-pending">科学研究展示【待跃临确认逻辑】</div>
         </div>
       </div>
     </div>
 
-    <!-- Page: 教育教学（化学系 · 首页，单页配置，无列表） -->
     <div class="content-page" id="page-chem-teaching">
       <div class="breadcrumb">首页 / <span>教育教学</span></div>
       <div class="page-header"><h2>教育教学</h2></div>
@@ -4118,7 +4095,6 @@ const SHELL_EN = {
   '新增博士后项目': 'New Postdoctoral Program',
   '新增短期项目': 'New Short-term Program',
   '新建中心与设施': 'New Center / Facility',
-  '科学研究展示': 'Research Highlights',
   '搜索标题': 'Search title',
   '推送首页': 'Push to Homepage',
   '跳至': 'Go to',
@@ -5829,65 +5805,9 @@ function initChemPages(){
   if (document.getElementById('page-chem-center')){
     PAGE_LANG['page-chem-center'] = 'zh'; syncLangTabs('page-chem-center'); renderChemCenter();
   }
-  if (document.getElementById('page-chem-research-show')){
-    PAGE_LANG['page-chem-research-show'] = 'zh'; syncLangTabs('page-chem-research-show'); renderChemResearchShow();
-  }
   initChemMission();
 }
 
-
-/* ===== 科学研究展示（化学系 · 首页）：列表（中英文）+ 推送首页 ===== */
-const CHEM_RSHOW = {
-  lang: 'zh',
-  zh: [
-    { title: '手性分子精准合成新策略', cat: '科研动态', pushed: true,  time: '2026-08-08' },
-    { title: '新型钙钛矿太阳能电池效率突破', cat: '科研成果', pushed: false, time: '2026-08-03' },
-    { title: '化学生物学交叉研究平台建成启用', cat: '平台设施', pushed: true,  time: '2026-07-26' }
-  ],
-  en: [
-    { title: 'A New Strategy for Precise Synthesis of Chiral Molecules', cat: 'Research News', pushed: true,  time: '2026-08-08' },
-    { title: 'Efficiency Breakthrough in Perovskite Solar Cells', cat: 'Research Results', pushed: false, time: '2026-08-03' },
-    { title: 'Chemical Biology Research Platform Now in Operation', cat: 'Research Facilities', pushed: true,  time: '2026-07-26' }
-  ]
-};
-function setChemResearchShowLang(lang){
-  CHEM_RSHOW.lang = lang;
-  PAGE_LANG['page-chem-research-show'] = lang;
-  syncLangTabs('page-chem-research-show');
-  applyTableHeaders('page-chem-research-show', lang);
-  renderChemResearchShow();
-}
-function renderChemResearchShow(){
-  const page = document.getElementById('page-chem-research-show');
-  if (!page) return;
-  const lang = CHEM_RSHOW.lang, en = lang === 'en';
-  const rows = CHEM_RSHOW[lang];
-  const tbody = page.querySelector('table tbody');
-  if (!tbody) return;
-  tbody.innerHTML = rows.map(function(r, i){
-    const st = r.pushed ? '已推送' : '未推送';
-    const cls = r.pushed ? 'tag-success' : 'tag-warning';
-    return '<tr data-lang="' + lang + '"><td>' + chemEsc(r.title) + '</td>'
-      + '<td><span class="tag tag-info">' + chemEsc(r.cat) + '</span></td>'
-      + '<td><span class="tag ' + cls + '">' + st + '</span></td>'
-      + '<td>' + r.time + '</td>'
-      + '<td class="actions"><button class="link-action" onclick="chemResearchShowPush(' + i + ')">'
-      + '推送首页' + '</button></td></tr>';
-  }).join('');
-  const span = page.querySelector('.pagination span');
-  if (span) span.textContent = ('共 ' + rows.length + ' 条数据');
-}
-function chemResearchShowPush(i){
-  const lang = CHEM_RSHOW.lang, en = lang === 'en';
-  const r = CHEM_RSHOW[lang][i];
-  if (!r) return;
-  confirmPublish(r.title, function(){
-    r.pushed = true;
-    r.time = chemNow().slice(0, 10);
-    renderChemResearchShow();
-    showToast('已推送至首页', 'success');
-  }, '确定要将「' + r.title + '」推送至首页吗？', '确认推送');
-}
 
 /* ===== 招贤纳士：富文本编辑器工具栏（contenteditable + execCommand） ===== */
 function rtEditor(btn){ return btn.closest('.rt-editor'); }
